@@ -143,6 +143,7 @@ const PatientDetails = () => {
 
     return (
         <div className="max-w-5xl mx-auto space-y-8">
+            
             {/* Header */}
             <div className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <Link to="/" className="p-2 hover:bg-gray-100 rounded-full transition"><ArrowLeft /></Link>
