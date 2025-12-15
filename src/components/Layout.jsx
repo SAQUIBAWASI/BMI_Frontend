@@ -3,11 +3,11 @@
 
 // const Layout = ({ children }) => {
 //     return (
-//         <div className="flex h-screen bg-gray-50 font-sans">
+//         <div className="flex h-screen font-sans bg-gray-50">
 //             {/* Sidebar */}
-//             <aside className="w-64 bg-gradient-to-b from-indigo-900 to-indigo-700 text-white shadow-2xl flex flex-col">
-//                 <div className="p-6 flex items-center gap-3 border-b border-indigo-600/30">
-//                     <div className="bg-white/10 p-2 rounded-lg backdrop-blur-sm">
+//             <aside className="flex flex-col w-64 text-white shadow-2xl bg-gradient-to-b from-indigo-900 to-indigo-700">
+//                 <div className="flex items-center gap-3 p-6 border-b border-indigo-600/30">
+//                     <div className="p-2 rounded-lg bg-white/10 backdrop-blur-sm">
 //                         <Activity size={28} className="text-pink-400" />
 //                     </div>
 //                     <div>
@@ -28,17 +28,17 @@
 //                     </NavLink>
 //                 </nav>
 
-//                 <div className="p-4 border-t border-indigo-600/30 text-center text-xs text-indigo-300">
+//                 <div className="p-4 text-xs text-center text-indigo-300 border-t border-indigo-600/30">
 //                     <p>&copy; 2025 MediTrack Systems</p>
 //                 </div>
 //             </aside>
 
 //             {/* Main Content */}
 //             <main className="flex-1 overflow-y-auto">
-//                 <header className="bg-white shadow-sm p-4 sticky top-0 z-10 flex justify-between items-center">
+//                 <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white shadow-sm">
 //                     <h2 className="text-xl font-semibold text-gray-800">Welcome Back, Dr.</h2>
 //                     <div className="flex items-center gap-4">
-//                         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold shadow-md">
+//                         <div className="flex items-center justify-center w-10 h-10 font-bold text-white rounded-full shadow-md bg-gradient-to-tr from-purple-500 to-pink-500">
 //                             Dr
 //                         </div>
 //                     </div>
@@ -54,20 +54,21 @@
 // export default Layout;
 
 
-import { Activity, LayoutDashboard, Menu, ShieldCheck, UserPlus } from 'lucide-react';
+import { LayoutDashboard, Menu, ShieldCheck, UserPlus } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import logo from "../assets/logo.png";
 
 const Layout = ({ children }) => {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="flex h-screen bg-gray-50 font-sans">
+        <div className="flex h-screen font-sans bg-gray-50">
 
             {/* ======= MOBILE SIDEBAR OVERLAY ======= */}
             {open && (
                 <div
-                    className="fixed inset-0 bg-black/40 backdrop-blur-sm lg:hidden z-30"
+                    className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden"
                     onClick={() => setOpen(false)}
                 />
             )}
@@ -79,13 +80,13 @@ const Layout = ({ children }) => {
                 transition-transform duration-300 z-40
                 ${open ? "translate-x-0" : "-translate-x-64 lg:translate-x-0"}
             `}>
-                {/* Logo */}
-                <div className="p-6 flex items-center gap-3 border-b border-indigo-600/30">
-                    <div className="bg-white/10 p-2 rounded-lg backdrop-blur-sm">
-                        <Activity size={28} className="text-pink-400" />
-                    </div>
-                    <div>
-                        <h1 className="text-xl font-bold tracking-tight">MediTrack</h1>
+                {/* logo */}
+                    <div className="flex items-center gap-3 p-6 border-b border-indigo-600/30">
+                    <div className="p-2 bg-white rounded-lg backdrop-blur-sm">
+                     <img src={logo} alt="Logo" className="object-contain w-8 h-8" />
+                      </div>
+                      <div>
+                        <h1 className="text-xl font-bold tracking-tight">Timely Health</h1>
                         <p className="text-xs text-indigo-300">BMI & Health System</p>
                     </div>
                 </div>
@@ -97,7 +98,7 @@ const Layout = ({ children }) => {
                     <MenuItem to="/doctor" icon={<ShieldCheck size={20} />} label="Doctor Panel" />
                 </nav>
 
-                <div className="p-4 border-t border-indigo-600/30 text-center text-xs text-indigo-300">
+                <div className="p-4 text-xs text-center text-indigo-300 border-t border-indigo-600/30">
                     <p>&copy; 2025 MediTrack Systems</p>
                 </div>
             </aside>
@@ -106,23 +107,24 @@ const Layout = ({ children }) => {
             <main className="flex-1 overflow-y-auto">
 
                 {/* Top Navbar */}
-                <header className="bg-white shadow-sm p-4 sticky top-0 z-20 flex justify-between items-center">
+                <header className="sticky top-0 z-20 flex items-center justify-between p-4 bg-white shadow-sm">
 
                     {/* Hamburger Menu (Mobile/Tablet Only) */}
                     <button
-                        className="lg:hidden p-2 bg-gray-100 rounded-lg shadow-sm"
+                        className="p-2 bg-gray-100 rounded-lg shadow-sm lg:hidden"
                         onClick={() => setOpen(true)}
                     >
                         <Menu size={24} className="text-gray-700" />
                     </button>
 
-                    <h2 className="text-xl font-semibold text-gray-800">Welcome Back, Dr.</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">Welcome Back,</h2>
 
                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold shadow-md">
-                            Dr
-                        </div>
-                    </div>
+  <div className="flex items-center justify-center w-10 h-10 rounded-full shadow-md overflow-hidden bg-white">
+    <img src={logo} alt="Logo" className="object-contain w-8 h-8" />
+  </div>
+</div>
+
                 </header>
 
                 {/* Main Page Content */}

@@ -1,158 +1,376 @@
-import jsPDF from 'jspdf';
-import { Activity, ArrowLeft, Download, Heart, Thermometer, User } from 'lucide-react';
+// import jsPDF from "jspdf";
+// import { useState } from "react";
+// import bmiChart from "../assets/bmi chart.jpg";
+// import logo from "../assets/logo.png";
 
-const HealthReport = ({ report, onBack }) => {
-    if (!report) return null;
+// const HealthReport = () => {
+//   /* ===================== PATIENT DETAILS ===================== */
+//   const [patient, setPatient] = useState({
+//     name: "",
+//     age: "",
+//     gender: "Male",
+//     phone: "",
+//     address: "",
+//   });
 
-    const { name, age, gender, bmi, bmiCategory, healthStatus, analysis, weight, height, sugar, bpSystolic, bpDiastolic, rbs, temperature } = report;
+//   /* ===================== TEST VALUES ===================== */
+//   const [tests, setTests] = useState({
+//     weight: "",
+//     height: "",
+//     sugar: "",
+//     sugarType: "Random",
+//     systolic: "",
+//     diastolic: "",
+//   });
 
-    const getStatusColor = (status) => {
-        switch (status) {
-            case 'Normal': return 'text-green-600';
-            case 'Healthy': return 'text-green-600 bg-green-100';
-            case 'Need Attention': return 'text-yellow-600 bg-yellow-100';
-            case 'Critical': return 'text-red-600 bg-red-100';
-            default: return 'text-gray-600';
-        }
-    };
+//   /* ===================== BMI CALCULATION ===================== */
+//   const calculateBMI = () => {
+//     if (!tests.weight || !tests.height) return null;
 
-    const getValueColor = (status) => status !== 'Normal' ? 'text-red-500 font-bold' : 'text-gray-700';
+//     const heightInMeter = tests.height / 100;
+//     const bmi = (tests.weight / (heightInMeter * heightInMeter)).toFixed(1);
 
-    const downloadPDF = () => {
-        const doc = new jsPDF();
+//     let category = "";
+//     if (bmi < 18.5) category = "Underweight";
+//     else if (bmi < 25) category = "Healthy";
+//     else if (bmi < 30) category = "Overweight";
+//     else category = "Obese";
 
-        // Header
-        doc.setFontSize(22);
-        doc.setTextColor(41, 98, 255); // Indigo
-        doc.text("Medical Health Report", 105, 20, null, null, "center");
+//     return { bmi, category };
+//   };
 
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
-        doc.text(`Date: ${new Date().toLocaleDateString()}`, 105, 30, null, null, "center");
+//   const bmiData = calculateBMI();
 
-        // Line
-        doc.setLineWidth(0.5);
-        doc.line(20, 35, 190, 35);
+//   /* ===================== PDF DOWNLOAD ===================== */
+//   const downloadHealthReport = () => {
+//     const doc = new jsPDF("p", "mm", "a4");
 
-        // Patient Details
-        doc.setFontSize(16);
-        doc.text("Patient Details", 20, 50);
-        doc.setFontSize(12);
-        doc.text(`Name: ${name}`, 20, 60);
-        doc.text(`Age: ${age}`, 20, 70);
-        doc.text(`Gender: ${gender}`, 80, 70);
-        doc.text(`Weight: ${weight} kg`, 20, 80);
-        doc.text(`Height: ${height} cm`, 80, 80);
+//     /* ---------- HEADER ---------- */
+//     doc.addImage(logo, "PNG", 15, 10, 30, 30);
 
-        // Health Analysis
-        doc.setFontSize(16);
-        doc.text("Vital Statistics & Analysis", 20, 100);
+//     doc.setFontSize(18);
+//     doc.text("Health Report", 105, 22, { align: "center" });
 
-        let y = 110;
-        const addRow = (label, value, status, normalRange) => {
-            doc.setFontSize(12);
-            doc.text(label, 20, y);
-            doc.text(`${value}`, 80, y);
-            doc.text(status, 120, y);
-            doc.setTextColor(100, 100, 100);
-            doc.setFontSize(10);
-            doc.text(`(Target: ${normalRange})`, 160, y, null, null, "center");
-            doc.setTextColor(0, 0, 0);
-            y += 10;
-        };
+//     doc.setFontSize(10);
+//     doc.text(`Report Date: ${new Date().toLocaleString()}`, 150, 35);
 
-        addRow("BMI", bmi, bmiCategory, "18.5 - 24.9");
-        addRow("Sugar (Fasting)", `${sugar} mg/dL`, analysis.sugarStatus, "70 - 100");
-        addRow("Blood Pressure", `${bpSystolic}/${bpDiastolic}`, analysis.bpStatus, "120/80");
-        addRow("RBS", `${rbs} mg/dL`, analysis.rbsStatus, "< 140");
-        addRow("Temperature", `${temperature} F`, analysis.tempStatus, "97 - 99");
+//     /* ---------- PATIENT DETAILS BOX ---------- */
+//     doc.setDrawColor(200);
+//     doc.rect(15, 45, 180, 40);
 
-        // Summary
-        y += 20;
-        doc.setFontSize(16);
-        doc.text("Overall Summary", 20, y);
-        doc.setFontSize(14);
+//     doc.setFontSize(11);
+//     doc.text(`Patient Name : ${patient.name}`, 20, 55);
+//     doc.text(`Age : ${patient.age} Years`, 20, 63);
+//     doc.text(`Gender : ${patient.gender}`, 20, 71);
 
-        let statusColor = [0, 128, 0]; // Green
-        if (healthStatus === 'Critical') statusColor = [255, 0, 0];
-        else if (healthStatus === 'Need Attention') statusColor = [255, 165, 0];
+//     doc.text(`Phone : ${patient.phone}`, 110, 55);
+//     doc.text(`Address : ${patient.address}`, 110, 63, { maxWidth: 75 });
 
-        doc.setTextColor(...statusColor);
-        doc.text(healthStatus.toUpperCase(), 20, y + 10);
+//     /* ---------- CLINICAL VITALS ---------- */
+//     let y = 95;
+//     doc.setFontSize(14);
+//     doc.text("Clinical Vitals", 15, y);
 
-        doc.save(`${name}_Health_Report.pdf`);
-    };
+//     doc.setFontSize(11);
+//     y += 10;
 
-    return (
-        <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl animate-fade-in">
-            {/* Header */}
-            <div className="flex justify-between items-start mb-6 border-b pb-4">
-                <div>
-                    <h2 className="text-3xl font-bold text-gray-800">Health Report</h2>
-                    <p className="text-gray-500">Generated for {name}</p>
-                </div>
-                <div className={`px-4 py-2 rounded-full font-bold shadow-sm ${getStatusColor(healthStatus)}`}>
-                    {healthStatus}
-                </div>
-            </div>
+//     if (tests.weight) {
+//       doc.text(`Weight : ${tests.weight} kg`, 20, y);
+//       y += 8;
+//     }
 
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+//     if (tests.height) {
+//       doc.text(`Height : ${tests.height} cm`, 20, y);
+//       y += 8;
+//     }
 
-                {/* BMI Card */}
-                <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 p-2">
-                    <div className="flex items-center gap-2 mb-2">
-                        <User className="text-blue-500" />
-                        <span className="font-semibold text-gray-700">BMI Analysis</span>
-                    </div>
-                    <div className="text-4xl font-bold text-blue-700">{bmi}</div>
-                    <div className="text-sm text-blue-600 font-medium badge">{bmiCategory}</div>
-                </div>
+//     if (tests.sugar) {
+//       doc.text(
+//         `Sugar (${tests.sugarType}) : ${tests.sugar} mg/dL`,
+//         20,
+//         y
+//       );
+//       y += 8;
+//     }
 
-                {/* Vitals Grid */}
-                <div className="space-y-4">
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                        <span className="text-gray-600 flex items-center gap-2"><Activity size={16} /> Sugar</span>
-                        <div className="text-right">
-                            <div className={`font-bold ${getValueColor(analysis.sugarStatus)}`}>{sugar} mg/dL</div>
-                            <div className="text-xs text-gray-500">{analysis.sugarStatus}</div>
-                        </div>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                        <span className="text-gray-600 flex items-center gap-2"><Heart size={16} /> BP</span>
-                        <div className="text-right">
-                            <div className={`font-bold ${getValueColor(analysis.bpStatus)}`}>{bpSystolic}/{bpDiastolic}</div>
-                            <div className="text-xs text-gray-500">{analysis.bpStatus}</div>
-                        </div>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                        <span className="text-gray-600 flex items-center gap-2"><Activity size={16} /> RBS</span>
-                        <div className="text-right">
-                            <div className={`font-bold ${getValueColor(analysis.rbsStatus)}`}>{rbs} mg/dL</div>
-                            <div className="text-xs text-gray-500">{analysis.rbsStatus}</div>
-                        </div>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                        <span className="text-gray-600 flex items-center gap-2"><Thermometer size={16} /> Temp</span>
-                        <div className="text-right">
-                            <div className={`font-bold ${getValueColor(analysis.tempStatus)}`}>{temperature}°F</div>
-                            <div className="text-xs text-gray-500">{analysis.tempStatus}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+//     if (tests.systolic && tests.diastolic) {
+//       doc.text(
+//         `Blood Pressure : ${tests.systolic}/${tests.diastolic} mmHg`,
+//         20,
+//         y
+//       );
+//       y += 8;
+//     }
 
-            <div className="flex gap-4">
-                <button onClick={onBack} className="flex-1 bg-gray-200 text-gray-800 p-3 rounded-lg font-bold hover:bg-gray-300 transition flex items-center justify-center gap-2">
-                    <ArrowLeft size={20} /> New Entry
-                </button>
-                <button onClick={downloadPDF} className="flex-1 bg-green-600 text-white p-3 rounded-lg font-bold hover:bg-green-700 transition flex justify-center items-center gap-2">
-                    <Download size={20} /> Download PDF
-                </button>
-            </div>
+//     /* ---------- BMI SECTION ---------- */
+//     if (bmiData) {
+//       y += 5;
+//       doc.setFontSize(14);
+//       doc.text("BMI Analysis", 15, y);
 
-        </div>
+//       doc.setFontSize(11);
+//       y += 8;
+//       doc.text(`BMI Value : ${bmiData.bmi}`, 20, y);
+//       y += 7;
+//       doc.text(`Category : ${bmiData.category}`, 20, y);
+
+//       doc.addImage(bmiChart, "JPEG", 120, y - 18, 65, 40);
+//     }
+
+//     /* ---------- FOOTER ---------- */
+//     doc.setFontSize(9);
+//     doc.text(
+//       "This report is system generated and does not require signature.",
+//       105,
+//       285,
+//       { align: "center" }
+//     );
+
+//     doc.save(
+//       `${patient.name || "Patient"}_Health_Report.pdf`
+//     );
+//   };
+
+//   /* ===================== UI ===================== */
+//   return (
+//     <div className="max-w-5xl mx-auto p-6 space-y-8">
+//       <h2 className="text-2xl font-bold text-gray-800">
+//         Patient Health Report
+//       </h2>
+
+//       {/* ---------- PATIENT FORM ---------- */}
+//       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//         <input
+//           className="input"
+//           placeholder="Patient Name"
+//           onChange={(e) =>
+//             setPatient({ ...patient, name: e.target.value })
+//           }
+//         />
+
+//         <input
+//           type="number"
+//           className="input"
+//           placeholder="Age"
+//           onChange={(e) =>
+//             setPatient({ ...patient, age: e.target.value })
+//           }
+//         />
+
+//         <select
+//           className="input"
+//           onChange={(e) =>
+//             setPatient({ ...patient, gender: e.target.value })
+//           }
+//         >
+//           <option>Male</option>
+//           <option>Female</option>
+//         </select>
+
+//         <input
+//           className="input"
+//           placeholder="WhatsApp Number"
+//           onChange={(e) =>
+//             setPatient({ ...patient, phone: e.target.value })
+//           }
+//         />
+
+//         <textarea
+//           className="input md:col-span-2"
+//           placeholder="Full Address"
+//           onChange={(e) =>
+//             setPatient({ ...patient, address: e.target.value })
+//           }
+//         />
+//       </div>
+
+//       {/* ---------- TESTS ---------- */}
+//       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+//         <input
+//           className="input"
+//           placeholder="Weight (kg)"
+//           onChange={(e) =>
+//             setTests({ ...tests, weight: e.target.value })
+//           }
+//         />
+
+//         <input
+//           className="input"
+//           placeholder="Height (cm)"
+//           onChange={(e) =>
+//             setTests({ ...tests, height: e.target.value })
+//           }
+//         />
+
+//         <input
+//           className="input"
+//           placeholder="Sugar (mg/dL)"
+//           onChange={(e) =>
+//             setTests({ ...tests, sugar: e.target.value })
+//           }
+//         />
+
+//         <select
+//           className="input"
+//           onChange={(e) =>
+//             setTests({ ...tests, sugarType: e.target.value })
+//           }
+//         >
+//           <option>Fasting</option>
+//           <option>Random</option>
+//           <option>PPBS</option>
+//         </select>
+
+//         <input
+//           className="input"
+//           placeholder="Systolic"
+//           onChange={(e) =>
+//             setTests({ ...tests, systolic: e.target.value })
+//           }
+//         />
+
+//         <input
+//           className="input"
+//           placeholder="Diastolic"
+//           onChange={(e) =>
+//             setTests({ ...tests, diastolic: e.target.value })
+//           }
+//         />
+//       </div>
+
+//       {/* ---------- BMI CARD ---------- */}
+//       {bmiData && (
+//         <div className="p-4 rounded-xl bg-green-50 font-semibold">
+//           BMI : {bmiData.bmi} ({bmiData.category})
+//         </div>
+//       )}
+
+//       {/* ---------- DOWNLOAD BUTTON ---------- */}
+//       <button
+//         onClick={downloadHealthReport}
+//         className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-indigo-700"
+//       >
+//         Download Health Report
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default HealthReport;
+
+import jsPDF from "jspdf";
+import { useState } from "react";
+import bmiChart from "../assets/bmi chart.jpg";
+import logo from "../assets/logo.png";
+
+const HealthReport = () => {
+  const [patient, setPatient] = useState({
+    name: "",
+    age: "",
+    gender: "Male",
+    phone: "",
+    address: "",
+  });
+
+  const [tests, setTests] = useState({
+    weight: "",
+    height: "",
+    sugar: "",
+    sugarType: "Random",
+    systolic: "",
+    diastolic: "",
+  });
+
+  const calculateBMI = () => {
+    if (!tests.weight || !tests.height) return null;
+
+    const h = Number(tests.height) / 100;
+    const bmi = (Number(tests.weight) / (h * h)).toFixed(1);
+
+    let category = "Healthy";
+    if (bmi < 18.5) category = "Underweight";
+    else if (bmi >= 25 && bmi < 30) category = "Overweight";
+    else if (bmi >= 30) category = "Obese";
+
+    return { bmi, category };
+  };
+
+  const bmiData = calculateBMI();
+
+  const downloadHealthReport = () => {
+    const doc = new jsPDF("p", "mm", "a4");
+
+    /* HEADER */
+    doc.addImage(logo, "PNG", 15, 10, 30, 30);
+    doc.setFontSize(18);
+    doc.text("Health Report", 105, 22, { align: "center" });
+    doc.setFontSize(10);
+    doc.text(`Report Date: ${new Date().toLocaleString()}`, 150, 35);
+
+    /* PATIENT INFO */
+    doc.rect(15, 45, 180, 40);
+    doc.setFontSize(11);
+
+    doc.text(`Patient Name : ${patient.name || "-"}`, 20, 55);
+    doc.text(`Age : ${patient.age || "-"}`, 20, 63);
+    doc.text(`Gender : ${patient.gender}`, 20, 71);
+
+    doc.text(`Phone : ${patient.phone || "-"}`, 110, 55);
+    doc.text(`Address : ${patient.address || "-"}`, 110, 63, { maxWidth: 75 });
+
+    /* VITALS */
+    let y = 95;
+    doc.setFontSize(14);
+    doc.text("Clinical Vitals", 15, y);
+    doc.setFontSize(11);
+    y += 10;
+
+    if (tests.weight) doc.text(`Weight : ${tests.weight} kg`, 20, y), y += 8;
+    if (tests.height) doc.text(`Height : ${tests.height} cm`, 20, y), y += 8;
+    if (tests.sugar)
+      doc.text(`Sugar (${tests.sugarType}) : ${tests.sugar} mg/dL`, 20, y), y += 8;
+    if (tests.systolic && tests.diastolic)
+      doc.text(`BP : ${tests.systolic}/${tests.diastolic} mmHg`, 20, y), y += 8;
+
+    /* BMI */
+    if (bmiData) {
+      y += 5;
+      doc.setFontSize(14);
+      doc.text("BMI Analysis", 15, y);
+      doc.setFontSize(11);
+      y += 8;
+
+      doc.text(`BMI Value : ${bmiData.bmi}`, 20, y);
+      y += 7;
+      doc.text(`Category : ${bmiData.category}`, 20, y);
+
+      doc.addImage(bmiChart, "JPEG", 120, y - 18, 65, 40);
+    }
+
+    doc.setFontSize(9);
+    doc.text(
+      "This report is system generated and does not require signature.",
+      105,
+      285,
+      { align: "center" }
     );
+
+    doc.save(`${patient.name || "Patient"}_Health_Report.pdf`);
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto p-6 space-y-6">
+      <h2 className="text-2xl font-bold">Patient Health Report</h2>
+
+      <button
+        onClick={downloadHealthReport}
+        className="bg-indigo-600 text-white px-6 py-3 rounded-xl"
+      >
+        Download Health Report
+      </button>
+    </div>
+  );
 };
 
 export default HealthReport;
+

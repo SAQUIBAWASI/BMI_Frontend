@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Activity, PlusCircle, Save } from "lucide-react";
+import { Activity, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const AddTestForm = ({ patientId, onSuccess = () => { } }) => {
