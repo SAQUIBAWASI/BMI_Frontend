@@ -86,16 +86,16 @@ const HealthReport = () => {
           </div>
         </div>
 
-        <div className="p-12 space-y-10">
+        <div className="p-8 space-y-6">
           {/* PATIENT INFO */}
           <section>
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-4">
               <div className="h-px bg-gray-200 flex-grow"></div>
               <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">Patient Information</h3>
               <div className="h-px bg-gray-200 flex-grow"></div>
             </div>
 
-            <div className="grid grid-cols-3 gap-y-6 text-sm">
+            <div className="grid grid-cols-3 gap-y-4 text-sm">
               <div>
                 <p className="text-gray-500 mb-1">Patient Name</p>
                 <p className="font-bold text-gray-800 text-lg">{patient.name}</p>
@@ -121,7 +121,7 @@ const HealthReport = () => {
 
           {/* VITALS TABLE */}
           <section>
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-4">
               <div className="h-px bg-gray-200 flex-grow"></div>
               <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">Clinical Vitals</h3>
               <div className="h-px bg-gray-200 flex-grow"></div>
@@ -178,7 +178,7 @@ const HealthReport = () => {
           {/* BMI SECTION */}
           {bmiData && (
             <section>
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-4">
                 <div className="h-px bg-gray-200 flex-grow"></div>
                 <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">BMI Analysis</h3>
                 <div className="h-px bg-gray-200 flex-grow"></div>

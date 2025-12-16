@@ -30,14 +30,14 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(22);
     doc.setTextColor("#FFFFFF");
-    doc.text("Timely Health", 45, 20);
+    doc.text("Timely Health", 15, 20); // Moved to left since logo is gone
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     doc.setTextColor("#E5E7EB");
     // doc.text("Excellence in Pathology & Diagnostics", 45, 26);
-    doc.text("Growth | Clinic | Lab | Pharmacy", 45, 26);
-    doc.text("3rd Floor, Sri Sai Balaji Avenue, VIP Hills, Madhapur, Hyderabad – 500081", 45, 31);
+    doc.text("Growth | Clinic | Lab | Pharmacy", 15, 26);
+    doc.text("3rd Floor, Sri Sai Balaji Avenue, VIP Hills, Madhapur, Hyderabad – 500081", 15, 31);
 
     // Report Title Box (Right side)
     // doc.setFillColor(secondaryColor);
@@ -47,7 +47,7 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     // doc.text("MEDICAL HEALTH REPORT", pageWidth - 50, 22, { align: "right" });
 
     // --- PATIENT DETAILS SECTION ---
-    let yPos = 55;
+    let yPos = 50; // Optimized for single page
 
     doc.setDrawColor(secondaryColor);
     doc.setLineWidth(0.5);
@@ -77,31 +77,26 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     yPos += 5;
     doc.setTextColor(darkText);
     doc.setFont("helvetica", "bold");
-    doc.text(patient.name || "-", col1, yPos);
+    doc.text((patient.name || "-").toUpperCase(), col1, yPos);
     doc.text(patient.id || "-", col2, yPos);
     doc.text(patient.date || new Date().toLocaleDateString(), col3, yPos);
 
-    yPos += rowGap;
+    yPos += 5; // Reduced gap
 
-    // Row 2
-    doc.setTextColor(lightText);
-    doc.setFont("helvetica", "normal");
+    // Row 2 (Removed)
+    // doc.setTextColor(lightText);
+    // doc.setFont("helvetica", "normal");
     // doc.text("Age / Gender", col1, yPos);
-    // doc.text("Contact", col2, yPos); // Removed
-    // doc.text("Address", col3, yPos); // Removed
-
-    yPos += 5;
-    doc.setTextColor(darkText);
-    doc.setFont("helvetica", "bold");
+    // yPos += 5;
+    // doc.setTextColor(darkText);
+    // doc.setFont("helvetica", "bold");
     // doc.text(`${patient.age || "-"} Yrs / ${patient.gender || "-"}`, col1, yPos);
-    // doc.text(patient.phone || "-", col2, yPos); // Removed
 
-    // Address wrap
-    // const addressLines = doc.splitTextToSize(patient.address || "-", 60);
-    // doc.text(addressLines, col3, yPos); // Removed
+    // Since Row 2 is removed, we don't add the extra line spacing for it.
+    // yPos += 15; // Removed extra buffer
 
     // --- VITALS SECTION ---
-    yPos += 20;
+    yPos += 8; // Reduced gap
     doc.setDrawColor(secondaryColor);
     doc.line(15, yPos, pageWidth - 15, yPos);
     doc.setFontSize(14);
@@ -109,7 +104,7 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     // Centered Header
     doc.text("CLINICAL VITALS", pageWidth / 2, yPos - 3, { align: "center" });
 
-    yPos += 10;
+    yPos += 8;
 
     // Helpers for Status
     const getSugarRange = (type) => {
@@ -187,6 +182,7 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
         },
         columnStyles: {
             0: { halign: "left", fontStyle: "bold" }, // Test Name left aligned
+            1: { fontStyle: "bold", halign: "center" }, // Observed Value bold & centered
             4: { fontStyle: "bold" } // Status column bold
         },
         didParseCell: function (data) {
@@ -200,7 +196,7 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
         margin: { left: 15, right: 15 },
     });
 
-    yPos = doc.lastAutoTable.finalY + 20;
+    yPos = doc.lastAutoTable.finalY + 10;
 
     // --- BMI ANALYSIS SECTION ---
     if (bmiData && bmiData.bmi) {
@@ -211,7 +207,7 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
         // Centered Header
         doc.text("BMI ANALYSIS", pageWidth / 2, yPos - 3, { align: "center" });
 
-        yPos += 10;
+        yPos += 8;
 
         // Determine Header Color based on Category
         let headerColor = [0, 255, 0]; // Default Green (Healthy)
@@ -310,8 +306,8 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
         markerX = startX + (blockIndex * barWidth) + (percentInBlock * barWidth);
 
         // Draw Marker (Black Dot)
-        doc.setFillColor(0, 0, 0);
-        doc.circle(markerX, yPos - 5, 2, "F");
+        // doc.setFillColor(0, 0, 0);
+        // doc.circle(markerX, yPos - 5, 2, "F");
 
         // Draw Bars
         sections.forEach((section, index) => {
@@ -340,6 +336,25 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
 
     }
 
+    // --- BMI VISUAL CHART IMAGE ---
+    // --- BMI VISUAL CHART IMAGE ---
+    if (bmiChart) {
+        yPos += 20;
+
+        doc.setFontSize(10);
+        doc.setTextColor(primaryColor);
+
+        // Center Text
+        doc.text("BMI Reference Chart", pageWidth / 2, yPos, { align: "center" });
+
+        // Center Image
+        const chartWidth = 90;
+        const chartHeight = 45;
+        const chartX = (pageWidth - chartWidth) / 2;
+
+        doc.addImage(bmiChart, "JPG", chartX, yPos + 2, chartWidth, chartHeight);
+    }
+
     // --- FOOTER ---
     const footerY = 270;
     doc.setDrawColor("#E5E7EB");
@@ -351,6 +366,19 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
 
     doc.text("Consultant Physician", 15, footerY + 10);
     doc.text("Lab Technician", pageWidth - 40, footerY + 10);
+
+    // Digital Signature (Placement above Lab Technician on Right)
+    doc.setFont("ZapfDingbats"); // or styled text
+    doc.setFontSize(12);
+    doc.setTextColor(primaryColor);
+    // Align with Lab Technician or slightly adjusted
+    doc.text("Digitally Signed", pageWidth - 40, footerY - 5, { align: "center" });
+
+    // Patient Name in Footer (CAPS)
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.setTextColor(darkText);
+    // doc.text(`PATIENT: ${(patient.name || "").toUpperCase()}`, pageWidth / 2, footerY + 10, { align: "center" });
 
     // Digital Signature Note
     doc.setFontSize(8);
