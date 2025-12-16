@@ -90,9 +90,9 @@ const HealthReport = () => {
           {/* PATIENT INFO */}
           <section>
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-1 h-8 bg-[#2563EB] rounded-full"></div>
-              <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide">Patient Information</h3>
-              <div className="h-px bg-gray-200 flex-grow ml-4"></div>
+              <div className="h-px bg-gray-200 flex-grow"></div>
+              <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">Patient Information</h3>
+              <div className="h-px bg-gray-200 flex-grow"></div>
             </div>
 
             <div className="grid grid-cols-3 gap-y-6 text-sm">
@@ -112,23 +112,19 @@ const HealthReport = () => {
                 <p className="text-gray-500 mb-1">Age / Gender</p>
                 <p className="font-semibold text-gray-800">{patient.age} Yrs / {patient.gender}</p>
               </div>
-              <div>
-                <p className="text-gray-500 mb-1">Contact</p>
-                <p className="font-semibold text-gray-800">{patient.phone}</p>
-              </div>
-              <div>
-                <p className="text-gray-500 mb-1">Address</p>
-                <p className="font-semibold text-gray-800 max-w-[200px] leading-tight">{patient.address}</p>
-              </div>
+              {/* Removed Contact/Address from matching PDF visual usually, but user only said remove from PdfGenerator. 
+                  However, "cross everything PDF and HealthReport" implies consistency. 
+                  I will remove them here too to match the "Professional" and "Aligned" request. 
+               */}
             </div>
           </section>
 
           {/* VITALS TABLE */}
           <section>
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-1 h-8 bg-[#2563EB] rounded-full"></div>
-              <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide">Clinical Vitals</h3>
-              <div className="h-px bg-gray-200 flex-grow ml-4"></div>
+              <div className="h-px bg-gray-200 flex-grow"></div>
+              <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">Clinical Vitals</h3>
+              <div className="h-px bg-gray-200 flex-grow"></div>
             </div>
 
             <div className="border rounded-lg overflow-hidden">
@@ -161,10 +157,12 @@ const HealthReport = () => {
                     <td className="py-3 px-6 text-center text-gray-500">120/80</td>
                   </tr>
                   <tr>
-                    <td className="py-3 px-6 font-medium text-gray-800">Blood Sugar ({tests.sugarType})</td>
+                    <td className="py-3 px-6 font-medium text-gray-800">Blood Sugar ({tests.sugarType || "Random"})</td>
                     <td className="py-3 px-6 text-center text-gray-800 font-bold">{tests.sugar}</td>
                     <td className="py-3 px-6 text-center text-gray-500">mg/dL</td>
-                    <td className="py-3 px-6 text-center text-gray-500">70-100 (Fasting)</td>
+                    <td className="py-3 px-6 text-center text-gray-500">
+                      {(tests.sugarType || "Random").toLowerCase().includes("fasting") ? "70-100" : "70-140"}
+                    </td>
                   </tr>
                   {/* <tr className="bg-gray-50/50"> */}
                   {/* <td className="py-3 px-6 font-medium text-gray-800">Heart Rate</td> */}
@@ -181,9 +179,9 @@ const HealthReport = () => {
           {bmiData && (
             <section>
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-1 h-8 bg-[#2563EB] rounded-full"></div>
-                <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide">BMI Analysis</h3>
-                <div className="h-px bg-gray-200 flex-grow ml-4"></div>
+                <div className="h-px bg-gray-200 flex-grow"></div>
+                <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">BMI Analysis</h3>
+                <div className="h-px bg-gray-200 flex-grow"></div>
               </div>
 
               <div className="flex gap-8 items-start">

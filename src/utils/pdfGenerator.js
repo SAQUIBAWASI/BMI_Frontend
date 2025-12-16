@@ -56,7 +56,8 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     doc.setFontSize(14);
     doc.setTextColor(primaryColor);
     doc.setFont("helvetica", "bold");
-    doc.text("PATIENT INFORMATION", 15, yPos - 3);
+    // Centered Header
+    doc.text("PATIENT INFORMATION", pageWidth / 2, yPos - 3, { align: "center" });
 
     yPos += 10;
     doc.setFontSize(10);
@@ -86,18 +87,18 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     doc.setTextColor(lightText);
     doc.setFont("helvetica", "normal");
     doc.text("Age / Gender", col1, yPos);
-    doc.text("Contact", col2, yPos);
-    doc.text("Address", col3, yPos);
+    // doc.text("Contact", col2, yPos); // Removed
+    // doc.text("Address", col3, yPos); // Removed
 
     yPos += 5;
     doc.setTextColor(darkText);
     doc.setFont("helvetica", "bold");
     doc.text(`${patient.age || "-"} Yrs / ${patient.gender || "-"}`, col1, yPos);
-    doc.text(patient.phone || "-", col2, yPos);
+    // doc.text(patient.phone || "-", col2, yPos); // Removed
 
     // Address wrap
-    const addressLines = doc.splitTextToSize(patient.address || "-", 60);
-    doc.text(addressLines, col3, yPos);
+    // const addressLines = doc.splitTextToSize(patient.address || "-", 60);
+    // doc.text(addressLines, col3, yPos); // Removed
 
     // --- VITALS SECTION ---
     yPos += 20;
@@ -105,19 +106,33 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     doc.line(15, yPos, pageWidth - 15, yPos);
     doc.setFontSize(14);
     doc.setTextColor(primaryColor);
-    doc.text("CLINICAL VITALS", 15, yPos - 3);
-
-    yPos += 10;
+    // Centered Header
+    doc.text("CLINICAL VITALS", pageWidth / 2, yPos - 3, { align: "center" });
 
     yPos += 10;
 
     // Helpers for Status
-    const getSugarStatus = (val) => {
+    const getSugarRange = (type) => {
+        const t = (type || "Random").toLowerCase();
+        if (t.includes("fasting")) return "70-100";
+        return "70-140";
+    };
+
+    const getSugarStatus = (val, type) => {
         if (!val) return "-";
         const v = Number(val);
+        const t = (type || "Random").toLowerCase();
+
         if (v < 70) return "Low";
-        if (v <= 100) return "Normal"; // Adjusted to 100 for Fasting reference match, or keep 140 if random. Keeping standard logic.
-        return "High";
+
+        if (t.includes("fasting")) {
+            if (v <= 100) return "Normal";
+            return "High";
+        } else {
+            // Random / Post-prandial
+            if (v <= 140) return "Normal";
+            return "High";
+        }
     };
 
     const getBPStatus = (sys, dias) => {
@@ -153,8 +168,8 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
                 `Blood Sugar (${tests.sugarType || "Random"})`,
                 tests.sugar || "-",
                 "mg/dL",
-                "70-100 (Fasting)",
-                getSugarStatus(tests.sugar)
+                getSugarRange(tests.sugarType),
+                getSugarStatus(tests.sugar, tests.sugarType)
             ],
             // ["Heart Rate", tests.heartRate || "-", "bpm", "60-100", "-"],
         ],
@@ -193,81 +208,136 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
         doc.line(15, yPos, pageWidth - 15, yPos);
         doc.setFontSize(14);
         doc.setTextColor(primaryColor);
-        doc.text("BMI ANALYSIS", 15, yPos - 3);
+        // Centered Header
+        doc.text("BMI ANALYSIS", pageWidth / 2, yPos - 3, { align: "center" });
 
         yPos += 10;
 
-        // Container Box for layout
-        // Left: Calculated BMI (Big Box)
-        // Center: Reference Table
-        // Right: Graph Image
+        // Determine Header Color based on Category
+        let headerColor = [0, 255, 0]; // Default Green (Healthy)
+        const cat = (bmiData.category || "").toLowerCase();
 
-        // 1. Calculated BMI Box (Left)
-        doc.setFillColor(secondaryColor);
-        doc.roundedRect(15, yPos, 50, 45, 2, 2, "F");
+        if (cat.includes("underweight")) headerColor = [0, 0, 255];   // Blue
+        else if (cat.includes("healthy") || cat.includes("normal")) headerColor = [22, 163, 74]; // Green
+        else if (cat.includes("overweight")) headerColor = [255, 165, 0]; // Orange
+        else if (cat.includes("obese")) headerColor = [220, 38, 38];    // Red
 
-        doc.setTextColor(255);
-        doc.setFontSize(10);
-        doc.text("Calculated BMI", 40, yPos + 10, { align: "center" });
+        // 1. Top Status Bar (Dynamic Color)
+        doc.setFillColor(...headerColor);
+        doc.rect(15, yPos, pageWidth - 30, 20, "F");
 
-        doc.setFontSize(24);
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(14);
         doc.setFont("helvetica", "bold");
-        doc.text(String(bmiData.bmi), 40, yPos + 24, { align: "center" });
 
-        doc.setFontSize(11);
-        doc.text(bmiData.category || "-", 40, yPos + 35, { align: "center" });
+        // "BMI calculated value Status:"
+        doc.text("BMI", 20, yPos + 8);
+        doc.text("calculated value", 70, yPos + 8);
+        doc.text("Status:", 140, yPos + 8);
 
-        // 2. Reference Table (Center)
-        const tableX = 75;
-        const tableY = yPos;
-        const tableW = 70;
-        const tableH = 45;
+        // Values
+        doc.setFontSize(16);
+        doc.text(String(bmiData.bmi), 70, yPos + 16);
+        doc.text(bmiData.category || "-", 140, yPos + 16);
 
-        doc.setDrawColor(0); // Black border
-        doc.setLineWidth(0.1);
-        doc.rect(tableX, tableY, tableW, tableH);
+        yPos += 35; // Move down for scale
 
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(9);
-        doc.setTextColor(darkText);
+        // 2. Visual Scale Bar
+        const barWidth = (pageWidth - 30) / 4;
+        const barHeight = 15;
+        const startX = 15;
 
-        const ranges = [
-            { range: "< 18.5", category: "Underweight" },
-            { range: "18.5 – 24.9", category: "Healthy" },
-            { range: "25 – 29.9", category: "Overweight" },
-            { range: "≥ 30", category: "Obese" }
+        // const sections = [
+        //     { label: "Underweight\n< 18.5", color: [0, 0, 255], range: [0, 18.5] }, // Blue
+        //     { label: "Healthy\n18.5 – 24.9", color: [0, 255, 0], range: [18.5, 24.9] }, // Green
+        //     { label: "25 – 29.9 Overweight", color: [255, 165, 0], range: [25, 29.9] }, // Orange
+        //     { label: "Obese\n>30 Obese", color: [255, 0, 0], range: [30, 100] } // Red
+        // ];
+
+        const sections = [
+            {
+                label: "Underweight\n< 18.5",
+                color: [0, 0, 255],        // Blue
+                range: [0, 18.4]
+            },
+            {
+                label: "Healthy\n18.5 – 24.9",
+                color: [0, 255, 0],        // Green
+                range: [18.5, 24.9]
+            },
+            {
+                label: "Overweight\n25 – 29.9",
+                color: [255, 165, 0],      // Orange
+                range: [25, 29.9]
+            },
+            {
+                label: "Obese\n>30",
+                color: [255, 0, 0],        // Red
+                range: [30, 100]
+            }
         ];
 
-        let rowY = tableY + 8;
-        const col1Input = tableX + 5;
-        const col2Input = tableX + 35;
 
-        ranges.forEach(r => {
-            // Check if this is the active category
-            const isActive = (bmiData.category || "").toLowerCase() === r.category.toLowerCase();
+        // Draw Dot Marker
+        const bmiVal = parseFloat(bmiData.bmi);
+        let markerX = startX;
 
-            if (isActive) {
-                doc.setFont("helvetica", "bold");
-                doc.setTextColor(secondaryColor);
-            } else {
-                doc.setFont("helvetica", "normal");
-                doc.setTextColor(darkText);
-            }
+        // Calculate Marker Position
+        // We have 4 equal width blocks. We need to find which block the BMI falls in and map it.
+        // Block 1: 0 - 18.5
+        // Block 2: 18.5 - 25
+        // Block 3: 25 - 30
+        // Block 4: 30+ 
 
-            doc.text(r.range, col1Input, rowY);
-            doc.text(r.category, col2Input, rowY);
+        let blockIndex = 0;
+        let percentInBlock = 0;
 
-            if (isActive) {
-                // Add a marker
-                doc.text("●", col2Input + 25, rowY);
-            }
+        if (bmiVal < 18.5) {
+            blockIndex = 0;
+            percentInBlock = bmiVal / 18.5;
+        } else if (bmiVal < 25) {
+            blockIndex = 1;
+            percentInBlock = (bmiVal - 18.5) / (25 - 18.5);
+        } else if (bmiVal < 30) {
+            blockIndex = 2;
+            percentInBlock = (bmiVal - 25) / (30 - 25);
+        } else {
+            blockIndex = 3;
+            // Cap at some reasonable max for visual purposes, say 40
+            percentInBlock = Math.min((bmiVal - 30) / 10, 1);
+        }
 
-            rowY += 10; // Spacing
+        markerX = startX + (blockIndex * barWidth) + (percentInBlock * barWidth);
+
+        // Draw Marker (Black Dot)
+        doc.setFillColor(0, 0, 0);
+        doc.circle(markerX, yPos - 5, 2, "F");
+
+        // Draw Bars
+        sections.forEach((section, index) => {
+            const x = startX + (index * barWidth);
+            doc.setFillColor(...section.color);
+            doc.rect(x, yPos, barWidth, barHeight, "F");
+
+            // Labels
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "normal");
+
+            // Draw border box for label text
+            doc.setDrawColor(0);
+            doc.rect(x, yPos, barWidth, barHeight);
+
+            // Text inside
+            doc.setTextColor(0);
+            if (index === 0) doc.setTextColor(255); // White text for dark blue
+            if (index === 3) doc.setTextColor(255); // White text for red
+
+            // Split text for multiline
+            const lines = doc.splitTextToSize(section.label, barWidth - 2);
+            doc.text(lines, x + 2, yPos + 5);
         });
 
-
-        // 3. Chart Image (Right)
-        doc.addImage(bmiChart, "JPEG", 155, yPos, 40, 45);
     }
 
     // --- FOOTER ---
