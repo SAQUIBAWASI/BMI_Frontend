@@ -87,7 +87,7 @@ const Layout = ({ children }) => {
                       </div>
                       <div>
                         <h1 className="text-xl font-bold tracking-tight">Timely Health</h1>
-                        <p className="text-xs text-indigo-300">BMI & Health System</p>
+                        <p className="text-xs text-indigo-300">BMI & Camp Update </p>
                     </div>
                 </div>
 
@@ -95,11 +95,12 @@ const Layout = ({ children }) => {
                 <nav className="flex-1 p-4 space-y-2">
                     <MenuItem to="/" icon={<LayoutDashboard size={20} />} label="Dashboard" />
                     <MenuItem to="/add-patient" icon={<UserPlus size={20} />} label="Add Patient" />
-                    <MenuItem to="/doctor" icon={<ShieldCheck size={20} />} label="Doctor Panel" />
+                    <MenuItem to="/doctor" icon={<ShieldCheck size={20} />} label="Partner Panel" />
+                    <MenuItem to="/camp" icon={<ShieldCheck size={20} />} label="Camp Update" />
                 </nav>
 
                 <div className="p-4 text-xs text-center text-indigo-300 border-t border-indigo-600/30">
-                    <p>&copy; 2025 MediTrack Systems</p>
+                    <p>&copy; 2025 Timely Health</p>
                 </div>
             </aside>
 

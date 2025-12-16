@@ -26,6 +26,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import HealthReport from "./components/HealthReport";
 import Layout from "./components/Layout";
 import AddPatient from "./pages/AddPatient";
+import Camp from "./pages/Camp";
 import Dashboard from "./pages/Dashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDetails from "./pages/PatientDetails";
@@ -38,7 +39,7 @@ function App() {
           <Route path="/add-patient" element={<AddPatient />} />
           <Route path="/patient/:id" element={<PatientDetails />} />
           <Route path="/doctor" element={<DoctorDashboard />} />
-
+          <Route path="/camp" element={<Camp />} />
           {/* ✅ Health Report Download Page */}
           <Route path="/health-report" element={<HealthReport />} />
         </Routes>
