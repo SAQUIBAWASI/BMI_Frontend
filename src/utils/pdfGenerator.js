@@ -86,14 +86,14 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     // Row 2
     doc.setTextColor(lightText);
     doc.setFont("helvetica", "normal");
-    doc.text("Age / Gender", col1, yPos);
+    // doc.text("Age / Gender", col1, yPos);
     // doc.text("Contact", col2, yPos); // Removed
     // doc.text("Address", col3, yPos); // Removed
 
     yPos += 5;
     doc.setTextColor(darkText);
     doc.setFont("helvetica", "bold");
-    doc.text(`${patient.age || "-"} Yrs / ${patient.gender || "-"}`, col1, yPos);
+    // doc.text(`${patient.age || "-"} Yrs / ${patient.gender || "-"}`, col1, yPos);
     // doc.text(patient.phone || "-", col2, yPos); // Removed
 
     // Address wrap

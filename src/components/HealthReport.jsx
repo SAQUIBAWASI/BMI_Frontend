@@ -108,10 +108,10 @@ const HealthReport = () => {
                 <p className="text-gray-500 mb-1">Report Date</p>
                 <p className="font-bold text-gray-800 text-lg">{patient.date}</p>
               </div>
-              <div>
+              {/* <div>
                 <p className="text-gray-500 mb-1">Age / Gender</p>
                 <p className="font-semibold text-gray-800">{patient.age} Yrs / {patient.gender}</p>
-              </div>
+              </div> */}
               {/* Removed Contact/Address from matching PDF visual usually, but user only said remove from PdfGenerator. 
                   However, "cross everything PDF and HealthReport" implies consistency. 
                   I will remove them here too to match the "Professional" and "Aligned" request. 
