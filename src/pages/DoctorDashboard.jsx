@@ -237,23 +237,23 @@ const DoctorDashboard = () => {
                 <div>
                     <h1 className="text-3xl font-bold flex items-center gap-3">
                         <ShieldCheck className="text-green-400" size={32} />
-                        Doctor Dashboard
+                        Our Partners
                     </h1>
                     <p className="text-indigo-200 mt-2">
-                        Verify pending lab reports
+                    A network of trusted and verified healthcare partners.
                     </p>
                 </div>
 
-                <div className="bg-white/10 p-4 rounded-xl text-center min-w-[150px]">
+                {/* <div className="bg-white/10 p-4 rounded-xl text-center min-w-[150px]">
                     <div className="text-3xl font-bold">{pendingTests.length}</div>
                     <div className="text-xs text-indigo-200 uppercase">
                         Pending Reports
                     </div>
-                </div>
+                </div> */}
             </div>
 
             {/* BODY */}
-            {loading ? (
+            {/* {loading ? (
                 <div className="text-center py-12">Loading...</div>
             ) : pendingTests.length === 0 ? (
                 <div className="bg-white p-12 rounded-xl text-center">
@@ -317,7 +317,7 @@ const DoctorDashboard = () => {
                         </div>
                     ))}
                 </div>
-            )}
+            )} */}
         </div>
     );
 };
