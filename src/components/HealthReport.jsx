@@ -1,31 +1,30 @@
-import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import bmiChart from "../assets/bmi chart.jpg";
-import logo from "../assets/logo.png";
 import signature from "../assets/signature.png";
-import "jspdf-autotable";
 import { generateMedicalReport } from "../utils/pdfGenerator";
 
 const HealthReport = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [patient, setPatient] = useState(null);
   const [tests, setTests] = useState(null);
 
   useEffect(() => {
-    if (location.state && location.state.patient && location.state.tests) {
+    if (location.state?.patient && location.state?.tests) {
       setPatient(location.state.patient);
       setTests(location.state.tests);
-    } else {
-      // Fallback or redirect if no data provided
-      // navigate('/'); // Optional: redirect back to dashboard
     }
-  }, [location.state, navigate]);
+  }, [location.state]);
 
   if (!patient || !tests) {
-    return <div className="min-h-screen flex items-center justify-center">Loading Report...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading Report...
+      </div>
+    );
   }
 
+  /* ================= BMI ================= */
   const calculateBMI = () => {
     if (!tests.weight || !tests.height) return null;
     const h = Number(tests.height) / 100;
@@ -41,188 +40,199 @@ const HealthReport = () => {
 
   const bmiData = calculateBMI();
 
-  const downloadHealthReport = () => {
-    generateMedicalReport(patient, tests, bmiData);
+  /* ================= STATUS HELPERS ================= */
+  const getBPStatus = (sys, dia) => {
+    if (!sys || !dia) return "-";
+    if (sys < 90 || dia < 60) return "Low";
+    if (sys <= 120 && dia <= 80) return "Normal";
+    return "High";
   };
 
+  const getSugarRange = (type) =>
+    (type || "Random").toLowerCase().includes("fasting")
+      ? "70-100"
+      : "70-140";
+
+  const getSugarStatus = (val, type) => {
+    if (!val) return "-";
+    const v = Number(val);
+    if (v < 70) return "Low";
+    if ((type || "Random").toLowerCase().includes("fasting"))
+      return v <= 100 ? "Normal" : "High";
+    return v <= 140 ? "Normal" : "High";
+  };
+
+  const statusClass = (s) =>
+    s === "Normal" || s === "Healthy"
+      ? "text-green-600 font-semibold"
+      : s === "-"
+      ? "text-gray-500"
+      : "text-red-600 font-semibold";
+
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 flex flex-col items-center">
-      <div className="w-full max-w-4xl flex justify-between items-center mb-8">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-800">Health Report Preview</h2>
-          <p className="text-gray-500 mt-1">Review the patient's medical details before downloading.</p>
-        </div>
+    <div className="min-h-screen bg-gray-200 py-10 flex flex-col items-center">
+
+      {/* DOWNLOAD BUTTON */}
+      <div className="w-[210mm] flex justify-end mb-4">
         <button
-          onClick={downloadHealthReport}
-          className="bg-[#2563EB] hover:bg-blue-700 text-white px-8 py-3 rounded-xl shadow-lg flex items-center gap-2 font-medium transition-transform active:scale-95"
+          onClick={() => generateMedicalReport(patient, tests, bmiData)}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg>
           Download Official PDF
         </button>
       </div>
 
-      {/* PAPER PREVIEW */}
-      <div className="bg-white shadow-2xl w-[210mm] min-h-[297mm] relative mx-auto hidden md:block" style={{ fontFamily: 'Inter, sans-serif' }}>
+      {/* ================= A4 PAGE ================= */}
+      <div className="bg-white w-[210mm] h-[297mm] shadow-xl relative">
 
-        {/* HEADER */}
-        <div className="h-32 bg-[#007A52] p-8 flex justify-between items-center text-white">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/10 p-2 rounded-lg backdrop-blur-sm">
-              <img src={logo} alt="Logo" className="w-12 h-12 object-contain brightness-0 invert" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold tracking-wide">Timely Health</h1>
-              <p className="text-green-100 text-sm opacity-90">Growth | Clinic | Lab | Pharmacy</p>
-            </div>
-          </div>
-          <div className="bg-[#2563EB] px-6 py-2 rounded shadow-md">
-            <p className="font-semibold text-sm tracking-widest uppercase">Medical Health Report</p>
-          </div>
+        {/* ================= HEADER ================= */}
+        <div className="bg-[#007A52] text-white px-8 py-6">
+          <h1 className="text-2xl font-bold">Timely Health</h1>
+          <p className="text-sm mt-1">
+            Growth | Clinic | Lab | Pharmacy
+          </p>
+          <p className="text-xs mt-1 opacity-90">
+            3rd Floor, Sri Sai Balaji Avenue, VIP Hills, Madhapur, Hyderabad – 500081
+          </p>
         </div>
 
-        <div className="p-8 space-y-6">
-          {/* PATIENT INFO */}
+        {/* ================= CONTENT ================= */}
+        <div className="px-10 py-8 text-sm text-gray-800 space-y-10">
+
+          {/* ===== PATIENT INFO ===== */}
           <section>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="h-px bg-gray-200 flex-grow"></div>
-              <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">Patient Information</h3>
-              <div className="h-px bg-gray-200 flex-grow"></div>
+            <div className="border-t border-blue-500 pt-3 text-center mb-6">
+              <h3 className="text-green-700 font-bold tracking-wide">
+                PATIENT INFORMATION
+              </h3>
             </div>
 
-            <div className="grid grid-cols-3 gap-y-4 text-sm">
+            <div className="grid grid-cols-3 gap-12">
               <div>
-                <p className="text-gray-500 mb-1">Patient Name</p>
-                <p className="font-bold text-gray-800 text-lg">{patient.name}</p>
+                <p className="text-gray-500">Patient Name</p>
+                <p className="font-bold text-lg">{patient.name}</p>
               </div>
               <div>
-                <p className="text-gray-500 mb-1">Patient ID</p>
-                <p className="font-bold text-gray-800 text-lg">{patient.id}</p>
+                <p className="text-gray-500">Patient ID</p>
+                <p className="font-bold">{patient.id}</p>
               </div>
               <div>
-                <p className="text-gray-500 mb-1">Report Date</p>
-                <p className="font-bold text-gray-800 text-lg">{patient.date}</p>
+                <p className="text-gray-500">Date</p>
+                <p className="font-bold">{patient.date}</p>
               </div>
-              {/* <div>
-                <p className="text-gray-500 mb-1">Age / Gender</p>
-                <p className="font-semibold text-gray-800">{patient.age} Yrs / {patient.gender}</p>
-              </div> */}
-              {/* Removed Contact/Address from matching PDF visual usually, but user only said remove from PdfGenerator. 
-                  However, "cross everything PDF and HealthReport" implies consistency. 
-                  I will remove them here too to match the "Professional" and "Aligned" request. 
-               */}
             </div>
           </section>
 
-          {/* VITALS TABLE */}
+          {/* ===== CLINICAL VITALS ===== */}
           <section>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="h-px bg-gray-200 flex-grow"></div>
-              <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">Clinical Vitals</h3>
-              <div className="h-px bg-gray-200 flex-grow"></div>
+            <div className="border-t border-blue-500 pt-3 text-center mb-6">
+              <h3 className="text-green-700 font-bold tracking-wide">
+                CLINICAL VITALS
+              </h3>
             </div>
 
-            <div className="border rounded-lg overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-[#007A52] text-white">
-                  <tr>
-                    <th className="py-3 px-6 text-left font-semibold">Test Description</th>
-                    <th className="py-3 px-6 text-center font-semibold">Observed Value</th>
-                    <th className="py-3 px-6 text-center font-semibold">Unit</th>
-                    <th className="py-3 px-6 text-center font-semibold">Reference Range</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  <tr className="bg-gray-50/50">
-                    <td className="py-3 px-6 font-medium text-gray-800">Body Weight</td>
-                    <td className="py-3 px-6 text-center text-gray-800 font-bold">{tests.weight}</td>
-                    <td className="py-3 px-6 text-center text-gray-500">kg</td>
-                    <td className="py-3 px-6 text-center text-gray-500">-</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 px-6 font-medium text-gray-800">Height</td>
-                    <td className="py-3 px-6 text-center text-gray-800 font-bold">{tests.height}</td>
-                    <td className="py-3 px-6 text-center text-gray-500">cm</td>
-                    <td className="py-3 px-6 text-center text-gray-500">-</td>
-                  </tr>
-                  <tr className="bg-gray-50/50">
-                    <td className="py-3 px-6 font-medium text-gray-800">Blood Pressure</td>
-                    <td className="py-3 px-6 text-center text-gray-800 font-bold">{tests.systolic}/{tests.diastolic}</td>
-                    <td className="py-3 px-6 text-center text-gray-500">mmHg</td>
-                    <td className="py-3 px-6 text-center text-gray-500">120/80</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 px-6 font-medium text-gray-800">Blood Sugar ({tests.sugarType || "Random"})</td>
-                    <td className="py-3 px-6 text-center text-gray-800 font-bold">{tests.sugar}</td>
-                    <td className="py-3 px-6 text-center text-gray-500">mg/dL</td>
-                    <td className="py-3 px-6 text-center text-gray-500">
-                      {(tests.sugarType || "Random").toLowerCase().includes("fasting") ? "70-100" : "70-140"}
-                    </td>
-                  </tr>
-                  {/* <tr className="bg-gray-50/50"> */}
-                  {/* <td className="py-3 px-6 font-medium text-gray-800">Heart Rate</td> */}
-                  {/* <td className="py-3 px-6 text-center text-gray-800 font-bold">{tests.heartRate}</td> */}
-                  {/* <td className="py-3 px-6 text-center text-gray-500">bpm</td> */}
-                  {/* <td className="py-3 px-6 text-center text-gray-500">60-100</td> */}
-                  {/* </tr> */}
-                </tbody>
-              </table>
-            </div>
+            <table className="w-full border border-gray-300">
+              <thead className="bg-[#007A52] text-white">
+                <tr>
+                  <th className="p-3 text-left">Test Description</th>
+                  <th className="p-3 text-center">Observed Value</th>
+                  <th className="p-3 text-center">Unit</th>
+                  <th className="p-3 text-center">Reference Range</th>
+                  <th className="p-3 text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-3 font-semibold">Body Weight</td>
+                  <td className="p-3 text-center font-bold">{tests.weight}</td>
+                  <td className="p-3 text-center">kg</td>
+                  <td className="p-3 text-center">-</td>
+                  <td className="p-3 text-center">-</td>
+                </tr>
+
+                <tr className="bg-gray-50">
+                  <td className="p-3 font-semibold">Height</td>
+                  <td className="p-3 text-center font-bold">{tests.height}</td>
+                  <td className="p-3 text-center">cm</td>
+                  <td className="p-3 text-center">-</td>
+                  <td className="p-3 text-center">-</td>
+                </tr>
+
+                <tr>
+                  <td className="p-3 font-semibold">Blood Pressure</td>
+                  <td className="p-3 text-center font-bold">
+                    {tests.systolic}/{tests.diastolic}
+                  </td>
+                  <td className="p-3 text-center">mmHg</td>
+                  <td className="p-3 text-center">120/80</td>
+                  <td className={`p-3 text-center ${statusClass(getBPStatus(tests.systolic, tests.diastolic))}`}>
+                    {getBPStatus(tests.systolic, tests.diastolic)}
+                  </td>
+                </tr>
+
+                <tr className="bg-gray-50">
+                  <td className="p-3 font-semibold">
+                    Blood Sugar ({tests.sugarType || "Random"})
+                  </td>
+                  <td className="p-3 text-center font-bold">{tests.sugar}</td>
+                  <td className="p-3 text-center">mg/dL</td>
+                  <td className="p-3 text-center">
+                    {getSugarRange(tests.sugarType)}
+                  </td>
+                  <td className={`p-3 text-center ${statusClass(getSugarStatus(tests.sugar, tests.sugarType))}`}>
+                    {getSugarStatus(tests.sugar, tests.sugarType)}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </section>
 
-          {/* BMI SECTION */}
+          {/* ===== BMI ANALYSIS (IMAGE-1 EXACT) ===== */}
           {bmiData && (
             <section>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="h-px bg-gray-200 flex-grow"></div>
-                <h3 className="text-xl font-bold text-[#007A52] uppercase tracking-wide text-center">BMI Analysis</h3>
-                <div className="h-px bg-gray-200 flex-grow"></div>
+              <div className="border-t border-blue-500 pt-3 text-center mb-8">
+                <h3 className="text-green-700 font-bold tracking-wide">
+                  BMI ANALYSIS
+                </h3>
               </div>
 
-              <div className="flex gap-8 items-start">
-                <div className="bg-[#2563EB] text-white p-6 rounded-2xl shadow-lg w-64 text-center">
-                  <p className="text-blue-100 text-sm mb-2 font-medium uppercase tracking-wider">Calculated BMI</p>
-                  <p className="text-5xl font-bold mb-2">{bmiData.bmi}</p>
-                  <span className="inline-block bg-white/20 px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
+              <div className="grid grid-cols-[260px_1fr] gap-12 items-start">
+                {/* BMI CARD */}
+                <div className="bg-[#2563EB] text-white rounded-2xl p-8 text-center shadow-lg">
+                  <p className="text-sm mb-2 opacity-90">Calculated BMI</p>
+                  <p className="text-5xl font-bold">{bmiData.bmi}</p>
+                  <p className="mt-3 text-lg font-semibold">
                     {bmiData.category}
-                  </span>
+                  </p>
                 </div>
 
-                <div className="flex-grow border rounded-xl p-2 bg-gray-50">
-                  <img src={bmiChart} alt="BMI Chart" className="w-full h-40 object-contain mix-blend-multiply" />
+                {/* BMI CHART */}
+                <div className="flex flex-col items-center">
+                  <img
+                    src={bmiChart}
+                    alt="BMI Chart"
+                    className="w-[380px] h-[220px] object-contain"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    BMI Reference Chart
+                  </p>
                 </div>
               </div>
             </section>
           )}
         </div>
 
-        {/* FOOTER */}
-        <div className="absolute bottom-0 w-full p-12">
-          <div className="flex justify-between items-end mb-4 text-center">
-            <div className="flex flex-col items-center">
-              <div className="w-32 h-px bg-gray-300 mb-2"></div>
-              <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Consultant Physician</p>
-            </div>
-            <div className="flex flex-col items-center">
-              {/* Digital Signature Image */}
-              <img src={signature} alt="Digital Signature" className="w-32 h-auto mb-2 object-contain" />
-              {/* <div className="w-32 h-px bg-gray-300 mb-2"></div> */}
-              {/* <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Lab Technician</p> */}
-            </div>
+        {/* ================= FOOTER ================= */}
+        <div className="absolute bottom-8 w-full px-12">
+          <div className="flex justify-between items-end">
+            <p className="text-xs text-gray-500">Consultant Physician</p>
+            <img src={signature} alt="Signature" className="w-32" />
           </div>
-          <div className="text-center pt-6 border-t border-gray-100">
-            <p className="text-[10px] text-gray-400">
-              This report is electronically generated by City Care Diagnostics System and is valid without a physical signature.
-            </p>
-          </div>
+
+          <p className="text-[10px] text-gray-400 text-center mt-6">
+            This report is electronically generated and is valid without a physical signature.
+          </p>
         </div>
-
-      </div>
-
-      {/* Mobile Replacement Warning */}
-      <div className="md:hidden text-center p-8 bg-white rounded-xl shadow mt-8">
-        <p className="text-gray-500">Please view on a desktop to see the full report preview.</p>
       </div>
     </div>
   );

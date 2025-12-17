@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  Activity,
   Calendar,
   ChevronRight,
   Eye,
@@ -8,8 +9,7 @@ import {
   MapPin,
   Search,
   Share2,
-  Users,
-  Activity
+  Users
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
