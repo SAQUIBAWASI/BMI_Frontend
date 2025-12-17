@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable"; // Changed import
 import bmiChart from "../assets/bmi chart.jpg";
 import logo from "../assets/logo.png";
+import signature from "../assets/signature.png";
 
 /**
  * Generates and downloads a professional medical health report PDF.
@@ -365,14 +366,20 @@ export const generateMedicalReport = (patient, tests, bmiData) => {
     doc.setFont("helvetica", "normal");
 
     doc.text("Consultant Physician", 15, footerY + 10);
-    doc.text("Lab Technician", pageWidth - 40, footerY + 10);
+    // doc.text("Lab Technician", pageWidth - 40, footerY + 10);
 
     // Digital Signature (Placement above Lab Technician on Right)
     doc.setFont("ZapfDingbats"); // or styled text
     doc.setFontSize(12);
     doc.setTextColor(primaryColor);
+
+    // Add Signature Image
+    if (signature) {
+        doc.addImage(signature, "PNG", pageWidth - 60, footerY + 2, 40, 15);
+    }
+
     // Align with Lab Technician or slightly adjusted
-    doc.text("Digitally Signed", pageWidth - 40, footerY - 5, { align: "center" });
+    // doc.text("Digitally Signed", pageWidth - 40, footerY - 5, { align: "center" });
 
     // Patient Name in Footer (CAPS)
     doc.setFont("helvetica", "bold");

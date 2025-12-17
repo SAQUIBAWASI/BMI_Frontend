@@ -1,6 +1,7 @@
 import { useState } from "react";
 import bmiChart from "../assets/bmi chart.jpg";
 import logo from "../assets/logo.png";
+import signature from "../assets/signature.png";
 import "jspdf-autotable";
 import { generateMedicalReport } from "../utils/pdfGenerator";
 
@@ -209,8 +210,10 @@ const HealthReport = () => {
               <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Consultant Physician</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-32 h-px bg-gray-300 mb-2"></div>
-              <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Lab Technician</p>
+              {/* Digital Signature Image */}
+              <img src={signature} alt="Digital Signature" className="w-32 h-auto mb-2 object-contain" />
+              {/* <div className="w-32 h-px bg-gray-300 mb-2"></div> */}
+              {/* <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Lab Technician</p> */}
             </div>
           </div>
           <div className="text-center pt-6 border-t border-gray-100">
