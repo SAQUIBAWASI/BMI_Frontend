@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import bmiChart from "../assets/bmi chart.jpg";
 import logo from "../assets/logo.png";
 import signature from "../assets/signature.png";
@@ -6,30 +7,24 @@ import "jspdf-autotable";
 import { generateMedicalReport } from "../utils/pdfGenerator";
 
 const HealthReport = () => {
-  // Hardcoded data for demonstration - in a real app this might come from props or context
-  const [patient] = useState({
-    name: "John Doe",
-    age: "35",
-    gender: "Male",
-    id: "PT-2023-8492",
-    date: new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
-    phone: "+91 98765 43210",
-    address: "Banjara Hills, Hyderabad, Telangana",
-  });
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [patient, setPatient] = useState(null);
+  const [tests, setTests] = useState(null);
 
-  const [tests] = useState({
-    weight: "72",
-    height: "170",
-    sugar: "110",
-    sugarType: "Fasting",
-    systolic: "120",
-    diastolic: "80",
-    heartRate: "72",
-  });
+  useEffect(() => {
+    if (location.state && location.state.patient && location.state.tests) {
+      setPatient(location.state.patient);
+      setTests(location.state.tests);
+    } else {
+      // Fallback or redirect if no data provided
+      // navigate('/'); // Optional: redirect back to dashboard
+    }
+  }, [location.state, navigate]);
+
+  if (!patient || !tests) {
+    return <div className="min-h-screen flex items-center justify-center">Loading Report...</div>;
+  }
 
   const calculateBMI = () => {
     if (!tests.weight || !tests.height) return null;
