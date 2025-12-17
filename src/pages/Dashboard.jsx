@@ -337,30 +337,30 @@ const Dashboard = () => {
                 <StatCard title="Critical Cases" value={criticalCases} />
             </div>
 
-           {/* ---------- HEADER ---------- */}
-<div className="flex flex-col sm:flex-row justify-between gap-3 items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-    
-    <h3 className="text-xl font-bold text-gray-800">
-        Patient Directory
-    </h3>
+            {/* ---------- HEADER ---------- */}
+            <div className="flex flex-col sm:flex-row justify-between gap-3 items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
 
-    {/* Search Input */}
-    <div className="relative w-full sm:w-64">
-        <Search
-            className="absolute left-3 top-3 text-gray-400"
-            size={18}
-        />
-        <input
-            type="text"
-            placeholder="Search patients..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg 
+                <h3 className="text-xl font-bold text-gray-800">
+                    Patient Directory
+                </h3>
+
+                {/* Search Input */}
+                <div className="relative w-full sm:w-64">
+                    <Search
+                        className="absolute left-3 top-3 text-gray-400"
+                        size={18}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search patients..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg 
                        focus:ring-2 ring-indigo-500 outline-none w-full transition-all"
-        />
-    </div>
+                    />
+                </div>
 
-</div>
+            </div>
 
 
             {/* ✅ CAMP CARD (IMAGE STYLE) */}
@@ -370,7 +370,7 @@ const Dashboard = () => {
 
                     <div className="flex items-center gap-2 text-gray-600 mt-2">
                         <MapPin size={16} className="text-red-500" />
-                        <span>Main Camp</span>
+                        <span>Madhapur</span>
                     </div>
 
                     <div className="flex items-center gap-2 text-gray-700 mt-3 font-medium">
