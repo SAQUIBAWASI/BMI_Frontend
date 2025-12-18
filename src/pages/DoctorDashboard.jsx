@@ -10,10 +10,10 @@
 
 //     const fetchPatients = async () => {
 //         try {
-//             const res = await axios.get('http://localhost:5000/api/patients');
+//             const res = await axios.get('https://bim-backend-4i12.onrender.com/api/patients');
           
 //             const allPatientsIds = res.data.map(p => p._id);
-//             const fullDetailsPromises = allPatientsIds.map(id => axios.get(`http://localhost:5000/api/patients/${id}`));
+//             const fullDetailsPromises = allPatientsIds.map(id => axios.get(`https://bim-backend-4i12.onrender.com/api/patients/${id}`));
 //             const fullPatientsres = await Promise.all(fullDetailsPromises);
 //             const fullPatients = fullPatientsres.map(r => r.data);
 
@@ -54,7 +54,7 @@
 //         if (!window.confirm("Approve this medical report?")) return;
 
 //         try {
-//             await axios.patch(`http://localhost:5000/api/patients/${patientId}/tests/${testId}/verify`);
+//             await axios.patch(`https://bim-backend-4i12.onrender.com/api/patients/${patientId}/tests/${testId}/verify`);
 
 //             // Simulate WhatsApp
 //             const message = `Hello, your Medical Report (Test ID: ${testId.substring(0, 6)}) has been verified by the doctor. Please login to the portal to download it.`;
@@ -143,9 +143,8 @@
 
 
 import axios from 'axios';
-import { CheckCircle, Clock, ExternalLink, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const DoctorDashboard = () => {
     const [patients, setPatients] = useState([]);
@@ -155,11 +154,11 @@ const DoctorDashboard = () => {
     // 🔹 Fetch all patients + full details
     const fetchPatients = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/patients');
+            const res = await axios.get('https://bim-backend-4i12.onrender.com/api/patients');
 
             const patientIds = res.data.map(p => p._id);
             const detailPromises = patientIds.map(id =>
-                axios.get(`http://localhost:5000/api/patients/${id}`)
+                axios.get(`https://bim-backend-4i12.onrender.com/api/patients/${id}`)
             );
 
             const fullPatientsRes = await Promise.all(detailPromises);
@@ -214,7 +213,7 @@ const DoctorDashboard = () => {
 
         try {
             await axios.patch(
-                `http://localhost:5000/api/patients/${patientId}/tests/${testId}/verify`
+                `https://bim-backend-4i12.onrender.com/api/patients/${patientId}/tests/${testId}/verify`
             );
 
             const message = `Hello, your Medical Report has been verified by the doctor. Please login to the portal to download it.`;

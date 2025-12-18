@@ -22,7 +22,7 @@ const HealthForm = ({ onReportGenerated }) => {
         setError('');
         try {
             // Assuming backend runs on 5000
-            const response = await axios.post('http://localhost:5000/api/patients', formData);
+            const response = await axios.post('https://bim-backend-4i12.onrender.com/api/patients', formData);
             onReportGenerated(response.data);
         } catch (err) {
             setError(err.response?.data?.error || 'Error processing request');

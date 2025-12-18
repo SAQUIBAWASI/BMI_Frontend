@@ -2,24 +2,23 @@ import axios from "axios";
 import {
   Activity,
   Calendar,
+  CheckCircle,
   ChevronRight,
+  Copy,
   Eye,
   FileText,
   Filter,
+  Link,
   MapPin,
   MessageCircle,
   Search,
-  Users,
-  Copy,
-  CheckCircle,
-  Download,
-  Link
+  Users
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { generateMedicalReport, generateMedicalReportFile } from "../utils/pdfGenerator";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://bim-backend-4i12.onrender.com/api";
 
 /* ================= UTILS ================= */
 

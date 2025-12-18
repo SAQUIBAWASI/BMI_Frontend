@@ -10,7 +10,7 @@
 
 //     const fetchPatients = async () => {
 //         try {
-//             const res = await axios.get('http://localhost:5000/api/patients');
+//             const res = await axios.get('https://bim-backend-4i12.onrender.com/api/patients');
 //             setPatients(res.data);
 //         } catch (err) {
 //             console.error(err);
@@ -26,7 +26,7 @@
 //     const deletePatient = async (id) => {
 //         if (!window.confirm("Are you sure? This will delete all history for this patient.")) return;
 //         try {
-//             await axios.delete(`http://localhost:5000/api/patients/${id}`);
+//             await axios.delete(`https://bim-backend-4i12.onrender.com/api/patients/${id}`);
 //             fetchPatients();
 //         } catch (err) {
 //             alert('Error deleting');
@@ -130,7 +130,7 @@
 
 //     const fetchPatients = async () => {
 //         try {
-//             const res = await axios.get('http://localhost:5000/api/patients');
+//             const res = await axios.get('https://bim-backend-4i12.onrender.com/api/patients');
 
 //             setPatients(res.data);
 
@@ -157,7 +157,7 @@
 //     const deletePatient = async (id) => {
 //         if (!window.confirm("Are you sure? This will delete all history for this patient.")) return;
 //         try {
-//             await axios.delete(`http://localhost:5000/api/patients/${id}`);
+//             await axios.delete(`https://bim-backend-4i12.onrender.com/api/patients/${id}`);
 //             fetchPatients();
 //         } catch (err) {
 //             alert('Error deleting');
@@ -302,7 +302,7 @@
 
 //     const fetchPatients = async () => {
 //         try {
-//             const res = await axios.get('http://localhost:5000/api/patients');
+//             const res = await axios.get('https://bim-backend-4i12.onrender.com/api/patients');
 //             setPatients(res.data);
 
 //             const today = new Date().toDateString();
@@ -326,7 +326,7 @@
 
 //     const deletePatient = async (id) => {
 //         if (!window.confirm("Are you sure?")) return;
-//         await axios.delete(`http://localhost:5000/api/patients/${id}`);
+//         await axios.delete(`https://bim-backend-4i12.onrender.com/api/patients/${id}`);
 //         fetchPatients();
 //     };
 
@@ -549,23 +549,22 @@
 
 import axios from "axios";
 import {
-  Activity,
-  Calendar,
-  ChevronRight,
-  Eye,
-  FileText,
-  Filter,
-  MapPin,
-  MessageCircle,
-  Search,
-  Share2,
-  Users
+    Activity,
+    Calendar,
+    ChevronRight,
+    Eye,
+    FileText,
+    Filter,
+    MapPin,
+    MessageCircle,
+    Search,
+    Users
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { generateMedicalReport, generateMedicalReportFile } from "../utils/pdfGenerator";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://bim-backend-4i12.onrender.com/api";
 
 /* ================= UTILS ================= */
 
