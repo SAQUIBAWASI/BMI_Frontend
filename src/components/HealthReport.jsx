@@ -468,12 +468,24 @@ const HealthReport = () => {
               </div>
 
               <div className="relative mb-8">
-                <div
+                {/* <div
                   className="absolute transition-all duration-1000 -top-3"
                   style={{ left: getBmiMarkerPosition(bmiData.bmi) }}
                 >
                   <div className="w-3 h-3 bg-black rounded-full animate-bounce"></div>
-                </div>
+                </div> */}
+
+                <div
+  className="absolute transition-all duration-1000 -top-3"
+  style={{ left: getBmiMarkerPosition(bmiData.bmi) }}
+>
+  <div className="w-0 h-0 
+    border-l-4 border-r-4 border-b-8
+    border-l-transparent border-r-transparent border-b-black
+    animate-bounce">
+  </div>
+</div>
+
 
                 <div className="grid grid-cols-4 text-xs font-semibold text-center border h-14">
                   <div className="flex items-center justify-center text-white bg-blue-600">
