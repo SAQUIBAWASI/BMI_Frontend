@@ -308,8 +308,8 @@ const HealthReport = () => {
     s === "Normal" || s === "Healthy"
       ? "text-green-600 font-semibold"
       : s === "-"
-      ? "text-gray-500"
-      : "text-red-600 font-semibold";
+        ? "text-gray-500"
+        : "text-red-600 font-semibold";
 
   /* ================= BMI UI HELPERS ================= */
   const getBmiColor = (category) => {
@@ -348,17 +348,22 @@ const HealthReport = () => {
         {/* HEADER */}
         <div className="bg-[#007A52] text-white px-8 py-6">
           <h1 className="text-2xl font-bold">Timely Health</h1>
-          <p className="text-sm">Growth | Clinic | Lab | Pharmacy</p>
-          <p className="text-xs opacity-90">
-            3rd Floor, Sri Sai Balaji Avenue, VIP Hills, Madhapur, Hyderabad – 500081
-          </p>
+          <p className="text-sm">Connecting Communities</p>
+
+          <div className="mt-3 text-xs opacity-90">
+            <p className="font-semibold uppercase tracking-wide">Office Address</p>
+            <p>
+              3rd Floor, Sri Sai Balaji Avenue,VIP Hills, Madhapur,Hyderabad – 500081
+            </p>
+          </div>
         </div>
+
 
         {/* CONTENT */}
         <div className="px-6 py-8 space-y-10 text-sm md:px-10">
 
           {/* PATIENT */}
-          <section>
+          {/* <section>
             <div className="pt-3 mb-6 text-center border-t border-blue-500">
               <h3 className="font-bold text-green-700">
                 PATIENT INFORMATION
@@ -371,7 +376,7 @@ const HealthReport = () => {
                 <p className="font-bold">{patient.name}</p>
               </div>
               <div>
-                <p className="text-gray-500">Patient ID</p>
+                <p className="text-gray-500">Sample ID</p>
                 <p className="font-bold">{patient.id}</p>
               </div>
               <div>
@@ -379,10 +384,56 @@ const HealthReport = () => {
                 <p className="font-bold">{patient.date}</p>
               </div>
             </div>
-          </section>
+          </section> */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-10 text-sm">
+            <div>
+              <span className="text-gray-600">Patient Name</span>
+              <span className="ml-2 font-semibold text-black uppercase">
+                : {patient.name}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-gray-600">Sample ID</span>
+              <span className="ml-2 font-semibold text-black uppercase">
+                : {patient.id}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-gray-600">Date</span>
+              <span className="ml-2 font-semibold text-black uppercase">
+                : {patient.date}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-gray-600">Age</span>
+              <span className="ml-2 font-semibold text-black uppercase">
+                : {patient.age}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-gray-600">Gender</span>
+              <span className="ml-2 font-semibold text-black uppercase">
+                : {patient.gender}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-gray-600">Location</span>
+              <span className="ml-2 font-semibold text-black uppercase">
+                : {patient.referredBy}
+              </span>
+            </div>
+          </div>
+
+
+
 
           {/* ===== CLINICAL VITALS (FIXED) ===== */}
-          <section>
+          {/* <section>
             <div className="pt-3 mb-6 text-center border-t border-blue-500">
               <h3 className="font-bold text-green-700">
                 CLINICAL VITALS
@@ -445,50 +496,135 @@ const HealthReport = () => {
                 </tbody>
               </table>
             </div>
+          </section> */}
+          <section>
+            {/* SECTION HEADER */}
+            <div className="pt-3 mb-6 text-center border-t border-blue-500">
+              <h3 className="font-bold text-green-700 uppercase">
+                CLINICAL VITALS
+              </h3>
+            </div>
+
+            {/* TABLE */}
+            <div className="overflow-x-auto">
+              <table className="w-full border border-gray-300 text-sm">
+                <thead className="bg-[#007A52] text-white">
+                  <tr>
+                    <th className="p-3 text-left">TEST DESCRIPTION</th>
+                    <th className="p-3 text-center">OBSERVED VALUE</th>
+                    <th className="p-3 text-center">UNIT</th>
+                    <th className="p-3 text-center">REFERENCE RANGE</th>
+                    <th className="p-3 text-center">STATUS</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {/* 1. BLOOD SUGAR */}
+                  <tr>
+                    <td className="p-3 font-semibold">
+                      BLOOD SUGAR ({tests.sugarType || "RANDOM"})
+                    </td>
+                    <td className="p-3 font-bold text-center">{tests.sugar}</td>
+                    <td className="p-3 text-center">mg/dL</td>
+                    <td className="p-3 text-center">
+                      {getSugarRange(tests.sugarType)}
+                    </td>
+                    <td
+                      className={`p-3 text-center ${statusClass(
+                        getSugarStatus(tests.sugar, tests.sugarType)
+                      )}`}
+                    >
+                      {getSugarStatus(tests.sugar, tests.sugarType)}
+                    </td>
+                  </tr>
+
+                  {/* 2. BLOOD PRESSURE */}
+                  <tr className="bg-gray-50">
+                    <td className="p-3 font-semibold">BLOOD PRESSURE</td>
+                    <td className="p-3 font-bold text-center">
+                      {tests.systolic}/{tests.diastolic}
+                    </td>
+                    <td className="p-3 text-center">mmHg</td>
+                    <td className="p-3 text-center">120/80</td>
+                    <td
+                      className={`p-3 text-center ${statusClass(
+                        getBPStatus(tests.systolic, tests.diastolic)
+                      )}`}
+                    >
+                      {getBPStatus(tests.systolic, tests.diastolic)}
+                    </td>
+                  </tr>
+
+                  {/* 3. HEIGHT */}
+                  <tr>
+                    <td className="p-3 font-semibold">HEIGHT</td>
+                    <td className="p-3 font-bold text-center">{tests.height}</td>
+                    <td className="p-3 text-center">cm</td>
+                    <td className="p-3 text-center">-</td>
+                    <td className="p-3 text-center">-</td>
+                  </tr>
+
+                  {/* 4. BODY WEIGHT */}
+                  <tr className="bg-gray-50">
+                    <td className="p-3 font-semibold">BODY WEIGHT</td>
+                    <td className="p-3 font-bold text-center">{tests.weight}</td>
+                    <td className="p-3 text-center">kg</td>
+                    <td className="p-3 text-center">-</td>
+                    <td className="p-3 text-center">-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </section>
+
 
           {/* ===== BMI ANALYSIS ===== */}
           {bmiData && (
             <section>
-              <div className="pt-3 mb-6 text-center border-t border-blue-500">
-                <h3 className="font-bold text-green-700">
+
+              <div
+                className={`rounded-lg text-white px-6 py-4 mb-8 flex items-center justify-between text-sm ${getBmiColor(
+                  bmiData.category
+                )}`}
+              >
+                {/* TITLE */}
+                <div className="font-semibold uppercase tracking-wide">
                   BMI ANALYSIS
-                </h3>
+                </div>
+
+                {/* VALUE */}
+                <div className="font-semibold uppercase">
+                  VALUE : <span className="font-bold">{bmiData.bmi}</span>
+                </div>
+
+                {/* STATUS */}
+                <div className="font-semibold uppercase">
+                  STATUS : <span className="font-bold">{bmiData.category}</span>
+                </div>
               </div>
 
-              <div className={`rounded-lg text-white px-6 py-4 mb-8 flex justify-between ${getBmiColor(bmiData.category)}`}>
-                <div>
-                  <p className="text-sm">BMI</p>
-                  <p className="text-3xl font-bold">{bmiData.bmi}</p>
-                </div>
-                <div>
-                  <p className="text-sm">Status</p>
-                  <p className="text-xl font-bold">{bmiData.category}</p>
-                </div>
-              </div>
 
-              <div className="relative mb-8">
-                {/* <div
-                  className="absolute transition-all duration-1000 -top-3"
-                  style={{ left: getBmiMarkerPosition(bmiData.bmi) }}
-                >
-                  <div className="w-3 h-3 bg-black rounded-full animate-bounce"></div>
-                </div> */}
+              <div className="relative mb-8 ">
+
+
 
                 <div
-  className="absolute transition-all duration-1000 -top-3"
-  style={{ left: getBmiMarkerPosition(bmiData.bmi) }}
->
-  <div className="w-0 h-0 
-    border-l-4 border-r-4 border-b-8
-    border-l-transparent border-r-transparent border-b-black
-    animate-bounce">
-  </div>
-</div>
+                  className="absolute -top-6 transition-all duration-500 animate-bounce"
+                  style={{ left: getBmiMarkerPosition(bmiData.bmi) }}
+                >
+                  <div
+                    className="
+      w-0 h-0
+      border-l-[8px] border-r-[8px] border-b-[14px]
+      border-l-transparent border-r-transparent border-b-gray-800
+    "
+                  />
+                </div>
 
 
-                <div className="grid grid-cols-4 text-xs font-semibold text-center border h-14">
-                  <div className="flex items-center justify-center text-white bg-blue-600">
+
+                <div className=" grid grid-cols-4 text-xs font-semibold text-center h-14 ">
+                  <div className="flex items-center justify-center text-white bg-blue-600  ">
                     Underweight<br />&lt; 18.5
                   </div>
                   <div className="flex items-center justify-center text-white bg-green-600">
@@ -503,24 +639,51 @@ const HealthReport = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col items-center">
-                <img src={bmiChart} alt="BMI Chart" className="max-w-md" />
-                <p className="mt-2 text-xs text-gray-500">BMI Reference Chart</p>
+
+
+              <div className="mt-10 flex justify-center">
+                <div className="text-center">
+                  {/* HEADING */}
+                  <h3 className="font-bold text-green-700 uppercase">
+                    BMI REFERENCE CHART
+                  </h3><br />
+
+                  {/* IMAGE */}
+                  <img
+                    src={bmiChart}
+                    alt="BMI Reference Chart"
+                    className="w-[400px]"
+                  />
+
+                  {/* CAPTION */}
+                  <p className="mt-1 text-[11px] text-gray-500">
+                    Standard BMI classification
+                  </p>
+                </div>
               </div>
+
             </section>
           )}
         </div>
 
         {/* FOOTER */}
+
         <div className="px-8 pb-6">
           <div className="flex items-end justify-between">
             <p className="text-xs text-gray-500">Consultant Physician</p>
-            <img src={signature} alt="Signature" className="w-28" />
+
+            <div className="text-center">
+              <img src={signature} alt="Signature" className="w-28 mx-auto" />
+              <p className="text-xs text-gray-600 mt-1">Camp Incharge</p>
+            </div>
           </div>
+
           <p className="text-[10px] text-gray-400 text-center mt-4">
-            This report is electronically generated and is valid without a physical signature.
+            For consultation or further clarification, please contact us at +91 9010481048.
+
           </p>
         </div>
+
       </div>
     </div>
   );
