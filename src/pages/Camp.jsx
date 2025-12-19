@@ -621,6 +621,7 @@
 //   );
 // }
 
+
 import axios from "axios";
 import {
   Activity,
@@ -634,6 +635,7 @@ import {
   Link,
   MapPin,
   MessageCircle,
+  Plus,
   Search,
   Users
 } from "lucide-react";
@@ -642,6 +644,8 @@ import { useNavigate } from "react-router-dom";
 import { generateMedicalReport, generateMedicalReportFile } from "../utils/pdfGenerator";
 
 const API_BASE = "https://bim-backend-4i12.onrender.com/api";
+
+
 
 /* ================= UTILS ================= */
 
@@ -692,6 +696,15 @@ const StatsCard = ({ title, value, icon: Icon, colorClass }) => (
 
 export default function CampDashboard() {
   const navigate = useNavigate();
+  // ✅ MOVE THESE HERE
+  const [showCampModal, setShowCampModal] = useState(false);
+  const [campForm, setCampForm] = useState({
+    name: "",
+    location: "",
+    address: "",
+    date: "",
+    time: ""
+  });
   const [camps, setCamps] = useState([]);
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -763,6 +776,7 @@ export default function CampDashboard() {
   }, [camps, patients]);
 
   /* -------- HELPER: PREPARE REPORT DATA -------- */
+  
   const prepareReportData = async (patientId) => {
     try {
       const res = await axios.get(`${API_BASE}/patients/${patientId}`);
@@ -958,6 +972,32 @@ ${publicLink}
     }
   };
 
+const handleCreateCamp = async () => {
+  try {
+    await axios.post(`${API_BASE}/camps/addcamp`, campForm);
+
+    alert("✅ Camp created successfully");
+
+    setShowCampModal(false);
+    setCampForm({
+      name: "",
+      location: "",
+      address: "",
+      date: "",
+      time: ""
+    });
+
+    // camps list refresh
+    const res = await axios.get(`${API_BASE}/camps/allcamps`);
+    setCamps(res.data);
+
+  } catch (err) {
+    console.error("CREATE CAMP ERROR", err);
+    alert("❌ Failed to create camp");
+  }
+};
+
+
   // Cleanup blob URLs when component unmounts or modal closes
   // const cleanupGeneratedFiles = () => {
   //   if (generatedReportFile) {
@@ -1082,23 +1122,69 @@ ${publicLink}
         {/* RIGHT SIDE - PARTICIPANTS TABLE */}
         <div className="lg:col-span-3 space-y-6">
 
-          {/* Controls */}
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="relative w-full sm:max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input
-                type="text"
-                placeholder="Search by name, phone or camp..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center gap-2 text-gray-500 text-sm">
-              <Filter size={16} />
-              <span>Showing {filteredPatients.length} participants</span>
-            </div>
-          </div>
+        {/* Controls */}
+<div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100
+                flex flex-col lg:flex-row justify-between items-center gap-4">
+
+  {/* Search */}
+  <div className="relative w-full lg:max-w-md">
+    <Search
+      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+      size={18}
+    />
+    <input
+      type="text"
+      placeholder="Search by name, phone or camp..."
+      className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+    />
+  </div>
+
+  {/* Right Section */}
+  <div className="flex flex-wrap items-center gap-3">
+
+    {/* Count */}
+    <div className="flex items-center gap-2 text-gray-500 text-sm mr-2">
+      <Filter size={16} />
+      <span>Showing {filteredPatients.length} participants</span>
+    </div>
+
+    {/* Buttons Row */}
+    <div className="flex items-center gap-3">
+      {/* Create Camp */}
+      <button
+  onClick={() => setShowCampModal(true)}
+  className="flex items-center gap-2 px-4 py-2 rounded-xl
+             bg-green-600 text-white text-sm font-medium
+             hover:bg-green-700 transition"
+>
+  <Calendar size={16} />
+  Create Camp
+</button>
+
+
+      {/* Add Patient */}
+      <button
+        onClick={() => navigate("/add-patient", {
+        state: {
+            campId: selectedCampId
+          }
+        })}
+        className="flex items-center gap-2 px-4 py-2 rounded-xl
+                   bg-indigo-600 text-white text-sm font-medium
+                   hover:bg-indigo-700 transition"
+      >
+        <Plus size={16} />
+        Add Patient
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
 
           {/* Table Container */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -1278,6 +1364,75 @@ ${publicLink}
 
         </div>
       </div>
+
+      {/* --- CREATE CAMP MODAL --- */}
+{showCampModal && (
+  <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+    <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6 space-y-5 animate-scale-in">
+
+      <h2 className="text-xl font-bold text-gray-800">
+        Create New Camp
+      </h2>
+
+      <input
+        type="text"
+        placeholder="Camp Name (Camp-1)"
+        className="w-full border rounded-xl px-4 py-2"
+        value={campForm.name}
+        onChange={(e) => setCampForm({ ...campForm, name: e.target.value })}
+      />
+
+      <input
+        type="text"
+        placeholder="Location (Tolichowki)"
+        className="w-full border rounded-xl px-4 py-2"
+        value={campForm.location}
+        onChange={(e) => setCampForm({ ...campForm, location: e.target.value })}
+      />
+
+      <textarea
+        placeholder="Address"
+        className="w-full border rounded-xl px-4 py-2"
+        value={campForm.address}
+        onChange={(e) => setCampForm({ ...campForm, address: e.target.value })}
+      />
+
+      <input
+        type="date"
+        className="w-full border rounded-xl px-4 py-2"
+        value={campForm.date}
+        onChange={(e) => setCampForm({ ...campForm, date: e.target.value })}
+      />
+
+      <input
+        type="text"
+        placeholder="10:00 AM - 4:00 PM"
+        className="w-full border rounded-xl px-4 py-2"
+        value={campForm.time}
+        onChange={(e) => setCampForm({ ...campForm, time: e.target.value })}
+      />
+
+      <div className="flex justify-end gap-3 pt-4">
+        <button
+          onClick={() => setShowCampModal(false)}
+          className="px-4 py-2 rounded-xl border"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleCreateCamp}
+          className="px-4 py-2 rounded-xl bg-green-600 text-white"
+        >
+          Create Camp
+        </button>
+      </div>
     </div>
+  </div>
+)}
+
+    </div>
+
+    
   );
 }     

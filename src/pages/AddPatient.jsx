@@ -210,16 +210,19 @@
 import axios from "axios";
 import { ArrowLeft, Save } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const API = "https://bim-backend-4i12.onrender.com/api";
 
 const AddPatient = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const defaultCampId = location.state?.campId || "";
   const [camps, setCamps] = useState([]);
+  const [campId, setCampId] = useState(defaultCampId);
   const [loading, setLoading] = useState(false);
-
+  
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -228,6 +231,8 @@ const AddPatient = () => {
     address: "",
     campId: "" // ✅ REQUIRED
   });
+ 
+
 
   /* -------------------------
      FETCH CAMPS
@@ -235,6 +240,19 @@ const AddPatient = () => {
   useEffect(() => {
     fetchCamps();
   }, []);
+
+  useEffect(() => {
+  setFormData((prev) => ({
+    ...prev,
+    campId: campId
+  }));
+}, [campId]);
+
+useEffect(() => {
+  if (defaultCampId && camps.length > 0) {
+    setCampId(defaultCampId);
+  }
+}, [defaultCampId, camps]);
 
   const fetchCamps = async () => {
     try {
@@ -301,23 +319,19 @@ const AddPatient = () => {
           </label>
 
           <select
-            name="campId"
-            value={formData.campId}
-            onChange={handleChange}
-            required
-            className="w-full p-3 border rounded-xl"
-          >
-            <option value="">-- Select Camp --</option>
+  value={campId}
+  onChange={(e) => setCampId(e.target.value)}
+  className="w-full border rounded-xl px-4 py-2"
+>
+  <option value="">Select Camp</option>
 
-            {camps.map((camp) => (
-              <option
-                key={camp._id?._id || camp._id}
-                value={camp._id?._id || camp._id} // ✅ MAIN FIX
-              >
-                {camp.name} ({camp.location})
-              </option>
-            ))}
-          </select>
+  {camps.map((camp) => (
+    <option key={camp._id} value={camp._id}>
+      {camp.name}
+    </option>
+  ))}
+</select>
+
         </div>
 
         <input
