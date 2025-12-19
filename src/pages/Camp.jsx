@@ -1280,7 +1280,4 @@ ${publicLink}
       </div>
     </div>
   );
-}     </div >
-    </div >
-  );
-}
+}     
