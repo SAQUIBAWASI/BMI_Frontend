@@ -346,14 +346,14 @@ const HealthReport = () => {
       <div className="bg-white w-full md:w-[210mm] shadow-xl relative">
 
         {/* HEADER */}
-        <div className="bg-[#007A52] text-white px-8 py-6">
-          <h1 className="text-2xl font-bold">Timely Health</h1>
+        <div className="bg-[#4287C2] text-white px-8 py-6">
+          <h1 className="text-4xl font-bold">Timely Health</h1>
           <p className="text-sm">Connecting Communities</p>
 
           <div className="mt-3 text-xs opacity-90">
-            <p className="font-semibold uppercase tracking-wide">Office Address</p>
+            <p className="font-semibold uppercase tracking-wide">Office Address: 3rd Floor, Sri Sai Balaji Avenue,VIP Hills, Madhapur,Hyderabad – 500081</p>
             <p>
-              3rd Floor, Sri Sai Balaji Avenue,VIP Hills, Madhapur,Hyderabad – 500081
+             
             </p>
           </div>
         </div>
@@ -385,11 +385,17 @@ const HealthReport = () => {
               </div>
             </div>
           </section> */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-10 text-sm">
+          <div className="grid grid-cols-3 md:grid-cols-2 gap-y-4 gap-x-10 text-sm">
             <div>
-              <span className="text-gray-600">Patient Name</span>
+              <span className="text-gray-600">Name</span>
               <span className="ml-2 font-semibold text-black uppercase">
                 : {patient.name}
+              </span>
+            </div>
+            <div>
+              <span className="text-gray-600">Age</span>
+              <span className="ml-2 font-semibold text-black uppercase">
+                : {patient.age}
               </span>
             </div>
 
@@ -407,12 +413,7 @@ const HealthReport = () => {
               </span>
             </div>
 
-            <div>
-              <span className="text-gray-600">Age</span>
-              <span className="ml-2 font-semibold text-black uppercase">
-                : {patient.age}
-              </span>
-            </div>
+            
 
             <div>
               <span className="text-gray-600">Gender</span>
@@ -424,7 +425,7 @@ const HealthReport = () => {
             <div>
               <span className="text-gray-600">Location</span>
               <span className="ml-2 font-semibold text-black uppercase">
-                : {patient.referredBy}
+                : {patient.address}
               </span>
             </div>
           </div>
@@ -500,7 +501,7 @@ const HealthReport = () => {
           <section>
             {/* SECTION HEADER */}
             <div className="pt-3 mb-6 text-center border-t border-blue-500">
-              <h3 className="font-bold text-green-700 uppercase">
+              <h3 className="font-bold text-[#4287C2] uppercase">
                 CLINICAL VITALS
               </h3>
             </div>
@@ -508,7 +509,7 @@ const HealthReport = () => {
             {/* TABLE */}
             <div className="overflow-x-auto">
               <table className="w-full border border-gray-300 text-sm">
-                <thead className="bg-[#007A52] text-white">
+                <thead className="bg-[#4287C2] text-white">
                   <tr>
                     <th className="p-3 text-left">TEST DESCRIPTION</th>
                     <th className="p-3 text-center">OBSERVED VALUE</th>
@@ -566,7 +567,7 @@ const HealthReport = () => {
 
                   {/* 4. BODY WEIGHT */}
                   <tr className="bg-gray-50">
-                    <td className="p-3 font-semibold">BODY WEIGHT</td>
+                    <td className="p-3 font-semibold">WEIGHT</td>
                     <td className="p-3 font-bold text-center">{tests.weight}</td>
                     <td className="p-3 text-center">kg</td>
                     <td className="p-3 text-center">-</td>
@@ -644,7 +645,7 @@ const HealthReport = () => {
               <div className="mt-10 flex justify-center">
                 <div className="text-center">
                   {/* HEADING */}
-                  <h3 className="font-bold text-green-700 uppercase">
+                  <h3 className="font-bold text-[#4287C2] uppercase">
                     BMI REFERENCE CHART
                   </h3><br />
 
@@ -670,7 +671,7 @@ const HealthReport = () => {
 
         <div className="px-8 pb-6">
           <div className="flex items-end justify-between">
-            <p className="text-xs text-gray-500">Consultant Physician</p>
+            <p className="text-xs text-gray-600">Consultant Physician</p>
 
             <div className="text-center">
               <img src={signature} alt="Signature" className="w-28 mx-auto" />
@@ -678,7 +679,7 @@ const HealthReport = () => {
             </div>
           </div>
 
-          <p className="text-[10px] text-gray-400 text-center mt-4">
+          <p className="text-[13px] text-gray-600 text-center mt-4">
             For consultation or further clarification, please contact us at +91 9010481048.
 
           </p>

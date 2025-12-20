@@ -627,7 +627,6 @@ import {
   Activity,
   Calendar,
   CheckCircle,
-  ChevronRight,
   Copy,
   Eye,
   FileText,
@@ -1025,9 +1024,17 @@ const handleCreateCamp = async () => {
   //     cleanupGeneratedFiles();
   //   };
   // }, []);
+  // 👇 YAHAN PASTE KARO (return se pehle)
+const getCampNameById = (campId) => {
+  if (!campId || !Array.isArray(campsWithCount)) return "N/A";
+
+  const camp = campsWithCount.find(c => c._id === campId);
+  return camp?.name || "N/A";
+};
+
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6 md:p-8 space-y-8 animate-fade-in">
+    <div className="min-h-screen bg-gray-50/50 p-0 md:p-0 space-y-1 animate-fade-in">
 
       {/* HEADER Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -1044,26 +1051,38 @@ const handleCreateCamp = async () => {
       </div>
 
       {/* STATS Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatsCard
-          title="Total Camps"
-          value={totalCamps}
-          icon={MapPin}
-          colorClass="bg-gradient-to-br from-indigo-500 to-purple-600"
-        />
-        <StatsCard
-          title="Total Patients"
-          value={totalPatients}
-          icon={Users}
-          colorClass="bg-gradient-to-br from-blue-500 to-cyan-500"
-        />
-        <StatsCard
-          title="Recent Additions"
-          value={recentPatients}
-          icon={Activity}
-          colorClass="bg-gradient-to-br from-emerald-500 to-teal-500"
-        />
-      </div>
+<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+  <StatsCard
+    title="Total Camps"
+    value={totalCamps}
+    icon={MapPin}
+    colorClass="bg-gradient-to-br from-indigo-500 to-purple-600"
+  />
+
+  {/* NEW CARD — Active Camps */}
+  <StatsCard
+    title="Active Camps"
+    value={camps.length}
+    icon={Activity}
+    colorClass="bg-gradient-to-br from-indigo-400 to-indigo-600"
+  />
+
+  <StatsCard
+    title="Total Patients"
+    value={totalPatients}
+    icon={Users}
+    colorClass="bg-gradient-to-br from-blue-500 to-cyan-500"
+  />
+
+  <StatsCard
+    title="Recent Additions"
+    value={recentPatients}
+    icon={Activity}
+    colorClass="bg-gradient-to-br from-emerald-500 to-teal-500"
+  />
+
+</div>
+
 
       {/* <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start"> */}
 
@@ -1075,10 +1094,18 @@ const handleCreateCamp = async () => {
 
   <div className="flex items-center gap-3">
     {/* Active Badge */}
-    <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+    {/* <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
       {camps.length} Active
-    </span>
+    </span> */}
 
+     {/* All Camp Button */}
+   <button
+  onClick={() => setSelectedCampId("all")}
+  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold
+             hover:bg-blue-700 transition"
+>
+  All Camps Data
+</button>
     {/* Create Camp Button */}
     <button
       onClick={() => setShowCampModal(true)}
@@ -1089,6 +1116,9 @@ const handleCreateCamp = async () => {
       <Calendar size={14} />
       Create Camp
     </button>
+   
+
+
   </div>
 </div>
 
@@ -1096,7 +1126,7 @@ const handleCreateCamp = async () => {
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     
     {/* ALL CAMPS CARD */}
-    <div
+    {/* <div
       onClick={() => setSelectedCampId("all")}
       className={`cursor-pointer p-4 rounded-2xl border transition-all
         ${selectedCampId === "all"
@@ -1111,7 +1141,7 @@ const handleCreateCamp = async () => {
       <p className={`text-sm mt-1 ${selectedCampId === "all" ? "text-indigo-100" : "text-gray-500"}`}>
         View all participants
       </p>
-    </div>
+    </div> */}
 
     {/* CAMP CARDS */}
     {campsWithCount.map(camp => (
@@ -1155,7 +1185,7 @@ const handleCreateCamp = async () => {
         <div className="lg:col-span-3 space-y-6">
 
         {/* Controls */}
-<div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100
+<div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100
                 flex flex-col lg:flex-row justify-between items-center gap-4">
 
   {/* Search */}
@@ -1167,7 +1197,7 @@ const handleCreateCamp = async () => {
     <input
       type="text"
       placeholder="Search by name, phone or camp..."
-      className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl
+      className="w-full pl-11 pr-4 py-1.5 bg-gray-50 border border-gray-200 rounded-xl
                  focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
@@ -1218,99 +1248,137 @@ const handleCreateCamp = async () => {
 
 
 
-          {/* Table Container */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-gray-50/50 border-b border-gray-100">
-                    <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Name</th>
-                    <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Phone</th>
-                    <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Reports</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {loading ? (
-                    <tr>
-                      <td colSpan={3} className="p-8 text-center text-gray-500">
-                        <div className="flex flex-col items-center gap-2">
-                          <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                          <span>Loading participants...</span>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : filteredPatients.length > 0 ? (
-                    filteredPatients.map((patient) => (
-                      <tr key={patient._id} className="group hover:bg-gray-50/80 transition-colors">
-                        {/* NAME Column */}
-                        <td className="p-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-indigo-700 font-bold text-sm">
-                              {patient.name.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                              <p className="font-semibold text-gray-900">{patient.name}</p>
-                              <p className="text-xs text-gray-500">{patient.age} Y • {patient.gender}</p>
-                            </div>
-                          </div>
-                        </td>
+         {/* Table Container */}
+<div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+  <div className="overflow-x-auto">
+    <table className="w-full text-left">
+      
+      {/* TABLE HEAD */}
+      <thead>
+        <tr className="bg-gray-50/50 border-b border-gray-100">
+          <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            Name
+          </th>
+          <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            Phone
+          </th>
+          <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            Camp
+          </th>
+          <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            Reports
+          </th>
+        </tr>
+      </thead>
 
-                        {/* PHONE Column */}
-                        <td className="p-4">
-                          <span className="text-sm text-gray-700 font-medium">
-                            {patient.contact || "N/A"}
-                          </span>
-                        </td>
+      {/* TABLE BODY */}
+      <tbody className="divide-y divide-gray-100">
+        {loading ? (
+          <tr>
+            <td colSpan={4} className="p-8 text-center text-gray-500">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                <span>Loading participants...</span>
+              </div>
+            </td>
+          </tr>
+        ) : filteredPatients.length > 0 ? (
+          filteredPatients.map((patient) => (
+            <tr
+              key={patient._id}
+              className="group hover:bg-gray-50/80 transition-colors"
+            >
 
-                        {/* REPORTS Column (View, Download, Share) */}
-                        <td className="p-4">
-                          <div className="flex items-center gap-2">
+              {/* NAME COLUMN */}
+              <td className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-indigo-700 font-bold text-sm">
+                    {patient.name?.charAt(0)?.toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      {patient.name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {patient.age} Y • {patient.gender}
+                    </p>
+                  </div>
+                </div>
+              </td>
 
-                            {/* VIEW Button */}
-                            <button
-                              onClick={() => viewReport(patient)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors"
-                            >
-                              <Eye size={14} />
-                              View
-                            </button>
+              {/* PHONE COLUMN */}
+              <td className="p-4">
+                <span className="text-sm text-gray-700 font-medium">
+                  {patient.contact || "N/A"}
+                </span>
+              </td>
 
-                            {/* DOWNLOAD Button */}
-                            <button
-                              onClick={() => downloadPDF(patient)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
-                            >
-                              <FileText size={14} />
-                              Download
-                            </button>
+              <td className="p-4">
+  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+    bg-emerald-50 text-emerald-700 border border-emerald-100">
+    {patient?.camp?.name ||
+     getCampNameById(patient?.campId || patient?.camp || patient?.camp_id)}
+  </span>
+</td>
 
-                            {/* WHATSAPP/SHARE Button */}
-                            <button
-                              onClick={() => shareReport(patient)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-green-50 text-green-700 hover:bg-green-100 transition-colors"
-                            >
-                              <MessageCircle size={14} />
-                              WhatsApp
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={3} className="p-12 text-center">
-                        <div className="flex flex-col items-center justify-center text-gray-400 gap-3">
-                          <Users size={48} className="opacity-20" />
-                          <p className="text-lg font-medium">No participants found</p>
-                          <p className="text-sm">Try adjusting your search or filters.</p>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+
+              {/* REPORTS COLUMN */}
+              <td className="p-4">
+                <div className="flex items-center gap-2">
+
+                  {/* VIEW */}
+                  <button
+                    onClick={() => viewReport(patient)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                      bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors"
+                  >
+                    <Eye size={14} />
+                    View
+                  </button>
+
+                  {/* DOWNLOAD */}
+                  <button
+                    onClick={() => downloadPDF(patient)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                      bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
+                  >
+                    <FileText size={14} />
+                    Download
+                  </button>
+
+                  {/* WHATSAPP */}
+                  <button
+                    onClick={() => shareReport(patient)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                      bg-green-50 text-green-700 hover:bg-green-100 transition-colors"
+                  >
+                    <MessageCircle size={14} />
+                    WhatsApp
+                  </button>
+
+                </div>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={4} className="p-12 text-center">
+              <div className="flex flex-col items-center justify-center text-gray-400 gap-3">
+                <Users size={48} className="opacity-20" />
+                <p className="text-lg font-medium">No participants found</p>
+                <p className="text-sm">
+                  Try adjusting your search or filters.
+                </p>
+              </div>
+            </td>
+          </tr>
+        )}
+      </tbody>
+
+    </table>
+  </div>
+</div>
+
 
           {/* --- SHARE MODAL --- */}
           {showShareModal && currentPatient && (
