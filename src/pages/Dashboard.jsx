@@ -287,8 +287,263 @@
 
 
 
+// import axios from 'axios';
+// import { MapPin, Phone, Search, Trash2, Users } from 'lucide-react';
+// import { useEffect, useState } from 'react';
+// import { Link } from 'react-router-dom';
+
+// const Dashboard = () => {
+//     const [patients, setPatients] = useState([]);
+//     const [search, setSearch] = useState('');
+//     const [loading, setLoading] = useState(true);
+
+//     const [activeToday, setActiveToday] = useState(0);
+//     const [criticalCases, setCriticalCases] = useState(0);
+
+//     const fetchPatients = async () => {
+//         try {
+//             const res = await axios.get('https://bim-backend-4i12.onrender.com/api/patients');
+//             setPatients(res.data);
+
+//             const today = new Date().toDateString();
+//             setActiveToday(
+//                 res.data.filter(p => new Date(p.createdAt).toDateString() === today).length
+//             );
+
+//             setCriticalCases(
+//                 res.data.filter(p => p.isCritical === true).length
+//             );
+//         } catch (err) {
+//             console.error(err);
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//     useEffect(() => {
+//         fetchPatients();
+//     }, []);
+
+//     const deletePatient = async (id) => {
+//         if (!window.confirm("Are you sure?")) return;
+//         await axios.delete(`https://bim-backend-4i12.onrender.com/api/patients/${id}`);
+//         fetchPatients();
+//     };
+
+//     const filtered = patients.filter(p =>
+//         p.name.toLowerCase().includes(search.toLowerCase())
+//     );
+
+//     return (
+//         <div className="space-y-8">
+
+
+//             <div className="flex flex-col sm:flex-row items-center justify-between gap-4
+//                 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+
+//                 {/* Title */}
+//                 <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+//                     Patient Directory
+//                 </h3>
+
+//                 {/* Search */}
+//                 <div className="relative w-full sm:w-72">
+//                     <Search
+//                         className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+//                         size={18}
+//                     />
+//                     <input
+//                         type="text"
+//                         placeholder="Search patients"
+//                         value={search}
+//                         onChange={(e) => setSearch(e.target.value)}
+//                         className="w-full pl-10 pr-4 py-2 text-sm
+//                  bg-white border border-gray-300 rounded-lg
+//                  focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20
+//                  outline-none transition"
+//                     />
+//                 </div>
+
+//             </div>
+
+
+//             {/* ---------- STAT CARDS ---------- */}
+//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+//                 <StatCard title="Total Patients" value={patients.length} />
+//                 <StatCard title="Active Today" value={activeToday} />
+//                 <StatCard title="Critical Cases" value={criticalCases} />
+//             </div>
+
+//             {/* ---------- HEADER ---------- */}
+//             {/* <div className="flex flex-col sm:flex-row justify-between gap-3 items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+
+//                 <h3 className="text-xl font-bold text-gray-800">
+//                     Patient Directory
+//                 </h3>
+
+            
+//                 <div className="relative w-full sm:w-64">
+//                     <Search
+//                         className="absolute left-3 top-3 text-gray-400"
+//                         size={18}
+//                     />
+//                     <input
+//                         type="text"
+//                         placeholder="Search patients..."
+//                         value={search}
+//                         onChange={(e) => setSearch(e.target.value)}
+//                         className="pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg 
+//                        focus:ring-2 ring-indigo-500 outline-none w-full transition-all"
+//                     />
+//                 </div>
+
+//             </div> */}
+
+
+//             {/* ✅ CAMP CARD (IMAGE STYLE) */}
+//             {/* <Link to="/camp" className="block max-w-sm">
+//                 <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition cursor-pointer">
+//                     <h2 className="text-lg font-bold text-gray-900">Camp-1</h2>
+
+//                     <div className="flex items-center gap-2 text-gray-600 mt-2">
+//                         <MapPin size={16} className="text-red-500" />
+//                         <span>Madhapur</span>
+//                     </div>
+
+                    
+
+//                     <div className="flex items-center gap-2 text-gray-700 mt-3 font-medium">
+//                         <Users size={18} />
+//                         <span>Participants: {patients.length}</span>
+//                     </div>
+//                 </div>
+//             </Link> */}
+//             <div className="flex flex-wrap gap-5">
+//                 <Link to="/camp" className="w-full sm:w-[260px]">
+//                     <div className="bg-white rounded-xl p-4 border border-[#007A52]/30
+//                   shadow-sm hover:shadow-md
+//                   hover:border-[#007A52]
+//                   transition-all duration-200 cursor-pointer">
+
+//                         {/* Camp Title */}
+//                         <h2 className="text-sm font-semibold text-[#2563EB]">
+//                             Camp – 1
+//                         </h2>
+
+//                         {/* Location */}
+//                         <div className="flex items-center gap-2 mt-2 text-sm text-[#007A52]">
+//                             <MapPin size={14} />
+//                             <span>Madhapur</span>
+//                         </div>
+
+//                         {/* Divider */}
+//                         <div className="border-t border-[#007A52]/20 my-3"></div>
+
+//                         {/* Participants */}
+//                         <div className="flex items-center gap-2 text-sm font-medium text-[#2563EB]">
+//                             <Users size={16} />
+//                             <span>Participants: {patients.length}</span>
+//                         </div>
+
+//                     </div>
+//                 </Link>
+
+//                 <Link to="/camp" className="w-full sm:w-[260px]">
+//                     <div className="bg-white rounded-xl p-4 border border-[#007A52]/30
+//                   shadow-sm hover:shadow-md
+//                   hover:border-[#007A52]
+//                   transition-all duration-200 cursor-pointer">
+
+//                         {/* Camp Title */}
+//                         <h2 className="text-sm font-semibold text-[#2563EB]">
+//                             Camp – 1
+//                         </h2>
+
+//                         {/* Location */}
+//                         <div className="flex items-center gap-2 mt-2 text-sm text-[#007A52]">
+//                             <MapPin size={14} />
+//                             <span>Madhapur</span>
+//                         </div>
+
+//                         {/* Divider */}
+//                         <div className="border-t border-[#007A52]/20 my-3"></div>
+
+//                         {/* Participants */}
+//                         <div className="flex items-center gap-2 text-sm font-medium text-[#2563EB]">
+//                             <Users size={16} />
+//                             <span>Participants: {patients.length}</span>
+//                         </div>
+
+//                     </div>
+//                 </Link>
+//             </div>
+
+
+
+
+
+
+
+
+
+//             {/* ---------- SEARCH ---------- */}
+//             <div className="relative w-full sm:w-64">
+//                 <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+//                 <input
+//                     type="text"
+//                     placeholder="Search patients..."
+//                     value={search}
+//                     onChange={(e) => setSearch(e.target.value)}
+//                     className="pl-10 pr-4 py-2 bg-gray-50 rounded-lg w-full"
+//                 />
+//             </div>
+
+//             {/* ---------- PATIENT CARDS ---------- */}
+//             {loading ? (
+//                 <div className="text-center text-gray-500">Loading...</div>
+//             ) : (
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//                     {filtered.map(patient => (
+//                         <div key={patient._id} className="bg-white rounded-2xl shadow border p-6">
+//                             <div className="flex justify-between mb-4">
+//                                 <h4 className="font-bold">{patient.name}</h4>
+//                                 <Trash2
+//                                     size={18}
+//                                     onClick={() => deletePatient(patient._id)}
+//                                     className="cursor-pointer text-red-400"
+//                                 />
+//                             </div>
+
+//                             <p className="text-sm text-gray-600 flex items-center gap-2">
+//                                 <Phone size={14} /> {patient.contact}
+//                             </p>
+
+//                             <Link
+//                                 to={`/patient/${patient._id}`}
+//                                 className="block mt-4 text-center bg-[#007A52] text-white py-2 rounded-xl"
+//                             >
+//                                 View Details
+//                             </Link>
+//                         </div>
+//                     ))}
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
+
+// const StatCard = ({ title, value }) => (
+//     <div className="bg-[#2563EB] text-white rounded-2xl p-6 shadow">
+//         <h4 className="text-sm">{title}</h4>
+//         <p className="text-3xl font-bold">{value}</p>
+//     </div>
+// );
+
+// export default Dashboard;
+
+
 import axios from 'axios';
-import { MapPin, Phone, Search, Trash2, Users } from 'lucide-react';
+import { MapPin, Phone, Search, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -296,6 +551,10 @@ const Dashboard = () => {
     const [patients, setPatients] = useState([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
+    
+    // ⬇️ ADD HERE
+const [camps, setCamps] = useState([]);
+const [selectedCampId, setSelectedCampId] = useState("all");
 
     const [activeToday, setActiveToday] = useState(0);
     const [criticalCases, setCriticalCases] = useState(0);
@@ -320,9 +579,23 @@ const Dashboard = () => {
         }
     };
 
-    useEffect(() => {
-        fetchPatients();
-    }, []);
+    const fetchCamps = async () => {
+  try {
+    const res = await axios.get(
+      "https://bim-backend-4i12.onrender.com/api/camps/allcamps"
+    );
+    setCamps(res.data || []);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
+   useEffect(() => {
+  fetchPatients();
+  fetchCamps();
+}, []);
+
 
     const deletePatient = async (id) => {
         if (!window.confirm("Are you sure?")) return;
@@ -330,9 +603,20 @@ const Dashboard = () => {
         fetchPatients();
     };
 
-    const filtered = patients.filter(p =>
-        p.name.toLowerCase().includes(search.toLowerCase())
-    );
+    const filtered = patients.filter(p => {
+    const matchSearch = p.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+    const matchCamp =
+  selectedCampId === "all"
+    ? true
+    : p.campId?._id === selectedCampId;
+
+
+    return matchSearch && matchCamp;
+});
+
 
     return (
         <div className="space-y-8">
@@ -369,9 +653,15 @@ const Dashboard = () => {
 
             {/* ---------- STAT CARDS ---------- */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+{/* <StatCard title="Total Patients" value={patients.length} />
+<StatCard title="Active Today" value={activeToday} />
+<StatCard title="Critical Cases" value={criticalCases} /> */}
+
+                
+                <StatCard title="Total Camps" value={camps.length} />
                 <StatCard title="Total Patients" value={patients.length} />
-                <StatCard title="Active Today" value={activeToday} />
                 <StatCard title="Critical Cases" value={criticalCases} />
+
             </div>
 
             {/* ---------- HEADER ---------- */}
@@ -419,66 +709,47 @@ const Dashboard = () => {
                 </div>
             </Link> */}
             <div className="flex flex-wrap gap-5">
-                <Link to="/camp" className="w-full sm:w-[260px]">
-                    <div className="bg-white rounded-xl p-4 border border-[#007A52]/30
-                  shadow-sm hover:shadow-md
-                  hover:border-[#007A52]
-                  transition-all duration-200 cursor-pointer">
+  {/* ALL CAMPS */}
+  <div
+    onClick={() => setSelectedCampId("all")}
+    className={`cursor-pointer w-[260px] rounded-xl p-4 border
+      ${selectedCampId === "all"
+        ? "bg-[#2563EB] text-white"
+        : "bg-white"
+      }`}
+  >
+    <h2 className="text-sm font-semibold">All Camps</h2>
+    <p className="text-sm mt-2">All Patients</p>
+  </div>
 
-                        {/* Camp Title */}
-                        <h2 className="text-sm font-semibold text-[#2563EB]">
-                            Camp – 1
-                        </h2>
+  {/* INDIVIDUAL CAMPS */}
+  {/* INDIVIDUAL CAMPS */}
+{camps.map(camp => (
+  <div
+    key={camp._id}
+    onClick={() => setSelectedCampId(camp._id)}
+    className={`cursor-pointer w-[260px] rounded-xl p-4 border
+      ${selectedCampId === camp._id
+        ? "bg-[#2563EB] text-white"
+        : "bg-white"
+      }`}
+  >
+    <h2 className="text-sm font-semibold">{camp.name}</h2>
 
-                        {/* Location */}
-                        <div className="flex items-center gap-2 mt-2 text-sm text-[#007A52]">
-                            <MapPin size={14} />
-                            <span>Madhapur</span>
-                        </div>
+    <div className="flex items-center gap-2 mt-2 text-sm">
+      <MapPin size={14} />
+      <span>{camp.location}</span>
+    </div>
 
-                        {/* Divider */}
-                        <div className="border-t border-[#007A52]/20 my-3"></div>
+    <div className="mt-3 text-sm font-medium">
+      Patients: {
+  patients.filter(p => p.campId?._id === camp._id).length
+}
 
-                        {/* Participants */}
-                        <div className="flex items-center gap-2 text-sm font-medium text-[#2563EB]">
-                            <Users size={16} />
-                            <span>Participants: {patients.length}</span>
-                        </div>
-
-                    </div>
-                </Link>
-
-                <Link to="/camp" className="w-full sm:w-[260px]">
-                    <div className="bg-white rounded-xl p-4 border border-[#007A52]/30
-                  shadow-sm hover:shadow-md
-                  hover:border-[#007A52]
-                  transition-all duration-200 cursor-pointer">
-
-                        {/* Camp Title */}
-                        <h2 className="text-sm font-semibold text-[#2563EB]">
-                            Camp – 1
-                        </h2>
-
-                        {/* Location */}
-                        <div className="flex items-center gap-2 mt-2 text-sm text-[#007A52]">
-                            <MapPin size={14} />
-                            <span>Madhapur</span>
-                        </div>
-
-                        {/* Divider */}
-                        <div className="border-t border-[#007A52]/20 my-3"></div>
-
-                        {/* Participants */}
-                        <div className="flex items-center gap-2 text-sm font-medium text-[#2563EB]">
-                            <Users size={16} />
-                            <span>Participants: {patients.length}</span>
-                        </div>
-
-                    </div>
-                </Link>
-            </div>
-
-
+    </div>
+  </div>
+))}
+</div>
 
 
 
@@ -506,13 +777,23 @@ const Dashboard = () => {
                     {filtered.map(patient => (
                         <div key={patient._id} className="bg-white rounded-2xl shadow border p-6">
                             <div className="flex justify-between mb-4">
-                                <h4 className="font-bold">{patient.name}</h4>
-                                <Trash2
-                                    size={18}
-                                    onClick={() => deletePatient(patient._id)}
-                                    className="cursor-pointer text-red-400"
-                                />
-                            </div>
+    <div>
+        <h4 className="font-bold">{patient.name}</h4>
+
+        <p className="text-xs text-gray-500">
+  Camp: {patient.campId?.name || "N/A"}
+
+</p>
+
+    </div>
+
+    <Trash2
+        size={18}
+        onClick={() => deletePatient(patient._id)}
+        className="cursor-pointer text-red-400"
+    />
+</div>
+
 
                             <p className="text-sm text-gray-600 flex items-center gap-2">
                                 <Phone size={14} /> {patient.contact}

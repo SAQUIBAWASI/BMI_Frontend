@@ -157,7 +157,12 @@
 
 
 
-import { LayoutDashboard, Menu, ShieldCheck, UserPlus } from "lucide-react";
+import {
+  LayoutDashboard,
+  Menu,
+  ShieldCheck,
+  UserPlus
+} from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -166,93 +171,91 @@ const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex h-screen font-sans bg-gray-50">
+    <div className="flex h-screen bg-gray-50">
 
-      {/* ===== MOBILE OVERLAY ===== */}
       {open && (
         <div
-          className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
           onClick={() => setOpen(false)}
         />
       )}
 
-      {/* ===== SIDEBAR ===== */}
+      {/* SIDEBAR */}
       <aside
         className={`
-          fixed lg:static top-0 left-0 h-full w-64
-          bg-[#007A52] text-white shadow-2xl flex flex-col
+          fixed lg:static top-0 left-0 h-full
+          w-52
+          bg-[#007A52] text-white
+          flex flex-col
           transition-transform duration-300 z-40
-          ${open ? "translate-x-0" : "-translate-x-64 lg:translate-x-0"}
+          ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
-        {/* Logo */}
-        <div className="flex items-center gap-3 p-6 border-b border-white/20">
-          <div className="p-2 bg-white rounded-lg">
-            <img src={logo} alt="Logo" className="w-8 h-8 object-contain" />
-          </div>
-          <div>
-            <h1 className="text-lg font-bold">Timely Health</h1>
-            <p className="text-xs text-white/80">BMI & Camp Update</p>
+        {/* LOGO — MAX TIGHT */}
+        <div className="p-3 border-b border-white/20 flex justify-center">
+          <div className="bg-white px-1 py-2 rounded-lg">
+            <img
+              src={logo}
+              alt="Timely Health"
+              className="w-22 object-contain"
+            />
           </div>
         </div>
 
-        {/* Menu */}
-        <nav className="flex-1 p-4 space-y-2">
-          <MenuItem to="/" icon={<LayoutDashboard size={20} />} label="Dashboard" close={() => setOpen(false)} />
-          <MenuItem to="/add-patient" icon={<UserPlus size={20} />} label="Add Patient" close={() => setOpen(false)} />
-          <MenuItem to="/doctor" icon={<ShieldCheck size={20} />} label="Partner Panel" close={() => setOpen(false)} />
-          <MenuItem to="/camp" icon={<ShieldCheck size={20} />} label="Camp Update" close={() => setOpen(false)} />
+        {/* MENU */}
+        <nav className="flex-1 mt-5 space-y-4 px-2">
+          <MenuItem to="/" icon={<LayoutDashboard size={25} />} label="Dashboard" close={() => setOpen(false)} />
+          <MenuItem to="/add-patient" icon={<UserPlus size={25} />} label="Add Patient" close={() => setOpen(false)} />
+          <MenuItem to="/doctor" icon={<ShieldCheck size={25} />} label="Partner Panel" close={() => setOpen(false)} />
+          <MenuItem to="/camp" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
         </nav>
 
-        {/* Footer */}
-        <div className="p-4 text-xs text-center border-t border-white/20 text-white/80">
+        <div className="p-2 text-[11px] text-center border-t border-white/20 text-white/80">
           © 2025 Timely Health
         </div>
       </aside>
 
-      {/* ===== MAIN CONTENT ===== */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 overflow-y-auto">
 
-        {/* MOBILE TOP BAR */}
-        <header className="sticky top-0 z-20 flex items-center gap-4 p-4 bg-white border-b border-gray-200 lg:hidden">
+        <header className="sticky top-0 z-20 flex items-center gap-3 p-4 bg-white border-b lg:hidden">
           <button
             onClick={() => setOpen(true)}
             className="p-2 rounded-lg bg-gray-100"
           >
-            <Menu size={22} className="text-gray-700" />
+            <Menu size={22} />
           </button>
-
-          <h2 className="text-base font-semibold text-gray-800">
-            Timely Health
-          </h2>
+          <img src={logo} alt="Timely Health" className="h-6 object-contain" />
         </header>
 
-        {/* PAGE CONTENT */}
-        <div className="p-6">
-          {children}
-        </div>
-
+        <div className="p-6">{children}</div>
       </main>
     </div>
   );
 };
 
-/* ===== MENU ITEM ===== */
+/* MENU ITEM — ULTRA TIGHT */
 const MenuItem = ({ to, icon, label, close }) => (
   <NavLink
     to={to}
     onClick={close}
     className={({ isActive }) =>
-      `flex items-center gap-3 p-3 rounded-xl transition-all duration-200
-      ${isActive
-        ? "bg-white/10 border-l-4 border-[#2563EB] font-semibold"
-        : "hover:bg-white/5 text-white"
-      }`
+      `flex items-center gap-3
+       px-2 py-2.5 rounded-xl transition-all
+       ${isActive ? "bg-white/20 font-semibold" : "hover:bg-white/10"}`
     }
   >
     {icon}
-    {label}
+    <span className="text-sm leading-none">{label}</span>
   </NavLink>
 );
 
 export default Layout;
+
+
+
+
+
+
+
+

@@ -640,6 +640,7 @@ import {
   Users
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { generateMedicalReport, generateMedicalReportFile } from "../utils/pdfGenerator";
 
@@ -708,6 +709,19 @@ export default function CampDashboard() {
   const [camps, setCamps] = useState([]);
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  // 🔒 Lock body scroll when Create Camp modal is open
+useEffect(() => {
+  if (showCampModal) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [showCampModal]);
+
 
   // Filters
   const [selectedCampId, setSelectedCampId] = useState("all");
@@ -1051,73 +1065,91 @@ const handleCreateCamp = async () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      {/* <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start"> */}
 
-        {/* LEFT SIDEBAR - CAMP LIST */}
-        <div className="lg:col-span-1 space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-gray-800">Camps</h3>
-            <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
-              {camps.length} Active
-            </span>
-          </div>
+        {/* ===== CAMPS ROW (Below Stats) ===== */}
+<div className="space-y-4">
 
-          <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-            {/* 'ALL' Card */}
-            <div
-              onClick={() => setSelectedCampId("all")}
-              className={`cursor-pointer p-4 rounded-2xl border transition-all duration-200 group ${selectedCampId === "all"
-                ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 transform scale-[1.02]"
-                : "bg-white hover:border-indigo-300 hover:shadow-md text-gray-600"
-                }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-lg">All Camps</span>
-                {selectedCampId === "all" && <ChevronRight size={20} />}
-              </div>
-              <p className={`text-sm mt-1 ${selectedCampId === "all" ? "text-indigo-100" : "text-gray-500"}`}>
-                View all participants
-              </p>
-            </div>
+ <div className="flex items-center justify-between">
+  <h3 className="text-lg font-bold text-gray-800">Camps</h3>
 
-            {/* Camp Cards */}
-            {campsWithCount.map(camp => (
-              <div
-                key={camp._id}
-                onClick={() => setSelectedCampId(camp._id)}
-                className={`cursor-pointer p-4 rounded-2xl border transition-all duration-200 group ${selectedCampId === camp._id
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 transform scale-[1.02]"
-                  : "bg-white hover:border-indigo-300 hover:shadow-md"
-                  }`}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className={`font-bold ${selectedCampId === camp._id ? "text-white" : "text-gray-800"}`}>
-                      {camp.name}
-                    </h4>
-                    <div className={`mt-2 flex items-center gap-2 text-sm ${selectedCampId === camp._id ? "text-indigo-100" : "text-gray-500"}`}>
-                      <MapPin size={14} />
-                      <span className="truncate max-w-[150px]">{camp.location}</span>
-                    </div>
-                    <div className={`mt-1 flex items-center gap-2 text-sm ${selectedCampId === camp._id ? "text-indigo-100" : "text-gray-500"}`}>
-                      <Calendar size={14} />
-                      <span>{camp.date || "No date"}</span>
-                    </div>
-                  </div>
-                  <span className={`text-xs font-bold px-2 py-1 rounded-lg ${selectedCampId === camp._id ? "bg-white/20 text-white" : "bg-gray-100 text-gray-600"
-                    }`}>
-                    {camp.count}
-                  </span>
-                </div>
-              </div>
-            ))}
-            {camps.length === 0 && !loading && (
-              <div className="text-center p-6 bg-white rounded-2xl border border-dashed">
-                <p className="text-gray-500 text-sm">No camps found.</p>
-              </div>
-            )}
-          </div>
+  <div className="flex items-center gap-3">
+    {/* Active Badge */}
+    <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+      {camps.length} Active
+    </span>
+
+    {/* Create Camp Button */}
+    <button
+      onClick={() => setShowCampModal(true)}
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg
+                 bg-green-600 text-white text-xs font-semibold
+                 hover:bg-green-700 transition"
+    >
+      <Calendar size={14} />
+      Create Camp
+    </button>
+  </div>
+</div>
+
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    
+    {/* ALL CAMPS CARD */}
+    <div
+      onClick={() => setSelectedCampId("all")}
+      className={`cursor-pointer p-4 rounded-2xl border transition-all
+        ${selectedCampId === "all"
+          ? "bg-indigo-600 text-white shadow-lg scale-[1.02]"
+          : "bg-white hover:border-indigo-300 hover:shadow-md text-gray-700"
+        }`}
+    >
+      <div className="flex justify-between items-center">
+        <span className="font-semibold">All Camps</span>
+        {selectedCampId === "all" && <ChevronRight size={18} />}
+      </div>
+      <p className={`text-sm mt-1 ${selectedCampId === "all" ? "text-indigo-100" : "text-gray-500"}`}>
+        View all participants
+      </p>
+    </div>
+
+    {/* CAMP CARDS */}
+    {campsWithCount.map(camp => (
+      <div
+        key={camp._id}
+        onClick={() => setSelectedCampId(camp._id)}
+        className={`cursor-pointer p-4 rounded-2xl border transition-all
+          ${selectedCampId === camp._id
+            ? "bg-indigo-600 text-white shadow-lg scale-[1.02]"
+            : "bg-white hover:border-indigo-300 hover:shadow-md"
+          }`}
+      >
+        <h4 className="font-bold truncate">{camp.name}</h4>
+
+        <div className={`mt-2 flex items-center gap-2 text-sm
+          ${selectedCampId === camp._id ? "text-indigo-100" : "text-gray-500"}`}>
+          <MapPin size={14} />
+          <span className="truncate">{camp.location}</span>
         </div>
+
+        <div className={`mt-1 flex items-center gap-2 text-sm
+          ${selectedCampId === camp._id ? "text-indigo-100" : "text-gray-500"}`}>
+          <Calendar size={14} />
+          <span>{camp.date || "No date"}</span>
+        </div>
+
+        <span className={`inline-block mt-3 text-xs font-bold px-2 py-1 rounded-lg
+          ${selectedCampId === camp._id
+            ? "bg-white/20 text-white"
+            : "bg-gray-100 text-gray-600"
+          }`}>
+          {camp.count} Patients
+        </span>
+      </div>
+    ))}
+  </div>
+{/* </div> */}
+
 
         {/* RIGHT SIDE - PARTICIPANTS TABLE */}
         <div className="lg:col-span-3 space-y-6">
@@ -1154,7 +1186,7 @@ const handleCreateCamp = async () => {
     {/* Buttons Row */}
     <div className="flex items-center gap-3">
       {/* Create Camp */}
-      <button
+      {/* <button
   onClick={() => setShowCampModal(true)}
   className="flex items-center gap-2 px-4 py-2 rounded-xl
              bg-green-600 text-white text-sm font-medium
@@ -1162,7 +1194,7 @@ const handleCreateCamp = async () => {
 >
   <Calendar size={16} />
   Create Camp
-</button>
+</button> */}
 
 
       {/* Add Patient */}
@@ -1366,73 +1398,94 @@ const handleCreateCamp = async () => {
       </div>
 
       {/* --- CREATE CAMP MODAL --- */}
-{showCampModal && (
-  <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-    <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6 space-y-5 animate-scale-in">
+{showCampModal &&
+  createPortal(
+    <div className="fixed inset-0 z-[9999] bg-black/60">
 
-      <h2 className="text-xl font-bold text-gray-800">
-        Create New Camp
-      </h2>
+      <div
+        className="fixed top-1/2 left-1/2 
+                   -translate-x-1/2 -translate-y-1/2
+                   w-full max-w-lg px-4"
+      >
+        <div className="bg-white rounded-2xl shadow-2xl p-6 space-y-5">
 
-      <input
-        type="text"
-        placeholder="Camp Name (Camp-1)"
-        className="w-full border rounded-xl px-4 py-2"
-        value={campForm.name}
-        onChange={(e) => setCampForm({ ...campForm, name: e.target.value })}
-      />
+          <h2 className="text-xl font-bold text-gray-800">
+            Create New Camp
+          </h2>
 
-      <input
-        type="text"
-        placeholder="Location (Tolichowki)"
-        className="w-full border rounded-xl px-4 py-2"
-        value={campForm.location}
-        onChange={(e) => setCampForm({ ...campForm, location: e.target.value })}
-      />
+          <input
+            className="w-full border rounded-xl px-4 py-2"
+            placeholder="Camp Name"
+            value={campForm.name}
+            onChange={(e) =>
+              setCampForm({ ...campForm, name: e.target.value })
+            }
+          />
 
-      <textarea
-        placeholder="Address"
-        className="w-full border rounded-xl px-4 py-2"
-        value={campForm.address}
-        onChange={(e) => setCampForm({ ...campForm, address: e.target.value })}
-      />
+          <input
+            className="w-full border rounded-xl px-4 py-2"
+            placeholder="Location"
+            value={campForm.location}
+            onChange={(e) =>
+              setCampForm({ ...campForm, location: e.target.value })
+            }
+          />
 
-      <input
-        type="date"
-        className="w-full border rounded-xl px-4 py-2"
-        value={campForm.date}
-        onChange={(e) => setCampForm({ ...campForm, date: e.target.value })}
-      />
+          <textarea
+            className="w-full border rounded-xl px-4 py-2"
+            placeholder="Address"
+            value={campForm.address}
+            onChange={(e) =>
+              setCampForm({ ...campForm, address: e.target.value })
+            }
+          />
 
-      <input
-        type="text"
-        placeholder="10:00 AM - 4:00 PM"
-        className="w-full border rounded-xl px-4 py-2"
-        value={campForm.time}
-        onChange={(e) => setCampForm({ ...campForm, time: e.target.value })}
-      />
+          <input
+            type="date"
+            className="w-full border rounded-xl px-4 py-2"
+            value={campForm.date}
+            onChange={(e) =>
+              setCampForm({ ...campForm, date: e.target.value })
+            }
+          />
 
-      <div className="flex justify-end gap-3 pt-4">
-        <button
-          onClick={() => setShowCampModal(false)}
-          className="px-4 py-2 rounded-xl border"
-        >
-          Cancel
-        </button>
+          <input
+            className="w-full border rounded-xl px-4 py-2"
+            placeholder="Time"
+            value={campForm.time}
+            onChange={(e) =>
+              setCampForm({ ...campForm, time: e.target.value })
+            }
+          />
 
-        <button
-          onClick={handleCreateCamp}
-          className="px-4 py-2 rounded-xl bg-green-600 text-white"
-        >
-          Create Camp
-        </button>
+          <div className="flex justify-end gap-3 pt-4">
+            <button
+              onClick={() => setShowCampModal(false)}
+              className="px-4 py-2 rounded-xl border"
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={handleCreateCamp}
+              className="px-4 py-2 rounded-xl bg-green-600 text-white"
+            >
+              Create Camp
+            </button>
+          </div>
+
+        </div>
       </div>
-    </div>
-  </div>
-)}
+    </div>,
+    document.body
+  )}
+
+
+
 
     </div>
 
     
   );
 }     
+
