@@ -38,69 +38,69 @@
 //     return (
 //         <div className="space-y-6">
 //             {/* Stats Cards */}
-//             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-//                 <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-xl transform hover:scale-105 transition-all">
-//                     <h3 className="text-blue-100 font-medium mb-1">Total Patients</h3>
+//             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+//                 <div className="p-6 text-white transition-all transform shadow-xl bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl hover:scale-105">
+//                     <h3 className="mb-1 font-medium text-blue-100">Total Patients</h3>
 //                     <div className="text-4xl font-bold">{patients.length}</div>
 //                 </div>
-//                 <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-xl transform hover:scale-105 transition-all">
-//                     <h3 className="text-purple-100 font-medium mb-1">Active Today</h3>
+//                 <div className="p-6 text-white transition-all transform shadow-xl bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl hover:scale-105">
+//                     <h3 className="mb-1 font-medium text-purple-100">Active Today</h3>
 //                     <div className="text-4xl font-bold">--</div>
 //                 </div>
-//                 <div className="bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl transform hover:scale-105 transition-all">
-//                     <h3 className="text-pink-100 font-medium mb-1">Critical Cases</h3>
+//                 <div className="p-6 text-white transition-all transform shadow-xl bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl hover:scale-105">
+//                     <h3 className="mb-1 font-medium text-pink-100">Critical Cases</h3>
 //                     <div className="text-4xl font-bold">--</div>
 //                 </div>
 //             </div>
 
 //             {/* List Header */}
-//             <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+//             <div className="flex items-center justify-between p-4 bg-white border border-gray-100 shadow-sm rounded-xl">
 //                 <h3 className="text-xl font-bold text-gray-800">Patient Directory</h3>
 //                 <div className="relative">
-//                     <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+//                     <Search className="absolute text-gray-400 left-3 top-3" size={18} />
 //                     <input
 //                         type="text"
 //                         placeholder="Search patients..."
 //                         value={search}
 //                         onChange={(e) => setSearch(e.target.value)}
-//                         className="pl-10 pr-4 py-2 bg-gray-50 border-none rounded-lg focus:ring-2 ring-indigo-500 outline-none w-64 transition-all"
+//                         className="w-64 py-2 pl-10 pr-4 transition-all border-none rounded-lg outline-none bg-gray-50 focus:ring-2 ring-indigo-500"
 //                     />
 //                 </div>
 //             </div>
 
 //             {/* List Grid */}
 //             {loading ? (
-//                 <div className="text-center py-10 text-gray-500">Loading directory...</div>
+//                 <div className="py-10 text-center text-gray-500">Loading directory...</div>
 //             ) : (
-//                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 //                     {filtered.map(patient => (
-//                         <div key={patient._id} className="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 group">
+//                         <div key={patient._id} className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-xl group">
 //                             <div className="p-6">
-//                                 <div className="flex justify-between items-start mb-4">
+//                                 <div className="flex items-start justify-between mb-4">
 //                                     <div>
-//                                         <h4 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">{patient.name}</h4>
-//                                         <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
+//                                         <h4 className="text-lg font-bold text-gray-800 transition-colors group-hover:text-indigo-600">{patient.name}</h4>
+//                                         <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
 //                                             <span className="bg-gray-100 px-2 py-0.5 rounded text-xs uppercase font-semibold">{patient.gender}</span>
 //                                             <span>•</span>
 //                                             <span>{patient.age} Yrs</span>
 //                                         </div>
 //                                     </div>
-//                                     <button onClick={() => deletePatient(patient._id)} className="text-gray-300 hover:text-red-500 transition-colors p-2 hover:bg-red-50 rounded-full">
+//                                     <button onClick={() => deletePatient(patient._id)} className="p-2 text-gray-300 transition-colors rounded-full hover:text-red-500 hover:bg-red-50">
 //                                         <Trash2 size={18} />
 //                                     </button>
 //                                 </div>
 
-//                                 <div className="space-y-2 mb-6">
-//                                     <div className="flex items-center gap-2 text-gray-600 text-sm">
+//                                 <div className="mb-6 space-y-2">
+//                                     <div className="flex items-center gap-2 text-sm text-gray-600">
 //                                         <Phone size={14} className="text-indigo-400" /> {patient.contact}
 //                                     </div>
-//                                     <div className="flex items-center justify-between text-sm bg-indigo-50 p-2 rounded-lg text-indigo-700 font-medium">
+//                                     <div className="flex items-center justify-between p-2 text-sm font-medium text-indigo-700 rounded-lg bg-indigo-50">
 //                                         <span>Total Records</span>
 //                                         <span className="bg-white px-2 py-0.5 rounded shadow-sm">{patient.testCount}</span>
 //                                     </div>
 //                                 </div>
 
-//                                 <Link to={`/patient/${patient._id}`} className="block w-full text-center bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-indigo-600 transition-colors flex justify-center items-center gap-2">
+//                                 <Link to={`/patient/${patient._id}`} className="flex items-center justify-center block w-full gap-2 py-3 font-medium text-center text-white transition-colors bg-gray-900 rounded-xl hover:bg-indigo-600">
 //                                     View Details <ArrowRight size={16} />
 //                                 </Link>
 //                             </div>
@@ -172,7 +172,7 @@
 //         <div className="space-y-6">
 
 //             {/* ---------- STAT CARDS ---------- */}
-//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+//             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 //                 <Card
 //                     title="Total Patients"
 //                     value={patients.length}
@@ -196,38 +196,38 @@
 //             </div>
 
 //             {/* ---------- HEADER ---------- */}
-//             <div className="flex flex-col sm:flex-row justify-between gap-3 items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+//             <div className="flex flex-col items-center justify-between gap-3 p-4 bg-white border border-gray-100 shadow-sm sm:flex-row rounded-xl">
 //                 <h3 className="text-xl font-bold text-gray-800">Patient Directory</h3>
 
 //                 <div className="relative w-full sm:w-64">
-//                     <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+//                     <Search className="absolute text-gray-400 left-3 top-3" size={18} />
 //                     <input
 //                         type="text"
 //                         placeholder="Search patients..."
 //                         value={search}
 //                         onChange={(e) => setSearch(e.target.value)}
-//                         className="pl-10 pr-4 py-2 bg-gray-50 border-none rounded-lg focus:ring-2 ring-indigo-500 outline-none w-full transition-all"
+//                         className="w-full py-2 pl-10 pr-4 transition-all border-none rounded-lg outline-none bg-gray-50 focus:ring-2 ring-indigo-500"
 //                     />
 //                 </div>
 //             </div>
 
 //             {/* ---------- PATIENT CARDS ---------- */}
 //             {loading ? (
-//                 <div className="text-center py-10 text-gray-500">Loading directory...</div>
+//                 <div className="py-10 text-center text-gray-500">Loading directory...</div>
 //             ) : (
-//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 //                     {filtered.map(patient => (
-//                         <div key={patient._id} className="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 group">
+//                         <div key={patient._id} className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-xl group">
 
 //                             <div className="p-6">
 
-//                                 <div className="flex justify-between items-start mb-4">
+//                                 <div className="flex items-start justify-between mb-4">
 //                                     <div>
-//                                         <h4 className="text-lg font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">
+//                                         <h4 className="text-lg font-bold text-gray-800 transition-colors group-hover:text-indigo-600">
 //                                             {patient.name}
 //                                         </h4>
 
-//                                         <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 mt-1">
+//                                         <div className="flex flex-wrap items-center gap-2 mt-1 text-sm text-gray-500">
 //                                             <span className="bg-gray-100 px-2 py-0.5 rounded text-xs uppercase font-semibold">
 //                                                 {patient.gender}
 //                                             </span>
@@ -238,18 +238,18 @@
 
 //                                     <button
 //                                         onClick={() => deletePatient(patient._id)}
-//                                         className="text-gray-300 hover:text-red-500 transition-colors p-2 hover:bg-red-50 rounded-full"
+//                                         className="p-2 text-gray-300 transition-colors rounded-full hover:text-red-500 hover:bg-red-50"
 //                                     >
 //                                         <Trash2 size={18} />
 //                                     </button>
 //                                 </div>
 
-//                                 <div className="space-y-2 mb-6">
-//                                     <div className="flex items-center gap-2 text-gray-600 text-sm">
+//                                 <div className="mb-6 space-y-2">
+//                                     <div className="flex items-center gap-2 text-sm text-gray-600">
 //                                         <Phone size={14} className="text-indigo-400" /> {patient.contact}
 //                                     </div>
 
-//                                     <div className="flex items-center justify-between text-sm bg-indigo-50 p-2 rounded-lg text-indigo-700 font-medium">
+//                                     <div className="flex items-center justify-between p-2 text-sm font-medium text-indigo-700 rounded-lg bg-indigo-50">
 //                                         <span>Total Records</span>
 //                                         <span className="bg-white px-2 py-0.5 rounded shadow-sm">{patient.testCount}</span>
 //                                     </div>
@@ -257,7 +257,7 @@
 
 //                                 <Link
 //                                     to={`/patient/${patient._id}`}
-//                                     className="block w-full text-center bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-indigo-600 transition-colors flex justify-center items-center gap-2"
+//                                     className="flex items-center justify-center block w-full gap-2 py-3 font-medium text-center text-white transition-colors bg-gray-900 rounded-xl hover:bg-indigo-600"
 //                                 >
 //                                     View Details <ArrowRight size={16} />
 //                                 </Link>
@@ -273,7 +273,7 @@
 // // ---------- STAT CARD COMPONENT ----------
 // const Card = ({ title, value, from, to }) => (
 //     <div className={`bg-gradient-to-br ${from} ${to} rounded-2xl p-6 text-white shadow-xl transform hover:scale-[1.03] transition-all`}>
-//         <h3 className="text-white/80 font-medium mb-1">{title}</h3>
+//         <h3 className="mb-1 font-medium text-white/80">{title}</h3>
 //         <div className="text-4xl font-bold">{value}</div>
 //     </div>
 // );
@@ -338,18 +338,17 @@
 //         <div className="space-y-8">
 
 
-//             <div className="flex flex-col sm:flex-row items-center justify-between gap-4
-//                 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+//             <div className="flex flex-col items-center justify-between gap-4 p-4 bg-white border border-gray-200 shadow-sm sm:flex-row // rounded-xl">
 
 //                 {/* Title */}
-//                 <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+//                 <h3 className="text-lg font-semibold text-gray-900 sm:text-xl">
 //                     Patient Directory
 //                 </h3>
 
 //                 {/* Search */}
 //                 <div className="relative w-full sm:w-72">
 //                     <Search
-//                         className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+//                         className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2"
 //                         size={18}
 //                     />
 //                     <input
@@ -368,14 +367,14 @@
 
 
 //             {/* ---------- STAT CARDS ---------- */}
-//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+//             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 //                 <StatCard title="Total Patients" value={patients.length} />
 //                 <StatCard title="Active Today" value={activeToday} />
 //                 <StatCard title="Critical Cases" value={criticalCases} />
 //             </div>
 
 //             {/* ---------- HEADER ---------- */}
-//             {/* <div className="flex flex-col sm:flex-row justify-between gap-3 items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+//             {/* <div className="flex flex-col items-center justify-between gap-3 p-4 bg-white border border-gray-100 shadow-sm sm:flex-row rounded-xl">
 
 //                 <h3 className="text-xl font-bold text-gray-800">
 //                     Patient Directory
@@ -384,7 +383,7 @@
             
 //                 <div className="relative w-full sm:w-64">
 //                     <Search
-//                         className="absolute left-3 top-3 text-gray-400"
+//                         className="absolute text-gray-400 left-3 top-3"
 //                         size={18}
 //                     />
 //                     <input
@@ -392,8 +391,7 @@
 //                         placeholder="Search patients..."
 //                         value={search}
 //                         onChange={(e) => setSearch(e.target.value)}
-//                         className="pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg 
-//                        focus:ring-2 ring-indigo-500 outline-none w-full transition-all"
+//                         className="w-full py-2 pl-10 pr-4 transition-all border border-gray-200 rounded-lg outline-none bg-gray-50 // focus:ring-2 ring-indigo-500"
 //                     />
 //                 </div>
 
@@ -402,17 +400,17 @@
 
 //             {/* ✅ CAMP CARD (IMAGE STYLE) */}
 //             {/* <Link to="/camp" className="block max-w-sm">
-//                 <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition cursor-pointer">
+//                 <div className="p-6 transition bg-white shadow-lg cursor-pointer rounded-2xl hover:shadow-xl">
 //                     <h2 className="text-lg font-bold text-gray-900">Camp-1</h2>
 
-//                     <div className="flex items-center gap-2 text-gray-600 mt-2">
+//                     <div className="flex items-center gap-2 mt-2 text-gray-600">
 //                         <MapPin size={16} className="text-red-500" />
 //                         <span>Madhapur</span>
 //                     </div>
 
                     
 
-//                     <div className="flex items-center gap-2 text-gray-700 mt-3 font-medium">
+//                     <div className="flex items-center gap-2 mt-3 font-medium text-gray-700">
 //                         <Users size={18} />
 //                         <span>Participants: {patients.length}</span>
 //                     </div>
@@ -488,13 +486,13 @@
 
 //             {/* ---------- SEARCH ---------- */}
 //             <div className="relative w-full sm:w-64">
-//                 <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+//                 <Search className="absolute text-gray-400 left-3 top-3" size={18} />
 //                 <input
 //                     type="text"
 //                     placeholder="Search patients..."
 //                     value={search}
 //                     onChange={(e) => setSearch(e.target.value)}
-//                     className="pl-10 pr-4 py-2 bg-gray-50 rounded-lg w-full"
+//                     className="w-full py-2 pl-10 pr-4 rounded-lg bg-gray-50"
 //                 />
 //             </div>
 
@@ -502,19 +500,19 @@
 //             {loading ? (
 //                 <div className="text-center text-gray-500">Loading...</div>
 //             ) : (
-//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 //                     {filtered.map(patient => (
-//                         <div key={patient._id} className="bg-white rounded-2xl shadow border p-6">
+//                         <div key={patient._id} className="p-6 bg-white border shadow rounded-2xl">
 //                             <div className="flex justify-between mb-4">
 //                                 <h4 className="font-bold">{patient.name}</h4>
 //                                 <Trash2
 //                                     size={18}
 //                                     onClick={() => deletePatient(patient._id)}
-//                                     className="cursor-pointer text-red-400"
+//                                     className="text-red-400 cursor-pointer"
 //                                 />
 //                             </div>
 
-//                             <p className="text-sm text-gray-600 flex items-center gap-2">
+//                             <p className="flex items-center gap-2 text-sm text-gray-600">
 //                                 <Phone size={14} /> {patient.contact}
 //                             </p>
 
@@ -622,37 +620,54 @@ const [selectedCampId, setSelectedCampId] = useState("all");
         <div className="space-y-8">
 
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4
-                bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+            <div className="flex flex-col items-center justify-between gap-2 p-2 bg-white border border-gray-200 shadow-sm sm:flex-row rounded-xl">
 
-                {/* Title */}
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
-                    Patient Directory
-                </h3>
+  {/* LEFT : Title */}
+  <h3 className="text-lg font-semibold text-gray-900 sm:text-xl">
+    Patient Directory
+  </h3>
 
-                {/* Search */}
-                <div className="relative w-full sm:w-72">
-                    <Search
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        size={18}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Search patients"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 text-sm
-                 bg-white border border-gray-300 rounded-lg
-                 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20
-                 outline-none transition"
-                    />
-                </div>
+  {/* RIGHT : Search + All Camps */}
+  <div className="flex items-center w-full gap-4 sm:w-auto">
 
-            </div>
+    {/* Search */}
+    <div className="relative w-full sm:w-72">
+      <Search
+        className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2"
+        size={18}
+      />
+      <input
+        type="text"
+        placeholder="Search patients"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-full pl-10 pr-4 py-2 text-sm
+          bg-white border border-gray-300 rounded-lg
+          focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20
+          outline-none transition"
+      />
+    </div>
+
+    {/* ALL CAMPS CARD */}
+    <div
+      onClick={() => setSelectedCampId("all")}
+      className={`cursor-pointer min-w-[140px] rounded-lg px-4 py-2 border text-center
+        ${selectedCampId === "all"
+          ? "bg-[#2563EB] text-white"
+          : "bg-white text-gray-700 hover:bg-gray-50"
+        }`}
+    >
+      <h2 className="text-sm font-semibold">All Camps</h2>
+      {/* <p className="text-xs opacity-80">All Patients</p> */}
+    </div>
+
+  </div>
+</div>
+
 
 
             {/* ---------- STAT CARDS ---------- */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 {/* <StatCard title="Total Patients" value={patients.length} />
 <StatCard title="Active Today" value={activeToday} />
 <StatCard title="Critical Cases" value={criticalCases} /> */}
@@ -665,7 +680,7 @@ const [selectedCampId, setSelectedCampId] = useState("all");
             </div>
 
             {/* ---------- HEADER ---------- */}
-            {/* <div className="flex flex-col sm:flex-row justify-between gap-3 items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            {/* <div className="flex flex-col items-center justify-between gap-3 p-4 bg-white border border-gray-100 shadow-sm sm:flex-row rounded-xl">
 
                 <h3 className="text-xl font-bold text-gray-800">
                     Patient Directory
@@ -674,7 +689,7 @@ const [selectedCampId, setSelectedCampId] = useState("all");
             
                 <div className="relative w-full sm:w-64">
                     <Search
-                        className="absolute left-3 top-3 text-gray-400"
+                        className="absolute text-gray-400 left-3 top-3"
                         size={18}
                     />
                     <input
@@ -682,8 +697,7 @@ const [selectedCampId, setSelectedCampId] = useState("all");
                         placeholder="Search patients..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg 
-                       focus:ring-2 ring-indigo-500 outline-none w-full transition-all"
+                        className="w-full py-2 pl-10 pr-4 transition-all border border-gray-200 rounded-lg outline-none bg-gray-50 focus:ring-2 ring-indigo-500"
                     />
                 </div>
 
@@ -692,17 +706,17 @@ const [selectedCampId, setSelectedCampId] = useState("all");
 
             {/* ✅ CAMP CARD (IMAGE STYLE) */}
             {/* <Link to="/camp" className="block max-w-sm">
-                <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition cursor-pointer">
+                <div className="p-6 transition bg-white shadow-lg cursor-pointer rounded-2xl hover:shadow-xl">
                     <h2 className="text-lg font-bold text-gray-900">Camp-1</h2>
 
-                    <div className="flex items-center gap-2 text-gray-600 mt-2">
+                    <div className="flex items-center gap-2 mt-2 text-gray-600">
                         <MapPin size={16} className="text-red-500" />
                         <span>Madhapur</span>
                     </div>
 
                     
 
-                    <div className="flex items-center gap-2 text-gray-700 mt-3 font-medium">
+                    <div className="flex items-center gap-2 mt-3 font-medium text-gray-700">
                         <Users size={18} />
                         <span>Participants: {patients.length}</span>
                     </div>
@@ -710,7 +724,7 @@ const [selectedCampId, setSelectedCampId] = useState("all");
             </Link> */}
             <div className="flex flex-wrap gap-5">
   {/* ALL CAMPS */}
-  <div
+  {/* <div
     onClick={() => setSelectedCampId("all")}
     className={`cursor-pointer w-[260px] rounded-xl p-4 border
       ${selectedCampId === "all"
@@ -719,8 +733,8 @@ const [selectedCampId, setSelectedCampId] = useState("all");
       }`}
   >
     <h2 className="text-sm font-semibold">All Camps</h2>
-    <p className="text-sm mt-2">All Patients</p>
-  </div>
+    <p className="mt-2 text-sm">All Patients</p>
+  </div> */}
 
   {/* INDIVIDUAL CAMPS */}
   {/* INDIVIDUAL CAMPS */}
@@ -751,31 +765,13 @@ const [selectedCampId, setSelectedCampId] = useState("all");
 ))}
 </div>
 
-
-
-
-
-
-
-            {/* ---------- SEARCH ---------- */}
-            <div className="relative w-full sm:w-64">
-                <Search className="absolute left-3 top-3 text-gray-400" size={18} />
-                <input
-                    type="text"
-                    placeholder="Search patients..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="pl-10 pr-4 py-2 bg-gray-50 rounded-lg w-full"
-                />
-            </div>
-
             {/* ---------- PATIENT CARDS ---------- */}
             {loading ? (
                 <div className="text-center text-gray-500">Loading...</div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {filtered.map(patient => (
-                        <div key={patient._id} className="bg-white rounded-2xl shadow border p-6">
+                        <div key={patient._id} className="p-6 bg-white border shadow rounded-2xl">
                             <div className="flex justify-between mb-4">
     <div>
         <h4 className="font-bold">{patient.name}</h4>
@@ -790,12 +786,12 @@ const [selectedCampId, setSelectedCampId] = useState("all");
     <Trash2
         size={18}
         onClick={() => deletePatient(patient._id)}
-        className="cursor-pointer text-red-400"
+        className="text-red-400 cursor-pointer"
     />
 </div>
 
 
-                            <p className="text-sm text-gray-600 flex items-center gap-2">
+                            <p className="flex items-center gap-2 text-sm text-gray-600">
                                 <Phone size={14} /> {patient.contact}
                             </p>
 
@@ -888,7 +884,7 @@ export default Dashboard;
 //       <Icon size={24} className="text-white" />
 //     </div>
 //     <div>
-//       <p className="text-sm text-gray-500 font-medium">{title}</p>
+//       <p className="text-sm font-medium text-gray-500">{title}</p>
 //       <h3 className="text-2xl font-bold text-gray-800">{value}</h3>
 //     </div>
 //   </div>
@@ -1071,15 +1067,15 @@ export default Dashboard;
 //   };
 
 //   return (
-//     <div className="min-h-screen bg-gray-50/50 p-6 md:p-8 space-y-8 animate-fade-in">
+//     <div className="min-h-screen p-6 space-y-8 bg-gray-50/50 md:p-8 animate-fade-in">
 
 //       {/* HEADER Section */}
-//       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+//       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
 //         <div>
-//           <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Camp Dashboard</h1>
-//           <p className="text-gray-500 mt-1">Manage health camps, participants, and reports.</p>
+//           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Camp Dashboard</h1>
+//           <p className="mt-1 text-gray-500">Manage health camps, participants, and reports.</p>
 //         </div>
-//         <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
+//         <div className="flex items-center gap-3 px-4 py-2 bg-white border border-gray-100 shadow-sm rounded-xl">
 //           <Calendar size={18} className="text-indigo-600" />
 //           <span className="text-sm font-medium text-gray-700">
 //             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
@@ -1088,7 +1084,7 @@ export default Dashboard;
 //       </div>
 
 //       {/* STATS Section */}
-//       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+//       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //         <StatsCard
 //           title="Total Camps"
 //           value={totalCamps}
@@ -1109,13 +1105,13 @@ export default Dashboard;
 //         />
 //       </div>
 
-//       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+//       <div className="grid items-start grid-cols-1 gap-8 lg:grid-cols-4">
 
        
-//         <div className="lg:col-span-1 space-y-6">
+//         <div className="space-y-6 lg:col-span-1">
 //           <div className="flex items-center justify-between">
 //             <h3 className="text-lg font-bold text-gray-800">Camps</h3>
-//             <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+//             <span className="px-2 py-1 text-xs font-semibold text-indigo-700 bg-indigo-100 rounded-full">
 //               {camps.length} Active
 //             </span>
 //           </div>
@@ -1130,7 +1126,7 @@ export default Dashboard;
 //                 }`}
 //             >
 //               <div className="flex items-center justify-between">
-//                 <span className="font-semibold text-lg">All Camps</span>
+//                 <span className="text-lg font-semibold">All Camps</span>
 //                 {selectedCampId === "all" && <ChevronRight size={20} />}
 //               </div>
 //               <p className={`text-sm mt-1 ${selectedCampId === "all" ? "text-indigo-100" : "text-gray-500"}`}>
@@ -1148,7 +1144,7 @@ export default Dashboard;
 //                   : "bg-white hover:border-indigo-300 hover:shadow-md"
 //                   }`}
 //               >
-//                 <div className="flex justify-between items-start">
+//                 <div className="flex items-start justify-between">
 //                   <div>
 //                     <h4 className={`font-bold ${selectedCampId === camp._id ? "text-white" : "text-gray-800"}`}>
 //                       {camp.name}
@@ -1170,43 +1166,43 @@ export default Dashboard;
 //               </div>
 //             ))}
 //             {camps.length === 0 && !loading && (
-//               <div className="text-center p-6 bg-white rounded-2xl border border-dashed">
-//                 <p className="text-gray-500 text-sm">No camps found.</p>
+//               <div className="p-6 text-center bg-white border border-dashed rounded-2xl">
+//                 <p className="text-sm text-gray-500">No camps found.</p>
 //               </div>
 //             )}
 //           </div>
 //         </div>
 
     
-//         <div className="lg:col-span-3 space-y-6">
+//         <div className="space-y-6 lg:col-span-3">
 
 //           {/* Controls */}
-//           <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+//           <div className="flex flex-col items-center justify-between gap-4 p-4 bg-white border border-gray-100 shadow-sm rounded-2xl sm:flex-row">
 //             <div className="relative w-full sm:max-w-md">
-//               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+//               <Search className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2" size={18} />
 //               <input
 //                 type="text"
 //                 placeholder="Search by name, phone or camp..."
-//                 className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+//                 className="w-full py-2 pl-10 pr-4 transition-all border border-gray-200 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
 //                 value={searchQuery}
 //                 onChange={(e) => setSearchQuery(e.target.value)}
 //               />
 //             </div>
-//             <div className="flex items-center gap-2 text-gray-500 text-sm">
+//             <div className="flex items-center gap-2 text-sm text-gray-500">
 //               <Filter size={16} />
 //               <span>Showing {filteredPatients.length} participants</span>
 //             </div>
 //           </div>
 
 //           {/* Table Container -- UPDATED COLUMNS */}
-//           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+//           <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-2xl">
 //             <div className="overflow-x-auto">
 //               <table className="w-full text-left">
 //                 <thead>
-//                   <tr className="bg-gray-50/50 border-b border-gray-100">
-//                     <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Name</th>
-//                     <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Phone</th>
-//                     <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Reports</th>
+//                   <tr className="border-b border-gray-100 bg-gray-50/50">
+//                     <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">Name</th>
+//                     <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">Phone</th>
+//                     <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">Reports</th>
 //                   </tr>
 //                 </thead>
 //                 <tbody className="divide-y divide-gray-100">
@@ -1214,18 +1210,18 @@ export default Dashboard;
 //                     <tr>
 //                       <td colSpan={3} className="p-8 text-center text-gray-500">
 //                         <div className="flex flex-col items-center gap-2">
-//                           <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+//                           <div className="w-6 h-6 border-2 border-indigo-500 rounded-full border-t-transparent animate-spin"></div>
 //                           <span>Loading participants...</span>
 //                         </div>
 //                       </td>
 //                     </tr>
 //                   ) : filteredPatients.length > 0 ? (
 //                     filteredPatients.map((patient) => (
-//                       <tr key={patient._id} className="group hover:bg-gray-50/80 transition-colors">
+//                       <tr key={patient._id} className="transition-colors group hover:bg-gray-50/80">
 //                         {/* NAME Column */}
 //                         <td className="p-4">
 //                           <div className="flex items-center gap-3">
-//                             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-indigo-700 font-bold text-sm">
+//                             <div className="flex items-center justify-center w-10 h-10 text-sm font-bold text-indigo-700 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100">
 //                               {patient.name.charAt(0).toUpperCase()}
 //                             </div>
 //                             <div>
@@ -1237,7 +1233,7 @@ export default Dashboard;
 
 //                         {/* PHONE Column */}
 //                         <td className="p-4">
-//                           <span className="text-sm text-gray-700 font-medium">
+//                           <span className="text-sm font-medium text-gray-700">
 //                             {patient.contact || "N/A"}
 //                           </span>
 //                         </td>
@@ -1279,7 +1275,7 @@ export default Dashboard;
 //                   ) : (
 //                     <tr>
 //                       <td colSpan={3} className="p-12 text-center">
-//                         <div className="flex flex-col items-center justify-center text-gray-400 gap-3">
+//                         <div className="flex flex-col items-center justify-center gap-3 text-gray-400">
 //                           <Users size={48} className="opacity-20" />
 //                           <p className="text-lg font-medium">No participants found</p>
 //                           <p className="text-sm">Try adjusting your search or filters.</p>
@@ -1295,23 +1291,23 @@ export default Dashboard;
 //           {/* --- SHARE GUIDANCE MODAL --- */}
 //           {showShareModal && (
 //             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-//               <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden animate-scale-in">
-//                 <div className="bg-green-600 p-6 text-center text-white">
-//                   <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+//               <div className="w-full max-w-sm overflow-hidden bg-white shadow-2xl rounded-3xl animate-scale-in">
+//                 <div className="p-6 text-center text-white bg-green-600">
+//                   <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-white/20">
 //                     <MessageCircle size={32} />
 //                   </div>
 //                   <h3 className="text-xl font-bold">Report Ready!</h3>
 //                 </div>
 //                 <div className="p-8 space-y-4">
-//                   <p className="text-gray-600 text-center leading-relaxed">
+//                   <p className="leading-relaxed text-center text-gray-600">
 //                     The PDF report has been <strong>downloaded</strong> to your computer.
 //                   </p>
-//                   <div className="bg-green-50 p-4 rounded-2xl border-2 border-dashed border-green-200">
-//                     <p className="text-sm text-green-800 font-bold text-center">
+//                   <div className="p-4 border-2 border-green-200 border-dashed bg-green-50 rounded-2xl">
+//                     <p className="text-sm font-bold text-center text-green-800">
 //                       ⚠️ DESKTOP STEPS:
-//                       <span className="block font-medium mt-2">1. The PDF is now in your <b>Downloads</b>.</span>
-//                       <span className="block font-medium mt-1">2. Click "Open WhatsApp Chat" below.</span>
-//                       <span className="block font-medium mt-1">3. <b>Drag the PDF</b> into the chat!</span>
+//                       <span className="block mt-2 font-medium">1. The PDF is now in your <b>Downloads</b>.</span>
+//                       <span className="block mt-1 font-medium">2. Click "Open WhatsApp Chat" below.</span>
+//                       <span className="block mt-1 font-medium">3. <b>Drag the PDF</b> into the chat!</span>
 //                     </p>
 //                   </div>
 //                   <button
@@ -1319,13 +1315,13 @@ export default Dashboard;
 //                       window.open(currentWhatsAppUrl, "_blank");
 //                       setShowShareModal(false);
 //                     }}
-//                     className="w-full py-4 bg-green-600 text-white rounded-2xl font-bold hover:bg-green-700 transition-all shadow-lg shadow-green-100 flex items-center justify-center gap-2"
+//                     className="flex items-center justify-center w-full gap-2 py-4 font-bold text-white transition-all bg-green-600 shadow-lg rounded-2xl hover:bg-green-700 shadow-green-100"
 //                   >
 //                     Open WhatsApp Chat
 //                   </button>
 //                   <button
 //                     onClick={() => setShowShareModal(false)}
-//                     className="w-full py-2 text-sm text-gray-400 font-medium hover:text-gray-600 transition-colors"
+//                     className="w-full py-2 text-sm font-medium text-gray-400 transition-colors hover:text-gray-600"
 //                   >
 //                     Close
 //                   </button>

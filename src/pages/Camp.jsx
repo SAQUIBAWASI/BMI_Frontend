@@ -61,7 +61,7 @@
 //       <Icon size={24} className="text-white" />
 //     </div>
 //     <div>
-//       <p className="text-sm text-gray-500 font-medium">{title}</p>
+//       <p className="text-sm font-medium text-gray-500">{title}</p>
 //       <h3 className="text-2xl font-bold text-gray-800">{value}</h3>
 //     </div>
 //   </div>
@@ -312,15 +312,15 @@
 //   }, []);
 
 //   return (
-//     <div className="min-h-screen bg-gray-50/50 p-6 md:p-8 space-y-8 animate-fade-in">
+//     <div className="min-h-screen p-6 space-y-8 bg-gray-50/50 md:p-8 animate-fade-in">
 
 //       {/* HEADER Section */}
-//       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+//       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
 //         <div>
-//           <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Camp Dashboard</h1>
-//           <p className="text-gray-500 mt-1">Manage health camps, participants, and reports.</p>
+//           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Camp Dashboard</h1>
+//           <p className="mt-1 text-gray-500">Manage health camps, participants, and reports.</p>
 //         </div>
-//         <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
+//         <div className="flex items-center gap-3 px-4 py-2 bg-white border border-gray-100 shadow-sm rounded-xl">
 //           <Calendar size={18} className="text-indigo-600" />
 //           <span className="text-sm font-medium text-gray-700">
 //             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
@@ -329,7 +329,7 @@
 //       </div>
 
 //       {/* STATS Section */}
-//       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+//       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //         <StatsCard
 //           title="Total Camps"
 //           value={totalCamps}
@@ -350,13 +350,13 @@
 //         />
 //       </div>
 
-//       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+//       <div className="grid items-start grid-cols-1 gap-8 lg:grid-cols-4">
 
 //         {/* LEFT SIDEBAR - CAMP LIST */}
-//         <div className="lg:col-span-1 space-y-6">
+//         <div className="space-y-6 lg:col-span-1">
 //           <div className="flex items-center justify-between">
 //             <h3 className="text-lg font-bold text-gray-800">Camps</h3>
-//             <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+//             <span className="px-2 py-1 text-xs font-semibold text-indigo-700 bg-indigo-100 rounded-full">
 //               {camps.length} Active
 //             </span>
 //           </div>
@@ -371,7 +371,7 @@
 //                 }`}
 //             >
 //               <div className="flex items-center justify-between">
-//                 <span className="font-semibold text-lg">All Camps</span>
+//                 <span className="text-lg font-semibold">All Camps</span>
 //                 {selectedCampId === "all" && <ChevronRight size={20} />}
 //               </div>
 //               <p className={`text-sm mt-1 ${selectedCampId === "all" ? "text-indigo-100" : "text-gray-500"}`}>
@@ -389,7 +389,7 @@
 //                   : "bg-white hover:border-indigo-300 hover:shadow-md"
 //                   }`}
 //               >
-//                 <div className="flex justify-between items-start">
+//                 <div className="flex items-start justify-between">
 //                   <div>
 //                     <h4 className={`font-bold ${selectedCampId === camp._id ? "text-white" : "text-gray-800"}`}>
 //                       {camp.name}
@@ -411,43 +411,43 @@
 //               </div>
 //             ))}
 //             {camps.length === 0 && !loading && (
-//               <div className="text-center p-6 bg-white rounded-2xl border border-dashed">
-//                 <p className="text-gray-500 text-sm">No camps found.</p>
+//               <div className="p-6 text-center bg-white border border-dashed rounded-2xl">
+//                 <p className="text-sm text-gray-500">No camps found.</p>
 //               </div>
 //             )}
 //           </div>
 //         </div>
 
 //         {/* RIGHT SIDE - PARTICIPANTS TABLE */}
-//         <div className="lg:col-span-3 space-y-6">
+//         <div className="space-y-6 lg:col-span-3">
 
 //           {/* Controls */}
-//           <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+//           <div className="flex flex-col items-center justify-between gap-4 p-4 bg-white border border-gray-100 shadow-sm rounded-2xl sm:flex-row">
 //             <div className="relative w-full sm:max-w-md">
-//               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+//               <Search className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2" size={18} />
 //               <input
 //                 type="text"
 //                 placeholder="Search by name, phone or camp..."
-//                 className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+//                 className="w-full py-2 pl-10 pr-4 transition-all border border-gray-200 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
 //                 value={searchQuery}
 //                 onChange={(e) => setSearchQuery(e.target.value)}
 //               />
 //             </div>
-//             <div className="flex items-center gap-2 text-gray-500 text-sm">
+//             <div className="flex items-center gap-2 text-sm text-gray-500">
 //               <Filter size={16} />
 //               <span>Showing {filteredPatients.length} participants</span>
 //             </div>
 //           </div>
 
 //           {/* Table Container */}
-//           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+//           <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-2xl">
 //             <div className="overflow-x-auto">
 //               <table className="w-full text-left">
 //                 <thead>
-//                   <tr className="bg-gray-50/50 border-b border-gray-100">
-//                     <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Name</th>
-//                     <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Phone</th>
-//                     <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Reports</th>
+//                   <tr className="border-b border-gray-100 bg-gray-50/50">
+//                     <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">Name</th>
+//                     <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">Phone</th>
+//                     <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">Reports</th>
 //                   </tr>
 //                 </thead>
 //                 <tbody className="divide-y divide-gray-100">
@@ -455,18 +455,18 @@
 //                     <tr>
 //                       <td colSpan={3} className="p-8 text-center text-gray-500">
 //                         <div className="flex flex-col items-center gap-2">
-//                           <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+//                           <div className="w-6 h-6 border-2 border-indigo-500 rounded-full border-t-transparent animate-spin"></div>
 //                           <span>Loading participants...</span>
 //                         </div>
 //                       </td>
 //                     </tr>
 //                   ) : filteredPatients.length > 0 ? (
 //                     filteredPatients.map((patient) => (
-//                       <tr key={patient._id} className="group hover:bg-gray-50/80 transition-colors">
+//                       <tr key={patient._id} className="transition-colors group hover:bg-gray-50/80">
 //                         {/* NAME Column */}
 //                         <td className="p-4">
 //                           <div className="flex items-center gap-3">
-//                             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-indigo-700 font-bold text-sm">
+//                             <div className="flex items-center justify-center w-10 h-10 text-sm font-bold text-indigo-700 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100">
 //                               {patient.name.charAt(0).toUpperCase()}
 //                             </div>
 //                             <div>
@@ -478,7 +478,7 @@
 
 //                         {/* PHONE Column */}
 //                         <td className="p-4">
-//                           <span className="text-sm text-gray-700 font-medium">
+//                           <span className="text-sm font-medium text-gray-700">
 //                             {patient.contact || "N/A"}
 //                           </span>
 //                         </td>
@@ -520,7 +520,7 @@
 //                   ) : (
 //                     <tr>
 //                       <td colSpan={3} className="p-12 text-center">
-//                         <div className="flex flex-col items-center justify-center text-gray-400 gap-3">
+//                         <div className="flex flex-col items-center justify-center gap-3 text-gray-400">
 //                           <Users size={48} className="opacity-20" />
 //                           <p className="text-lg font-medium">No participants found</p>
 //                           <p className="text-sm">Try adjusting your search or filters.</p>
@@ -536,20 +536,20 @@
 //           {/* --- SHARE MODAL --- */}
 //           {showShareModal && currentPatient && (
 //             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-//               <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden animate-scale-in">
-//                 <div className="bg-green-600 p-6 text-center text-white">
-//                   <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+//               <div className="w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-3xl animate-scale-in">
+//                 <div className="p-6 text-center text-white bg-green-600">
+//                   <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-white/20">
 //                     <MessageCircle size={32} />
 //                   </div>
 //                   <h3 className="text-xl font-bold">Share Report on WhatsApp</h3>
-//                   <p className="text-green-100 text-sm mt-1">Download link generated successfully!</p>
+//                   <p className="mt-1 text-sm text-green-100">Download link generated successfully!</p>
 //                 </div>
 //                 <div className="p-6 space-y-6">
 
 //                   {/* Patient Info */}
-//                   <div className="bg-gray-50 p-4 rounded-2xl">
+//                   <div className="p-4 bg-gray-50 rounded-2xl">
 //                     <div className="flex items-center gap-3">
-//                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-green-700 font-bold text-lg">
+//                       <div className="flex items-center justify-center w-12 h-12 text-lg font-bold text-green-700 rounded-full bg-gradient-to-br from-green-100 to-emerald-100">
 //                         {currentPatient.name.charAt(0).toUpperCase()}
 //                       </div>
 //                       <div>
@@ -562,14 +562,14 @@
 //                   </div>
 
 //                   {/* Message Preview */}
-//                   <div className="border-2 border-dashed border-green-200 rounded-2xl p-4 bg-green-50/50">
-//                     <p className="text-sm font-bold text-green-800 mb-2">📄 WhatsApp Message Preview:</p>
-//                     <div className="bg-white p-3 rounded-lg border border-green-100 max-h-40 overflow-y-auto">
+//                   <div className="p-4 border-2 border-green-200 border-dashed rounded-2xl bg-green-50/50">
+//                     <p className="mb-2 text-sm font-bold text-green-800">📄 WhatsApp Message Preview:</p>
+//                     <div className="p-3 overflow-y-auto bg-white border border-green-100 rounded-lg max-h-40">
 //                       <pre className="text-xs text-gray-700 whitespace-pre-wrap">
 //                         {downloadLink}
 //                       </pre>
 //                     </div>
-//                     <p className="text-xs text-gray-500 mt-2">
+//                     <p className="mt-2 text-xs text-gray-500">
 //                       Patient will receive this message with a clickable download link.
 //                     </p>
 //                   </div>
@@ -605,7 +605,7 @@
 //                         setShowShareModal(false);
 //                         cleanupGeneratedFiles();
 //                       }}
-//                       className="w-full py-2 text-sm text-gray-400 font-medium hover:text-gray-600 transition-colors"
+//                       className="w-full py-2 text-sm font-medium text-gray-400 transition-colors hover:text-gray-600"
 //                     >
 //                       Cancel
 //                     </button>
@@ -688,7 +688,7 @@ const StatsCard = ({ title, value, icon: Icon, colorClass }) => (
       <Icon size={24} className="text-white" />
     </div>
     <div>
-      <p className="text-sm text-gray-500 font-medium">{title}</p>
+      <p className="text-sm font-medium text-gray-500">{title}</p>
       <h3 className="text-2xl font-bold text-gray-800">{value}</h3>
     </div>
   </div>
@@ -757,8 +757,9 @@ useEffect(() => {
     return patients.filter(p => {
       // 1. Filter by Camp
       if (selectedCampId !== "all") {
-        if (p.campId?._id !== selectedCampId) return false;
-      }
+  if (String(p.campId?._id) !== String(selectedCampId)) return false;
+}
+
 
       // 2. Filter by Search
       if (searchQuery) {
@@ -783,7 +784,9 @@ useEffect(() => {
 
   const campsWithCount = useMemo(() => {
     return camps.map(c => {
-      const count = patients.filter(p => p.campId?._id === c._id).length;
+     const count = patients.filter(
+  p => String(p.campId?._id) === String(c._id)
+).length;
       return { ...c, count };
     });
   }, [camps, patients]);
@@ -1010,39 +1013,16 @@ const handleCreateCamp = async () => {
   }
 };
 
-
-  // Cleanup blob URLs when component unmounts or modal closes
-  // const cleanupGeneratedFiles = () => {
-  //   if (generatedReportFile) {
-  //     URL.revokeObjectURL(generatedReportFile.blobUrl);
-  //     setGeneratedReportFile(null);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   return () => {
-  //     cleanupGeneratedFiles();
-  //   };
-  // }, []);
-  // 👇 YAHAN PASTE KARO (return se pehle)
-const getCampNameById = (campId) => {
-  if (!campId || !Array.isArray(campsWithCount)) return "N/A";
-
-  const camp = campsWithCount.find(c => c._id === campId);
-  return camp?.name || "N/A";
-};
-
-
   return (
-    <div className="min-h-screen bg-gray-50/50 p-0 md:p-0 space-y-1 animate-fade-in">
+    <div className="min-h-screen p-0 space-y-1 bg-gray-50/50 md:p-0 animate-fade-in">
 
       {/* HEADER Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Camp Dashboard</h1>
-          <p className="text-gray-500 mt-1">Manage health camps, participants, and reports.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Camp Dashboard</h1>
+          <p className="mt-1 text-gray-500">Manage health camps, participants, and reports.</p>
         </div>
-        <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
+        <div className="flex items-center gap-3 px-4 py-2 bg-white border border-gray-100 shadow-sm rounded-xl">
           <Calendar size={18} className="text-indigo-600" />
           <span className="text-sm font-medium text-gray-700">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
@@ -1051,7 +1031,7 @@ const getCampNameById = (campId) => {
       </div>
 
       {/* STATS Section */}
-<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div className="grid grid-cols-1 gap-6 md:grid-cols-4">
   <StatsCard
     title="Total Camps"
     value={totalCamps}
@@ -1084,7 +1064,7 @@ const getCampNameById = (campId) => {
 </div>
 
 
-      {/* <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start"> */}
+      {/* <div className="grid items-start grid-cols-1 gap-8 lg:grid-cols-4"> */}
 
         {/* ===== CAMPS ROW (Below Stats) ===== */}
 <div className="space-y-4">
@@ -1094,7 +1074,7 @@ const getCampNameById = (campId) => {
 
   <div className="flex items-center gap-3">
     {/* Active Badge */}
-    {/* <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+    {/* <span className="px-2 py-1 text-xs font-semibold text-indigo-700 bg-indigo-100 rounded-full">
       {camps.length} Active
     </span> */}
 
@@ -1123,7 +1103,7 @@ const getCampNameById = (campId) => {
 </div>
 
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     
     {/* ALL CAMPS CARD */}
     {/* <div
@@ -1134,7 +1114,7 @@ const getCampNameById = (campId) => {
           : "bg-white hover:border-indigo-300 hover:shadow-md text-gray-700"
         }`}
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <span className="font-semibold">All Camps</span>
         {selectedCampId === "all" && <ChevronRight size={18} />}
       </div>
@@ -1182,16 +1162,15 @@ const getCampNameById = (campId) => {
 
 
         {/* RIGHT SIDE - PARTICIPANTS TABLE */}
-        <div className="lg:col-span-3 space-y-6">
+        <div className="space-y-6 lg:col-span-3">
 
         {/* Controls */}
-<div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100
-                flex flex-col lg:flex-row justify-between items-center gap-4">
+<div className="flex flex-col items-center justify-between gap-4 p-2 bg-white border border-gray-100 shadow-sm rounded-2xl lg:flex-row">
 
   {/* Search */}
   <div className="relative w-full lg:max-w-md">
     <Search
-      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+      className="absolute text-gray-400 -translate-y-1/2 left-4 top-1/2"
       size={18}
     />
     <input
@@ -1208,7 +1187,7 @@ const getCampNameById = (campId) => {
   <div className="flex flex-wrap items-center gap-3">
 
     {/* Count */}
-    <div className="flex items-center gap-2 text-gray-500 text-sm mr-2">
+    <div className="flex items-center gap-2 mr-2 text-sm text-gray-500">
       <Filter size={16} />
       <span>Showing {filteredPatients.length} participants</span>
     </div>
@@ -1218,9 +1197,7 @@ const getCampNameById = (campId) => {
       {/* Create Camp */}
       {/* <button
   onClick={() => setShowCampModal(true)}
-  className="flex items-center gap-2 px-4 py-2 rounded-xl
-             bg-green-600 text-white text-sm font-medium
-             hover:bg-green-700 transition"
+  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition bg-green-600 rounded-xl hover:bg-green-700"
 >
   <Calendar size={16} />
   Create Camp
@@ -1234,9 +1211,7 @@ const getCampNameById = (campId) => {
             campId: selectedCampId
           }
         })}
-        className="flex items-center gap-2 px-4 py-2 rounded-xl
-                   bg-indigo-600 text-white text-sm font-medium
-                   hover:bg-indigo-700 transition"
+        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition bg-indigo-600 rounded-xl hover:bg-indigo-700"
       >
         <Plus size={16} />
         Add Patient
@@ -1249,23 +1224,23 @@ const getCampNameById = (campId) => {
 
 
          {/* Table Container */}
-<div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+<div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-2xl">
   <div className="overflow-x-auto">
     <table className="w-full text-left">
       
       {/* TABLE HEAD */}
       <thead>
-        <tr className="bg-gray-50/50 border-b border-gray-100">
-          <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+        <tr className="border-b border-gray-100 bg-gray-50/50">
+          <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">
             Name
           </th>
-          <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+          <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">
             Phone
           </th>
-          <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+          <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">
             Camp
           </th>
-          <th className="p-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+          <th className="p-4 text-xs font-bold tracking-wider text-gray-500 uppercase">
             Reports
           </th>
         </tr>
@@ -1277,7 +1252,7 @@ const getCampNameById = (campId) => {
           <tr>
             <td colSpan={4} className="p-8 text-center text-gray-500">
               <div className="flex flex-col items-center gap-2">
-                <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-6 h-6 border-2 border-indigo-500 rounded-full border-t-transparent animate-spin"></div>
                 <span>Loading participants...</span>
               </div>
             </td>
@@ -1286,13 +1261,13 @@ const getCampNameById = (campId) => {
           filteredPatients.map((patient) => (
             <tr
               key={patient._id}
-              className="group hover:bg-gray-50/80 transition-colors"
+              className="transition-colors group hover:bg-gray-50/80"
             >
 
               {/* NAME COLUMN */}
               <td className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-indigo-700 font-bold text-sm">
+                  <div className="flex items-center justify-center w-10 h-10 text-sm font-bold text-indigo-700 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100">
                     {patient.name?.charAt(0)?.toUpperCase()}
                   </div>
                   <div>
@@ -1308,18 +1283,20 @@ const getCampNameById = (campId) => {
 
               {/* PHONE COLUMN */}
               <td className="p-4">
-                <span className="text-sm text-gray-700 font-medium">
+                <span className="text-sm font-medium text-gray-700">
                   {patient.contact || "N/A"}
                 </span>
               </td>
 
-              <td className="p-4">
-  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
-    bg-emerald-50 text-emerald-700 border border-emerald-100">
-    {patient?.camp?.name ||
-     getCampNameById(patient?.campId || patient?.camp || patient?.camp_id)}
-  </span>
+             <td className="p-4">
+ <span className="px-3 py-1 text-sm text-green-700 bg-green-100 rounded-full">
+  {patient.campId?.name || "N/A"}
+</span>
+
+
 </td>
+
+
 
 
               {/* REPORTS COLUMN */}
@@ -1363,7 +1340,7 @@ const getCampNameById = (campId) => {
         ) : (
           <tr>
             <td colSpan={4} className="p-12 text-center">
-              <div className="flex flex-col items-center justify-center text-gray-400 gap-3">
+              <div className="flex flex-col items-center justify-center gap-3 text-gray-400">
                 <Users size={48} className="opacity-20" />
                 <p className="text-lg font-medium">No participants found</p>
                 <p className="text-sm">
@@ -1383,20 +1360,20 @@ const getCampNameById = (campId) => {
           {/* --- SHARE MODAL --- */}
           {showShareModal && currentPatient && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-              <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden animate-scale-in">
-                <div className="bg-green-600 p-6 text-center text-white">
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-3xl animate-scale-in">
+                <div className="p-6 text-center text-white bg-green-600">
+                  <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-white/20">
                     <MessageCircle size={32} />
                   </div>
                   <h3 className="text-xl font-bold">Share Report on WhatsApp</h3>
-                  <p className="text-green-100 text-sm mt-1">Download link generated successfully!</p>
+                  <p className="mt-1 text-sm text-green-100">Download link generated successfully!</p>
                 </div>
                 <div className="p-6 space-y-6">
 
                   {/* Patient Info */}
-                  <div className="bg-gray-50 p-4 rounded-2xl">
+                  <div className="p-4 bg-gray-50 rounded-2xl">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-green-700 font-bold text-lg">
+                      <div className="flex items-center justify-center w-12 h-12 text-lg font-bold text-green-700 rounded-full bg-gradient-to-br from-green-100 to-emerald-100">
                         {currentPatient.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
@@ -1409,14 +1386,14 @@ const getCampNameById = (campId) => {
                   </div>
 
                   {/* Message Preview */}
-                  <div className="border-2 border-dashed border-green-200 rounded-2xl p-4 bg-green-50/50">
-                    <p className="text-sm font-bold text-green-800 mb-2">📄 WhatsApp Message Preview:</p>
-                    <div className="bg-white p-3 rounded-lg border border-green-100 max-h-40 overflow-y-auto">
+                  <div className="p-4 border-2 border-green-200 border-dashed rounded-2xl bg-green-50/50">
+                    <p className="mb-2 text-sm font-bold text-green-800">📄 WhatsApp Message Preview:</p>
+                    <div className="p-3 overflow-y-auto bg-white border border-green-100 rounded-lg max-h-40">
                       <pre className="text-xs text-gray-700 whitespace-pre-wrap">
                         {downloadLink}
                       </pre>
                     </div>
-                    <p className="text-xs text-gray-500 mt-2">
+                    <p className="mt-2 text-xs text-gray-500">
                       Patient will receive this message with a clickable download link.
                     </p>
                   </div>
@@ -1452,7 +1429,7 @@ const getCampNameById = (campId) => {
                         setShowShareModal(false);
                         cleanupGeneratedFiles();
                       }}
-                      className="w-full py-2 text-sm text-gray-400 font-medium hover:text-gray-600 transition-colors"
+                      className="w-full py-2 text-sm font-medium text-gray-400 transition-colors hover:text-gray-600"
                     >
                       Cancel
                     </button>
@@ -1471,18 +1448,16 @@ const getCampNameById = (campId) => {
     <div className="fixed inset-0 z-[9999] bg-black/60">
 
       <div
-        className="fixed top-1/2 left-1/2 
-                   -translate-x-1/2 -translate-y-1/2
-                   w-full max-w-lg px-4"
+        className="fixed w-full max-w-lg px-4 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       >
-        <div className="bg-white rounded-2xl shadow-2xl p-6 space-y-5">
+        <div className="p-6 space-y-5 bg-white shadow-2xl rounded-2xl">
 
           <h2 className="text-xl font-bold text-gray-800">
             Create New Camp
           </h2>
 
           <input
-            className="w-full border rounded-xl px-4 py-2"
+            className="w-full px-4 py-2 border rounded-xl"
             placeholder="Camp Name"
             value={campForm.name}
             onChange={(e) =>
@@ -1491,7 +1466,7 @@ const getCampNameById = (campId) => {
           />
 
           <input
-            className="w-full border rounded-xl px-4 py-2"
+            className="w-full px-4 py-2 border rounded-xl"
             placeholder="Location"
             value={campForm.location}
             onChange={(e) =>
@@ -1500,7 +1475,7 @@ const getCampNameById = (campId) => {
           />
 
           <textarea
-            className="w-full border rounded-xl px-4 py-2"
+            className="w-full px-4 py-2 border rounded-xl"
             placeholder="Address"
             value={campForm.address}
             onChange={(e) =>
@@ -1510,7 +1485,7 @@ const getCampNameById = (campId) => {
 
           <input
             type="date"
-            className="w-full border rounded-xl px-4 py-2"
+            className="w-full px-4 py-2 border rounded-xl"
             value={campForm.date}
             onChange={(e) =>
               setCampForm({ ...campForm, date: e.target.value })
@@ -1518,7 +1493,7 @@ const getCampNameById = (campId) => {
           />
 
           <input
-            className="w-full border rounded-xl px-4 py-2"
+            className="w-full px-4 py-2 border rounded-xl"
             placeholder="Time"
             value={campForm.time}
             onChange={(e) =>
@@ -1529,14 +1504,14 @@ const getCampNameById = (campId) => {
           <div className="flex justify-end gap-3 pt-4">
             <button
               onClick={() => setShowCampModal(false)}
-              className="px-4 py-2 rounded-xl border"
+              className="px-4 py-2 border rounded-xl"
             >
               Cancel
             </button>
 
             <button
               onClick={handleCreateCamp}
-              className="px-4 py-2 rounded-xl bg-green-600 text-white"
+              className="px-4 py-2 text-white bg-green-600 rounded-xl"
             >
               Create Camp
             </button>
