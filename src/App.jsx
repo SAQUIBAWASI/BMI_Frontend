@@ -30,6 +30,7 @@ import Camp from "./pages/Camp";
 import Dashboard from "./pages/Dashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDetails from "./pages/PatientDetails";
+import OurVolunteers from "./pages/OurVolunteers";
 function App() {
   return (
     <Router>
@@ -42,6 +43,7 @@ function App() {
           <Route path="/camp" element={<Camp />} />
           {/* ✅ Health Report Download Page */}
           <Route path="/health-report" element={<HealthReport />} />
+          <Route path="/our-volunteers" element={<OurVolunteers />} />
         </Routes>
       </Layout>
     </Router>

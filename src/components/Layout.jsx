@@ -208,6 +208,7 @@ const Layout = ({ children }) => {
           <MenuItem to="/add-patient" icon={<UserPlus size={25} />} label="Add Patient" close={() => setOpen(false)} />
           <MenuItem to="/doctor" icon={<ShieldCheck size={25} />} label="Partner Panel" close={() => setOpen(false)} />
           <MenuItem to="/camp" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
+          <MenuItem to="/our-volunteers" icon={<ShieldCheck size={25} />} label="Our Volunteers" close={() => setOpen(false)} />
         </nav>
 
         <div className="p-2 text-[11px] text-center border-t border-white/20 text-white/80">
