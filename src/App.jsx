@@ -31,12 +31,16 @@ import Dashboard from "./pages/Dashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDetails from "./pages/PatientDetails";
 import OurVolunteers from "./pages/OurVolunteers";
+import Login from "./pages/Login";
+import EmployeeDashboard from "./pages/EmployeeDashboard";
+
 function App() {
   return (
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-patient" element={<AddPatient />} />
           <Route path="/patient/:id" element={<PatientDetails />} />
           <Route path="/doctor" element={<DoctorDashboard />} />
@@ -44,6 +48,7 @@ function App() {
           {/* ✅ Health Report Download Page */}
           <Route path="/health-report" element={<HealthReport />} />
           <Route path="/our-volunteers" element={<OurVolunteers />} />
+          <Route path="/employeedashboard" element={<EmployeeDashboard />} />
         </Routes>
       </Layout>
     </Router>

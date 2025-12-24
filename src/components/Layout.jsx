@@ -110,7 +110,7 @@
 //                 {/* Top Navbar */}
 //                 {/* <header className="sticky top-0 z-20 flex items-center justify-between p-4 bg-white shadow-sm">
 
-                   
+
 //                     <button
 //                         className="p-2 bg-gray-100 rounded-lg shadow-sm lg:hidden"
 //                         onClick={() => setOpen(true)}
@@ -164,11 +164,23 @@ import {
   UserPlus
 } from "lucide-react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  // Hide sidebar on Login page (path '/')
+  const isLoginPage = location.pathname === "/";
+
+  if (isLoginPage) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <main className="w-full h-full">{children}</main>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -204,11 +216,11 @@ const Layout = ({ children }) => {
 
         {/* MENU */}
         <nav className="flex-1 mt-5 space-y-4 px-2">
-          <MenuItem to="/" icon={<LayoutDashboard size={25} />} label="Dashboard" close={() => setOpen(false)} />
+          <MenuItem to="/dashboard" icon={<LayoutDashboard size={25} />} label="Dashboard" close={() => setOpen(false)} />
           <MenuItem to="/camp" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
           <MenuItem to="/add-patient" icon={<UserPlus size={25} />} label="Add Patient" close={() => setOpen(false)} />
           <MenuItem to="/doctor" icon={<ShieldCheck size={25} />} label="Partner Panel" close={() => setOpen(false)} />
-          <MenuItem to="/camp" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
+          <MenuItem to="/our-volunteers" icon={<ShieldCheck size={25} />} label="Our Volunteers" close={() => setOpen(false)} />
         </nav>
 
         <div className="p-2 text-[11px] text-center border-t border-white/20 text-white/80">

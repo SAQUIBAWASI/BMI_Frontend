@@ -19,7 +19,15 @@ const OurVolunteers = () => {
         // We will assume response.data is the array based on "get-employees" endpoint naming convention often returning list directly or in .data
         // Let's safe check common patterns
         const data = Array.isArray(response.data) ? response.data : response.data.employees || response.data.data || [];
-        setVolunteers(data);
+
+        // Filter only specific roles: Phlebotomist, Staff Nurse, Consultant
+        const allowedRoles = ["Phlebotomist", "Staff Nurse", "Consultant"];
+        const filteredData = data.filter((emp) => {
+          const role = (emp.designation || emp.role || "").trim();
+          return allowedRoles.some(allowed => allowed.toLowerCase() === role.toLowerCase());
+        });
+
+        setVolunteers(filteredData);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching volunteers:", err);
@@ -92,24 +100,9 @@ const OurVolunteers = () => {
                     </p>
 
                     <div className="space-y-3 text-left">
-                      {volunteer.email && (
-                        <div className="flex items-center text-gray-600 text-sm">
-                          <Mail className="h-4 w-4 mr-2 text-gray-400" />
-                          <span className="truncate">{volunteer.email}</span>
-                        </div>
-                      )}
-                      {volunteer.phone || volunteer.mobile ? (
-                        <div className="flex items-center text-gray-600 text-sm">
-                          <Phone className="h-4 w-4 mr-2 text-gray-400" />
-                          <span>{volunteer.phone || volunteer.mobile}</span>
-                        </div>
-                      ) : null}
-                      {volunteer.department && (
-                        <div className="flex items-center text-gray-600 text-sm">
-                          <Briefcase className="h-4 w-4 mr-2 text-gray-400" />
-                          <span>{volunteer.department}</span>
-                        </div>
-                      )}
+                    
+                    
+                   
                       {volunteer.joiningDate && (
                         <div className="flex items-center text-gray-600 text-sm">
                           <Calendar className="h-4 w-4 mr-2 text-gray-400" />
