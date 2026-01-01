@@ -7,6 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false); // ✅ State to toggle login mode
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -15,8 +16,12 @@ const Login = () => {
     setError("");
 
     try {
-      // ✅ Login API call
-      const response = await fetch("https://attendancebackend-5cgn.onrender.com/api/employees/login", {
+      // ✅ Toggle API URL based on isAdmin state
+      const url = isAdmin
+        ? "https://attendancebackend-5cgn.onrender.com/api/admin/login"
+        : "https://attendancebackend-5cgn.onrender.com/api/employees/login";
+
+      const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -26,19 +31,22 @@ const Login = () => {
 
       if (!response.ok) throw new Error(data.message || "Login failed");
 
-      // ✅ Store full employee data in localStorage
-      localStorage.setItem("employeeData", JSON.stringify(data.employee));
+      if (isAdmin) {
+        // ✅ Admin Login Success
+        localStorage.setItem("adminData", JSON.stringify(data.admin)); // Adjust based on actual API response structure if needed
+        localStorage.setItem("role", "admin");
+        navigate("/dashboard");
+      } else {
+        // ✅ Employee Login Success
+        localStorage.setItem("employeeData", JSON.stringify(data.employee));
+        localStorage.setItem("employeeId", data.employee._id);
+        localStorage.setItem("employeeEmail", data.employee.email);
+        localStorage.setItem("employeeName", data.employee.name);
+        localStorage.setItem("role", "employee"); // It's good practice to store the role
+        localStorage.setItem("loginMessage", data.message || "Login successful");
 
-      // ✅ 🔹 Add these for attendance tracking
-      localStorage.setItem("employeeId", data.employee._id);
-      localStorage.setItem("employeeEmail", data.employee.email);
-      localStorage.setItem("employeeName", data.employee.name);
-
-      // ✅ Optionally store message or token (if any)
-      localStorage.setItem("loginMessage", data.message || "Login successful");
-
-      // ✅ Navigate to employee dashboard
-      navigate("/dashboard", { state: { email: data.employee.email } });
+        navigate("/dashboard", { state: { email: data.employee.email } });
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -55,10 +63,10 @@ const Login = () => {
             <LogIn className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-          Login
+            {isAdmin ? "Admin Login" : "Employee Login"}
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Welcome! Please login to access your BMI dashboard.
+            Welcome! Please login to access your {isAdmin ? "admin" : "staff"} portal.
           </p>
         </div>
 
@@ -90,7 +98,7 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full pl-11 pr-4 py-3.5 bg-gray-50/50 border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200"
-                  placeholder="name@company.com"
+                  placeholder={isAdmin ? "admin@example.com" : "name@company.com"}
                 />
               </div>
             </div>
@@ -136,14 +144,27 @@ const Login = () => {
             </div>
           </form>
 
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={() => {
+                setIsAdmin(!isAdmin);
+                setError("");
+                setEmail("");
+                setPassword("");
+              }}
+              className="w-full text-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+            >
+              {isAdmin ? "Not an Admin? Login as Employee" : "Login as Admin"}
+            </button>
+          </div>
+
           <div className="mt-8 pt-6 border-t border-gray-100">
             <p className="text-center text-xs text-gray-500 uppercase tracking-widest font-semibold">
-              Secure Staff Portal
+              Secure {isAdmin ? "Admin" : "Staff"} Portal
             </p>
           </div>
         </div>
-
-    
       </div>
     </div>
   );

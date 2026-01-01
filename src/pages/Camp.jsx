@@ -1019,7 +1019,7 @@ const handleCreateCamp = async () => {
       {/* HEADER Section */}
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Camp Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Camp Deatils</h1>
           <p className="mt-1 text-gray-500">Manage health camps, participants, and reports.</p>
         </div>
         <div className="flex items-center gap-3 px-4 py-2 bg-white border border-gray-100 shadow-sm rounded-xl">
