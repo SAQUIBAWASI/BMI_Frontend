@@ -123,6 +123,8 @@ const JoinUs = () => {
                             value={formData.type}
                             onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                         >
+
+                            <option value="camp">Participate in  Medical Camp</option>
                             <option value="volunteer">Become a Volunteer</option>
                             <option value="camp">Organize a Medical Camp</option>
                         </select>

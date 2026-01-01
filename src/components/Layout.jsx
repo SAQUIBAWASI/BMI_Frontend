@@ -265,7 +265,7 @@ const Layout = ({ children }) => {
           >
             <Menu size={22} />
           </button>
-          <img src={logo} alt="Timely Health" className="h-6 object-contain" />
+          <img src={logo} alt="Timely Health" className="h-8 object-contain" />
         </header>
 
         <div className="p-6">{children}</div>
