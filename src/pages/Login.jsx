@@ -80,7 +80,7 @@ const Login = () => {
             <LogIn className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-            {loginType === "admin" ? "Admin Login" : loginType === "employee" ? "Employee Login" : "Partner Login"}
+            {loginType === "admin" ? "Admin Login" : loginType === "employee" ? "Login" : "Partner Login"}
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             Welcome! Please login to your account.
@@ -190,11 +190,9 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <p className="text-center text-xs text-gray-500 uppercase tracking-widest font-semibold">
-              Secure Portal
-            </p>
-            <div className="mt-4 text-center">
+          <div className="mt-2 pt-6 border-t border-gray-100">
+           
+            <div className=" mb-10 text-center">
               <p className="text-sm text-gray-600">
                 New User or Partner?{" "}
                 <button
