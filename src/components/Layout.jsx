@@ -161,7 +161,9 @@ import {
   LayoutDashboard,
   Menu,
   ShieldCheck,
-  UserPlus
+  User,
+  UserPlus,
+  Users
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
@@ -171,10 +173,10 @@ const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
-  // Hide sidebar on Login page (path '/')
-  const isLoginPage = location.pathname === "/";
+  // Hide sidebar on Login (path '/') and Register (path '/register')
+  const isAuthPage = location.pathname === "/" || location.pathname === "/register";
 
-  if (isLoginPage) {
+  if (isAuthPage) {
     return (
       <div className="min-h-screen bg-gray-50">
         <main className="w-full h-full">{children}</main>
@@ -216,11 +218,36 @@ const Layout = ({ children }) => {
 
         {/* MENU */}
         <nav className="flex-1 mt-5 space-y-4 px-2">
-          <MenuItem to="/dashboard" icon={<LayoutDashboard size={25} />} label="Dashboard" close={() => setOpen(false)} />
-          <MenuItem to="/camp" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
-          <MenuItem to="/add-patient" icon={<UserPlus size={25} />} label="Add Patient" close={() => setOpen(false)} />
-          <MenuItem to="/doctor" icon={<ShieldCheck size={25} />} label="Partner Panel" close={() => setOpen(false)} />
-          <MenuItem to="/our-volunteers" icon={<ShieldCheck size={25} />} label="Our Volunteers" close={() => setOpen(false)} />
+          {/* LOGIC: Check Role */}
+          {(() => {
+            const role = localStorage.getItem("role"); // 'user', 'partner', 'employee', 'admin'
+
+            if (role === "user") {
+              // === NORMAL USER MENU ===
+              return (
+                <>
+                  <MenuItem to="/camp" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
+                  <MenuItem to="/our-volunteers" icon={<Users size={25} />} label="Our Volunteers" close={() => setOpen(false)} />
+                  <MenuItem to="/join-us" icon={<UserPlus size={25} />} label="Join Us" close={() => setOpen(false)} />
+                </>
+              );
+            }
+
+            // === DEFAULT / FULL MENU (Admin, Employee, Partner) ===
+            return (
+              <>
+                <MenuItem to="/dashboard" icon={<LayoutDashboard size={25} />} label="Dashboard" close={() => setOpen(false)} />
+                {role === "admin" && (
+                  <MenuItem to="/admin/applications" icon={<User size={25} />} label="Requests" close={() => setOpen(false)} />
+                )}
+                <MenuItem to="/camp" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
+                <MenuItem to="/add-patient" icon={<UserPlus size={25} />} label="Add Patient" close={() => setOpen(false)} />
+                <MenuItem to="/doctor" icon={<ShieldCheck size={25} />} label="Partner Panel" close={() => setOpen(false)} />
+                <MenuItem to="/our-volunteers" icon={<Users size={25} />} label="Our Volunteers" close={() => setOpen(false)} />
+                <MenuItem to="/join-us" icon={<UserPlus size={25} />} label="Join Us" close={() => setOpen(false)} />
+              </>
+            );
+          })()}
         </nav>
 
         <div className="p-2 text-[11px] text-center border-t border-white/20 text-white/80">

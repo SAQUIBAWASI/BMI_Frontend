@@ -7,7 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false); // ✅ State to toggle login mode
+  const [loginType, setLoginType] = useState("employee"); // 'employee' | 'admin' | 'partner'
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -16,10 +16,18 @@ const Login = () => {
     setError("");
 
     try {
-      // ✅ Toggle API URL based on isAdmin state
-      const url = isAdmin
-        ? "https://attendancebackend-5cgn.onrender.com/api/admin/login"
-        : "https://attendancebackend-5cgn.onrender.com/api/employees/login";
+      let url = "";
+
+      if (loginType === "admin") {
+        url = "https://attendancebackend-5cgn.onrender.com/api/admin/login";
+      } else if (loginType === "employee") {
+        url = "https://attendancebackend-5cgn.onrender.com/api/employees/login";
+      } else {
+        // Partner / User (Local Backend)
+        url = "http://localhost:5000/api/auth/login";
+      }
+
+      console.log(`Logging in as ${loginType} to ${url}`);
 
       const response = await fetch(url, {
         method: "POST",
@@ -31,21 +39,30 @@ const Login = () => {
 
       if (!response.ok) throw new Error(data.message || "Login failed");
 
-      if (isAdmin) {
-        // ✅ Admin Login Success
-        localStorage.setItem("adminData", JSON.stringify(data.admin)); // Adjust based on actual API response structure if needed
+      if (loginType === "admin") {
+        localStorage.setItem("adminData", JSON.stringify(data.admin));
         localStorage.setItem("role", "admin");
         navigate("/dashboard");
-      } else {
-        // ✅ Employee Login Success
+      } else if (loginType === "employee") {
         localStorage.setItem("employeeData", JSON.stringify(data.employee));
         localStorage.setItem("employeeId", data.employee._id);
         localStorage.setItem("employeeEmail", data.employee.email);
         localStorage.setItem("employeeName", data.employee.name);
         localStorage.setItem("role", "employee"); // It's good practice to store the role
         localStorage.setItem("loginMessage", data.message || "Login successful");
-
         navigate("/dashboard", { state: { email: data.employee.email } });
+      } else {
+        // Partner / User
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        localStorage.setItem("role", data.user.role || "user");
+        localStorage.setItem("token", data.token);
+
+        // Redirect: Partners might go to a different dashboard? 
+        // For now, same dashboard or maybe '/camp' for partners?
+        // navigate("/dashboard"); 
+        // User requested "Partner / Normal User" login. 
+        // Let's send them to Dashboard for now.
+        navigate("/dashboard");
       }
     } catch (err) {
       setError(err.message);
@@ -63,10 +80,10 @@ const Login = () => {
             <LogIn className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-            {isAdmin ? "Admin Login" : "Employee Login"}
+            {loginType === "admin" ? "Admin Login" : loginType === "employee" ? "Employee Login" : "Partner Login"}
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Welcome! Please login to access your {isAdmin ? "admin" : "staff"} portal.
+            Welcome! Please login to your account.
           </p>
         </div>
 
@@ -98,7 +115,7 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full pl-11 pr-4 py-3.5 bg-gray-50/50 border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200"
-                  placeholder={isAdmin ? "admin@example.com" : "name@company.com"}
+                  placeholder={loginType === "admin" ? "admin@example.com" : "name@company.com"}
                 />
               </div>
             </div>
@@ -144,25 +161,50 @@ const Login = () => {
             </div>
           </form>
 
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={() => {
-                setIsAdmin(!isAdmin);
-                setError("");
-                setEmail("");
-                setPassword("");
-              }}
-              className="w-full text-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
-            >
-              {isAdmin ? "Not an Admin? Login as Employee" : "Login as Admin"}
-            </button>
+          <div className="mt-6 flex flex-col gap-2">
+            <div className="flex bg-gray-100 p-1 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setLoginType("employee")}
+                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${loginType === "employee" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
+                  }`}
+              >
+                Employee
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginType("partner")}
+                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${loginType === "partner" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
+                  }`}
+              >
+                Partner/User
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginType("admin")}
+                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${loginType === "admin" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
+                  }`}
+              >
+                Admin
+              </button>
+            </div>
           </div>
 
           <div className="mt-8 pt-6 border-t border-gray-100">
             <p className="text-center text-xs text-gray-500 uppercase tracking-widest font-semibold">
-              Secure {isAdmin ? "Admin" : "Staff"} Portal
+              Secure Portal
             </p>
+            <div className="mt-4 text-center">
+              <p className="text-sm text-gray-600">
+                New User or Partner?{" "}
+                <button
+                  onClick={() => navigate("/register")}
+                  className="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline"
+                >
+                  Create an Account
+                </button>
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -32,6 +32,7 @@ import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDetails from "./pages/PatientDetails";
 import OurVolunteers from "./pages/OurVolunteers";
 import Login from "./pages/Login";
+import Register from "./pages/Register"; // ✅ Import Register
 import EmployeeDashboard from "./pages/EmployeeDashboard";
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} /> {/* ✅ Register Route */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-patient" element={<AddPatient />} />
           <Route path="/patient/:id" element={<PatientDetails />} />
