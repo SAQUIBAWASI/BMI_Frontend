@@ -222,7 +222,7 @@ const AddPatient = () => {
   const [camps, setCamps] = useState([]);
   const [campId, setCampId] = useState(defaultCampId);
   const [loading, setLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -231,7 +231,7 @@ const AddPatient = () => {
     address: "",
     campId: "" // ✅ REQUIRED
   });
- 
+
 
 
   /* -------------------------
@@ -242,17 +242,17 @@ const AddPatient = () => {
   }, []);
 
   useEffect(() => {
-  setFormData((prev) => ({
-    ...prev,
-    campId: campId
-  }));
-}, [campId]);
+    setFormData((prev) => ({
+      ...prev,
+      campId: campId
+    }));
+  }, [campId]);
 
-useEffect(() => {
-  if (defaultCampId && camps.length > 0) {
-    setCampId(defaultCampId);
-  }
-}, [defaultCampId, camps]);
+  useEffect(() => {
+    if (defaultCampId && camps.length > 0) {
+      setCampId(defaultCampId);
+    }
+  }, [defaultCampId, camps]);
 
   const fetchCamps = async () => {
     try {
@@ -319,18 +319,18 @@ useEffect(() => {
           </label>
 
           <select
-  value={campId}
-  onChange={(e) => setCampId(e.target.value)}
-  className="w-full border rounded-xl px-4 py-2"
->
-  <option value="">Select Camp</option>
+            value={campId}
+            onChange={(e) => setCampId(e.target.value)}
+            className="w-full border rounded-xl px-4 py-2"
+          >
+            <option value="">Select Camp</option>
 
-  {camps.map((camp) => (
-    <option key={camp._id} value={camp._id}>
-      {camp.name}
-    </option>
-  ))}
-</select>
+            {camps.map((camp) => (
+              <option key={camp._id} value={camp._id}>
+                {camp.name}
+              </option>
+            ))}
+          </select>
 
         </div>
 
@@ -386,7 +386,7 @@ useEffect(() => {
 
         <button
           disabled={loading}
-          className="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold flex justify-center gap-2"
+          className="w-full bg-[#2563EB] hover:bg-[#1d4ed8] text-white p-4 rounded-xl font-bold flex justify-center gap-2 transition-colors"
         >
           <Save /> {loading ? "Saving..." : "Register Patient"}
         </button>

@@ -42,7 +42,7 @@ const OurVolunteers = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-50">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#2563EB]"></div>
       </div>
     );
   }
@@ -60,7 +60,7 @@ const OurVolunteers = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
-            Our <span className="text-indigo-600">Volunteers</span>
+            Our <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">Volunteers</span>
           </h1>
           <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
             Meet the dedicated individuals working tirelessly to make a difference in our community.
@@ -76,7 +76,7 @@ const OurVolunteers = () => {
                 key={volunteer._id || Math.random()}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col"
               >
-                <div className="h-24 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
+                <div className="h-24 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500"></div>
                 <div className="px-6 pb-6 -mt-12 flex-1 flex flex-col">
                   {/* Avatar / Image placeholder since likely no image URL in simple data, or use functional placeholder */}
                   <div className="relative mx-auto">
@@ -95,14 +95,14 @@ const OurVolunteers = () => {
                     <h3 className="text-xl font-bold text-gray-900">
                       {volunteer.name || "Unknown Name"}
                     </h3>
-                    <p className="text-sm font-medium text-indigo-600 mb-4">
+                    <p className="text-sm font-medium text-[#2563EB] mb-4">
                       {volunteer.designation || volunteer.role || "Volunteer"}
                     </p>
 
                     <div className="space-y-3 text-left">
-                    
-                    
-                   
+
+
+
                       {volunteer.joiningDate && (
                         <div className="flex items-center text-gray-600 text-sm">
                           <Calendar className="h-4 w-4 mr-2 text-gray-400" />

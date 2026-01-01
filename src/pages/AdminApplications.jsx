@@ -23,19 +23,19 @@ const AdminApplications = () => {
 
     return (
         <div className="max-w-6xl mx-auto space-y-8">
-            <div className="bg-indigo-900 text-white p-8 rounded-2xl shadow-xl flex justify-between items-center">
+            <div className="bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 text-white p-8 rounded-2xl shadow-xl flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-bold flex items-center gap-3">
-                        <User size={32} className="text-yellow-400" />
+                        <User size={32} className="text-cyan-300" />
                         Applications
                     </h1>
-                    <p className="text-indigo-200 mt-2">
+                    <p className="text-indigo-100 mt-2">
                         Review requests to join as Volunteers or Camp Organizers.
                     </p>
                 </div>
                 <div className="bg-white/10 p-4 rounded-xl text-center min-w-[150px]">
                     <div className="text-3xl font-bold">{applications.length}</div>
-                    <div className="text-xs text-indigo-200 uppercase tracking-widest">
+                    <div className="text-xs text-indigo-100 uppercase tracking-widest">
                         Total Requests
                     </div>
                 </div>
@@ -59,8 +59,8 @@ const AdminApplications = () => {
                             <div className="flex-shrink-0">
                                 <div
                                     className={`w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl ${app.type === "camp"
-                                            ? "bg-purple-100 text-purple-600"
-                                            : "bg-blue-100 text-blue-600"
+                                        ? "bg-indigo-100 text-indigo-600"
+                                        : "bg-sky-100 text-sky-600"
                                         }`}
                                 >
                                     {app.type === "camp" ? "C" : "V"}

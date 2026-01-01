@@ -25,19 +25,19 @@ const DoctorDashboard = () => {
     return (
         <div className="max-w-6xl mx-auto space-y-8">
             {/* HEADER */}
-            <div className="bg-indigo-900 text-white p-8 rounded-2xl shadow-xl flex justify-between items-center">
+            <div className="bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 text-white p-8 rounded-2xl shadow-xl flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-bold flex items-center gap-3">
-                        <ShieldCheck className="text-green-400" size={32} />
+                        <ShieldCheck className="text-cyan-300" size={32} />
                         Partner Network
                     </h1>
-                    <p className="text-indigo-200 mt-2">
+                    <p className="text-indigo-100 mt-2">
                         Verified healthcare partners and clinics.
                     </p>
                 </div>
                 <div className="bg-white/10 p-4 rounded-xl text-center min-w-[150px]">
                     <div className="text-3xl font-bold">{partners.length}</div>
-                    <div className="text-xs text-indigo-200 uppercase tracking-widest">
+                    <div className="text-xs text-indigo-100 uppercase tracking-widest">
                         Active Partners
                     </div>
                 </div>
@@ -59,8 +59,8 @@ const DoctorDashboard = () => {
                             className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 p-6 group"
                         >
                             <div className="flex items-start justify-between mb-4">
-                                <div className="p-3 bg-indigo-50 rounded-xl group-hover:bg-indigo-100 transition-colors">
-                                    <Building2 className="text-indigo-600" size={24} />
+                                <div className="p-3 bg-[#2563EB]/10 rounded-xl group-hover:bg-[#2563EB]/20 transition-colors">
+                                    <Building2 className="text-[#2563EB]" size={24} />
                                 </div>
                                 <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full uppercase">
                                     Verified

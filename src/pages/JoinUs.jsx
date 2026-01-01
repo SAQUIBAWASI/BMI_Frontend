@@ -6,7 +6,7 @@ const JoinUs = () => {
     const [formData, setFormData] = useState({
         name: "",
         mobile: "",
-        email: "",
+        location: "",
         type: "volunteer", // Default
         message: "",
     });
@@ -27,7 +27,7 @@ const JoinUs = () => {
             await axios.post("http://localhost:5000/api/applications", payload);
 
             alert("Application submitted successfully! We will contact you soon.");
-            setFormData({ name: "", mobile: "", email: "", type: "volunteer", message: "" });
+            setFormData({ name: "", mobile: "", location: "", type: "volunteer", message: "" });
         } catch (err) {
             console.error(err);
             alert("Failed to submit application.");
@@ -38,12 +38,12 @@ const JoinUs = () => {
 
     return (
         <div className="max-w-2xl mx-auto space-y-8">
-            <div className="bg-indigo-900 text-white p-8 rounded-2xl shadow-xl">
+            <div className="bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 text-white p-8 rounded-2xl shadow-xl">
                 <h1 className="text-3xl font-bold flex items-center gap-3">
-                    <UserPlus className="text-pink-400" size={32} />
+                    <UserPlus className="text-cyan-300" size={32} />
                     Join Our Mission
                 </h1>
-                <p className="text-indigo-200 mt-2">
+                <p className="text-indigo-100 mt-2">
                     Apply to Organize a Camp or Volunteer with us.
                 </p>
             </div>
@@ -60,7 +60,7 @@ const JoinUs = () => {
                             <input
                                 type="text"
                                 required
-                                className="w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
+                                className="w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#2563EB] outline-none"
                                 placeholder="John Doe"
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -77,7 +77,7 @@ const JoinUs = () => {
                             <input
                                 type="tel"
                                 required
-                                className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
+                                className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#007A52] outline-none"
                                 placeholder="+91 98765 43210"
                                 value={formData.mobile}
                                 onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
@@ -85,14 +85,14 @@ const JoinUs = () => {
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Email Address
+                                Location
                             </label>
                             <input
-                                type="email"
-                                className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
-                                placeholder="john@example.com"
-                                value={formData.email}
-                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                type="text"
+                                className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#007A52] outline-none"
+                                placeholder="City, State"
+                                value={formData.location}
+                                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                             />
                         </div>
                     </div>
@@ -103,7 +103,7 @@ const JoinUs = () => {
                             I want to...
                         </label>
                         <select
-                            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none bg-white"
+                            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#2563EB] outline-none bg-white"
                             value={formData.type}
                             onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                         >
@@ -118,7 +118,7 @@ const JoinUs = () => {
                             Message / Details (Optional)
                         </label>
                         <textarea
-                            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none h-32 resize-none"
+                            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#2563EB] outline-none h-32 resize-none"
                             placeholder="Tell us more about your interest..."
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -128,7 +128,7 @@ const JoinUs = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
                     >
                         {loading ? "Submitting..." : (
                             <>

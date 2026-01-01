@@ -32,8 +32,10 @@ import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDetails from "./pages/PatientDetails";
 import OurVolunteers from "./pages/OurVolunteers";
 import Login from "./pages/Login";
-import Register from "./pages/Register"; // ✅ Import Register
+import Register from "./pages/Register";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
+import JoinUs from "./pages/JoinUs";
+import AdminApplications from "./pages/AdminApplications"; // ✅ Import AdminApplications
 
 function App() {
   return (
@@ -41,7 +43,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} /> {/* ✅ Register Route */}
+          <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-patient" element={<AddPatient />} />
           <Route path="/patient/:id" element={<PatientDetails />} />
@@ -50,6 +52,8 @@ function App() {
           {/* ✅ Health Report Download Page */}
           <Route path="/health-report" element={<HealthReport />} />
           <Route path="/our-volunteers" element={<OurVolunteers />} />
+          <Route path="/join-us" element={<JoinUs />} />
+          <Route path="/admin/applications" element={<AdminApplications />} /> {/* ✅ Admin Applications */}
           <Route path="/employeedashboard" element={<EmployeeDashboard />} />
         </Routes>
       </Layout>
