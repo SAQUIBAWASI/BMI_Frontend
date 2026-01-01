@@ -35,7 +35,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
 import JoinUs from "./pages/JoinUs";
-import AdminApplications from "./pages/AdminApplications"; // ✅ Import AdminApplications
+import AdminApplications from "./pages/AdminApplications";
+import UserCamps from "./pages/UserCamps"; // ✅ Import UserCamps
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path="/patient/:id" element={<PatientDetails />} />
           <Route path="/doctor" element={<DoctorDashboard />} />
           <Route path="/camp" element={<Camp />} />
+          <Route path="/user-camps" element={<UserCamps />} /> {/* ✅ User Camps Route */}
           {/* ✅ Health Report Download Page */}
           <Route path="/health-report" element={<HealthReport />} />
           <Route path="/our-volunteers" element={<OurVolunteers />} />

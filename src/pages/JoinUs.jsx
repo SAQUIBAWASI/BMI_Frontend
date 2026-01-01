@@ -1,15 +1,31 @@
 import axios from "axios";
 import { Send, User, UserPlus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const JoinUs = () => {
+    const location = useLocation();
+    const campData = location.state; // Get camp data from navigation
+
     const [formData, setFormData] = useState({
         name: "",
         mobile: "",
         location: "",
-        type: "volunteer", // Default
+        type: campData ? "camp" : "volunteer", // Set to camp if coming from camps page
         message: "",
+        campName: campData?.campName || "",
     });
+
+    // Pre-fill message when camp data is available
+    useEffect(() => {
+        if (campData) {
+            setFormData(prev => ({
+                ...prev,
+                message: `I want to participate in ${campData.campName} at ${campData.campLocation}`,
+                campName: campData.campName
+            }));
+        }
+    }, [campData]);
 
     const [loading, setLoading] = useState(false);
 

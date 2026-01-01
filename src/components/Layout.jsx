@@ -226,7 +226,7 @@ const Layout = ({ children }) => {
               // === NORMAL USER MENU ===
               return (
                 <>
-                  <MenuItem to="/camp" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
+                  <MenuItem to="/user-camps" icon={<ShieldCheck size={25} />} label="Camp Update" close={() => setOpen(false)} />
                   <MenuItem to="/our-volunteers" icon={<Users size={25} />} label="Our Volunteers" close={() => setOpen(false)} />
                   <MenuItem to="/join-us" icon={<UserPlus size={25} />} label="Join Us" close={() => setOpen(false)} />
                 </>
