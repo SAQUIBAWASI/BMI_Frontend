@@ -135,7 +135,7 @@ const JoinUs = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             Message / Details (Optional)
                         </label>
-                        <textarea
+                        <textarea 
                             className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#2563EB] outline-none h-32 resize-none"
                             placeholder="Tell us more about your interest..."
                             value={formData.message}
